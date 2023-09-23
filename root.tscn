@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi2tocg1vm0em"]
+
+[ext_resource type="Script" path="res://Script/Root.cs" id="1_slbhm"]
+[ext_resource type="PackedScene" uid="uid://bdgu161plwjfp" path="res://Scene/Load/Load.tscn" id="2_yckcb"]
+
+[node name="Root" type="Node3D"]
+script = ExtResource("1_slbhm")
+m_load_scene = ExtResource("2_yckcb")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://bepd86scnmiek"]
+
+[ext_resource type="Script" path="res://Script/Player/Player.cs" id="1_f5ob6"]
+[ext_resource type="Script" path="res://Script/Player/PlayerParam.cs" id="2_ec5ag"]
+[ext_resource type="PackedScene" path="res://sw_sonic.fbx" id="3_w4t5g"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_urfb3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7mswx"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_f5ob6")
+
+[node name="m_main_colshape_node" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_urfb3")
+
+[node name="m_roll_colshape_node" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+shape = SubResource("SphereShape3D_7mswx")
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("2_ec5ag")
+
+[node name="sw_sonic" parent="." instance=ExtResource("3_w4t5g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0943811, -0.830245, 0.491012)

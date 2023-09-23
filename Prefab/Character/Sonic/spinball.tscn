@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dph8b5d7oq1cy"]
+
+[ext_resource type="ArrayMesh" uid="uid://cuuxaycvxob8s" path="res://Prefab/Character/Sonic/spinball.obj" id="1_o1oav"]
+
+[node name="Jumpball" type="Node3D"]
+
+[node name="Jumpball" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_o1oav")

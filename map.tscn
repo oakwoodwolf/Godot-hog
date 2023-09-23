@@ -1,0 +1,177 @@
+[gd_scene load_steps=13 format=3 uid="uid://de4vkmrt088iu"]
+
+[ext_resource type="Script" path="res://Script/UI/MainUI/MainUI.cs" id="2_a5n4u"]
+[ext_resource type="Script" path="res://Script/UI/DebugUI/DebugUI.cs" id="2_tc41k"]
+[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="3_86ri7"]
+[ext_resource type="PackedScene" uid="uid://otr54bl2rcvd" path="res://Prefab/Character/Sonic/Player.tscn" id="3_tlwor"]
+[ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="4_36p73"]
+[ext_resource type="PackedScene" uid="uid://dxjcmoqvf2qc0" path="res://Prefab/Objects/Ring/ring.res" id="5_jnxed"]
+[ext_resource type="PackedScene" uid="uid://cty1jnquq12aj" path="res://Prefab/Objects/Spring/spring.res" id="6_wnfbi"]
+[ext_resource type="AudioStream" uid="uid://crmv5aa75uvcm" path="res://Sounds/Shop.ogg" id="7_1etu1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eo4sj"]
+sky_top_color = Color(0, 0.478431, 0.709804, 1)
+sky_horizon_color = Color(0.298039, 0.745098, 0.639216, 1)
+sky_curve = 0.184672
+sky_energy_multiplier = 1.05
+sky_cover_modulate = Color(0.6, 0.643137, 0.498039, 1)
+ground_bottom_color = Color(0.0823529, 0.211765, 0, 1)
+ground_horizon_color = Color(0.537255, 0.721569, 0.352941, 1)
+ground_curve = 0.0348221
+sun_angle_max = 247.5
+
+[sub_resource type="Sky" id="Sky_gycvr"]
+sky_material = SubResource("ProceduralSkyMaterial_eo4sj")
+
+[sub_resource type="Environment" id="Environment_ocal0"]
+background_mode = 2
+background_color = Color(0, 0.607843, 0.866667, 1)
+background_energy_multiplier = 1.65
+sky = SubResource("Sky_gycvr")
+ambient_light_source = 2
+ambient_light_color = Color(0.694118, 0.678431, 0.603922, 1)
+ambient_light_energy = 0.78
+tonemap_mode = 2
+tonemap_exposure = 0.89
+tonemap_white = 5.0
+ssao_enabled = true
+ssao_radius = 1.44
+ssao_intensity = 1.64
+ssao_power = 3.56762
+ssao_horizon = 0.23
+ssil_enabled = true
+ssil_intensity = 2.3
+sdfgi_bounce_feedback = 0.1
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 0.53
+glow_bloom = 0.03
+glow_hdr_threshold = 4.0
+fog_light_color = Color(0.376471, 0.552941, 0.607843, 1)
+fog_sun_scatter = 4.5
+fog_density = 0.001
+volumetric_fog_albedo = Color(0, 0.709804, 0.713726, 1)
+volumetric_fog_length = 21.33
+adjustment_enabled = true
+adjustment_contrast = 1.06
+
+[sub_resource type="LabelSettings" id="LabelSettings_pakdb"]
+font = ExtResource("3_86ri7")
+font_size = 48
+outline_size = 10
+outline_color = Color(0.164706, 0, 0.180392, 1)
+shadow_size = 20
+shadow_color = Color(0.164706, 0, 0.180392, 1)
+shadow_offset = Vector2(1, 3)
+
+[node name="map" type="Node3D"]
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_tlwor")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ocal0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75, -0.433013, 0, 33.295, 0)
+light_color = Color(1, 1, 0.933333, 1)
+light_angular_distance = 0.46
+light_bake_mode = 1
+shadow_enabled = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="UI" node_paths=PackedStringArray("m_player")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 104.0
+offset_bottom = 104.0
+script = ExtResource("2_a5n4u")
+m_player = NodePath("../../Player")
+
+[node name="ScoreLabel" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_right = 285.0
+offset_bottom = 77.0
+text = "Test"
+label_settings = SubResource("LabelSettings_pakdb")
+
+[node name="TimeLabel" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_top = 100.0
+offset_right = 285.0
+offset_bottom = 177.0
+text = "Test"
+label_settings = SubResource("LabelSettings_pakdb")
+
+[node name="RingsLabel" type="Label" parent="UI/Control"]
+layout_mode = 0
+offset_top = 200.0
+offset_right = 285.0
+offset_bottom = 277.0
+text = "Test"
+label_settings = SubResource("LabelSettings_pakdb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UI"]
+script = ExtResource("2_tc41k")
+
+[node name="DebugUIRoot" type="Control" parent="UI/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 405.0
+offset_top = 2.0
+offset_right = 445.0
+offset_bottom = 42.0
+
+[node name="DebugUITree" type="Tree" parent="UI/CanvasLayer/DebugUIRoot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugCheck" type="CheckButton" parent="UI/CanvasLayer/DebugUIRoot"]
+layout_mode = 0
+offset_left = 467.0
+offset_top = 19.0
+offset_right = 511.0
+offset_bottom = 43.0
+
+[node name="Stage" parent="." instance=ExtResource("4_36p73")]
+
+[node name="TestStage" parent="Stage" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="Ring" parent="." instance=ExtResource("5_jnxed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12277, 0.736364, -13.0225)
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+quality = 0
+directional = true
+max_texture_size = 2048
+
+[node name="LightmapProbe" type="LightmapProbe" parent="LightmapGI"]
+
+[node name="Spring" parent="." instance=ExtResource("6_wnfbi")]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -20.1807)
+m_power = 4.0
+m_nocon = 20
+
+[node name="Spring2" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("6_wnfbi")]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -67.0927)
+m_power = 4.0
+m_nocon = 0
+m_shape_node = NodePath("../Spring/CollisionShape3D")
+
+[node name="Spring3" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("6_wnfbi")]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, 61.4651)
+m_power = 4.0
+m_nocon = 0
+m_roll = true
+m_shape_node = NodePath("../Spring/CollisionShape3D")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_1etu1")
+volume_db = -5.0
+autoplay = true
+
+[editable path="Stage"]

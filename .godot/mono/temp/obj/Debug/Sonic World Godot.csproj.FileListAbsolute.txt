@@ -1,0 +1,17 @@
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.csproj.AssemblyReference.cache
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.AssemblyInfoInputs.cache
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.AssemblyInfo.cs
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.csproj.CoreCompileInputs.cache
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\bin\Debug\Sonic World Godot.deps.json
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\bin\Debug\Sonic World Godot.runtimeconfig.json
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\bin\Debug\Sonic World Godot.dll
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\bin\Debug\Sonic World Godot.pdb
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\bin\Debug\GodotSharp.dll
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.csproj.CopyComplete
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.dll
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\refint\Sonic World Godot.dll
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.pdb
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\Sonic World Godot.genruntimeconfig.cache
+C:\Users\User\GodotProjects\Test\.godot\mono\temp\obj\Debug\ref\Sonic World Godot.dll

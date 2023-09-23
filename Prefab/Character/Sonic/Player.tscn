@@ -1,0 +1,285 @@
+[gd_scene load_steps=37 format=3 uid="uid://otr54bl2rcvd"]
+
+[ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
+[ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
+[ext_resource type="Script" path="res://Script/Character/Sonic/ModelRoot.cs" id="2_82oyl"]
+[ext_resource type="Script" path="res://Script/Camera/Camera.cs" id="2_name6"]
+[ext_resource type="Script" path="res://Script/Player/PlayerParam.cs" id="4_5y03s"]
+[ext_resource type="Script" path="res://Script/Object/Animator.cs" id="5_3kayp"]
+[ext_resource type="PackedScene" uid="uid://dph8b5d7oq1cy" path="res://Prefab/Character/Sonic/spinball.tscn" id="6_bb7bg"]
+[ext_resource type="Texture2D" uid="uid://bk1bqlnbpbkoj" path="res://Prefab/Character/Sonic/son_ball.png" id="7_fgpto"]
+[ext_resource type="Script" path="res://Script/Object/ObjectTrigger.cs" id="8_3myij"]
+[ext_resource type="AudioStream" uid="uid://ypsn55hwuxkv" path="res://Sounds/Player/GroundLandDirt.ogg" id="10_pufcf"]
+[ext_resource type="Script" path="res://Script/Player/SoundHandler.cs" id="10_yj34d"]
+[ext_resource type="AudioStream" uid="uid://dr4qgq6ljukhp" path="res://Sounds/Player/JumpMed.ogg" id="11_133cc"]
+[ext_resource type="AudioStream" uid="uid://bjwq7bayihe0c" path="res://Sounds/Player/SpinDashCharge.ogg" id="12_67enl"]
+[ext_resource type="AudioStream" uid="uid://b347gbondf8mr" path="res://Sounds/Player/SpinDashRelease.ogg" id="12_ocv1v"]
+[ext_resource type="AudioStream" uid="uid://x5vvd31kcugx" path="res://Sounds/Player/GroundSkid.ogg" id="13_4gthu"]
+[ext_resource type="AudioStream" uid="uid://wrqekwwubmgl" path="res://Sounds/Player/HomingAttack.ogg" id="13_i2k5y"]
+[ext_resource type="AudioStream" uid="uid://ddtw5d68fn1ui" path="res://Sounds/Player/Voice/jumpa1.ogg" id="14_vy53q"]
+[ext_resource type="AudioStream" uid="uid://cn31hmp5nlk41" path="res://Sounds/Player/Bounce2.ogg" id="15_1ylgl"]
+[ext_resource type="AudioStream" uid="uid://uphje0odri80" path="res://Sounds/Player/Voice/jumpa2.ogg" id="15_706uf"]
+[ext_resource type="AudioStream" uid="uid://drkamu6xe20o6" path="res://Sounds/Player/Voice/jumpa3.ogg" id="16_n2drm"]
+[ext_resource type="AudioStream" uid="uid://gygnuqdb4d7u" path="res://Sounds/Player/Voice/jumpa4.ogg" id="17_vwbr0"]
+[ext_resource type="AudioStream" uid="uid://b0fqypivyfael" path="res://Sounds/Player/BoomKick.ogg" id="18_hsxuj"]
+[ext_resource type="AudioStream" uid="uid://ds87jf81i80je" path="res://Sounds/Player/Voice/good1.ogg" id="19_3rgiw"]
+[ext_resource type="AudioStream" uid="uid://dd186rj2wtbmj" path="res://Sounds/Player/Voice/good2.ogg" id="20_ekni4"]
+[ext_resource type="AudioStream" uid="uid://cloq2x4yju5fw" path="res://Sounds/Player/Voice/good3.ogg" id="21_b67ax"]
+[ext_resource type="AudioStream" uid="uid://d2wvhk3yb0e3y" path="res://Sounds/Player/Voice/good4.ogg" id="22_nrt6u"]
+[ext_resource type="AudioStream" uid="uid://bqcy26eobaauu" path="res://Sounds/Player/Footstep/GroundStep1Stone.ogg" id="26_4qbgy"]
+[ext_resource type="AudioStream" uid="uid://dwfjnr337nqu1" path="res://Sounds/Player/Footstep/GroundStep2Stone.ogg" id="27_mgs81"]
+[ext_resource type="AudioStream" uid="uid://cx3hq5xjlbk1p" path="res://Sounds/Player/Footstep/GroundStep3Stone.ogg" id="28_aq3of"]
+[ext_resource type="AudioStream" uid="uid://b2duw5k1kc4hi" path="res://Sounds/Player/Footstep/GroundStep5Stone.ogg" id="29_a4xen"]
+[ext_resource type="AudioStream" uid="uid://sj8mtx4f4uar" path="res://Sounds/Player/Footstep/GroundStep4Stone.ogg" id="30_jfp5h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jloao"]
+albedo_texture = ExtResource("7_fgpto")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
+radius = 2.5
+height = 11.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nslek"]
+radius = 2.0
+height = 4.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rku8w"]
+radius = 4.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8omxm"]
+margin = 0.0
+radius = 100.0
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("m_camera_node")]
+top_level = true
+collision_layer = 0
+wall_min_slide_angle = 0.0
+floor_stop_on_slope = false
+floor_block_on_wall = false
+floor_max_angle = 1.0472
+floor_snap_length = 2.0
+script = ExtResource("1_4cy5j")
+m_camera_node = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
+top_level = true
+current = true
+near = 1.0
+far = 10000.0
+script = ExtResource("2_name6")
+target_node = NodePath("../ModelRoot")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Camera3D"]
+current = true
+
+[node name="ModelRoot" type="Node3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
+top_level = true
+script = ExtResource("2_82oyl")
+
+[node name="Model" parent="ModelRoot" instance=ExtResource("1_n6j7w")]
+transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0, -1, 0)
+
+[node name="Armature" parent="ModelRoot/Model" index="0"]
+transform = Transform3D(0.158522, 0, 0, 0, 0.158522, 0, 0, 0, 0.158522, 0, -2.2113, 0)
+
+[node name="Skeleton3D" parent="ModelRoot/Model/Armature" index="0"]
+bones/34/rotation = Quaternion(-0.0278757, -0.888138, -0.0257997, 0.458004)
+bones/35/position = Vector3(3.75596, -2.41572, 1.28462)
+bones/37/rotation = Quaternion(-0.0174981, 0.705285, -0.395455, -0.588117)
+bones/38/position = Vector3(4.7361, -1.07296, 0.490766)
+bones/38/rotation = Quaternion(-0.505745, 0.696255, -0.329553, -0.388388)
+bones/39/position = Vector3(3.87719, -2.27866, 1.4389)
+bones/41/position = Vector3(3.60751, -4.77701, -1.47918)
+bones/41/rotation = Quaternion(0.22654, 0.699795, 0.0940522, 0.67091)
+bones/41/scale = Vector3(0.789114, 0.789114, 0.789113)
+bones/42/position = Vector3(3.60751, -4.77701, 1.48048)
+bones/42/rotation = Quaternion(-0.0940523, 0.67091, -0.22654, 0.699795)
+bones/42/scale = Vector3(0.789113, 0.789113, 0.789113)
+bones/47/rotation = Quaternion(-0.0435778, 0.86273, 0.0754791, 0.498097)
+bones/48/rotation = Quaternion(-0.21644, -1.7345e-09, 2.46895e-08, 0.976296)
+bones/49/rotation = Quaternion(-0.258819, -2.9759e-08, -4.47218e-09, 0.965926)
+bones/50/rotation = Quaternion(-0.0781469, -0.0385899, 0.441085, 0.893224)
+bones/51/rotation = Quaternion(0.173645, 0.00107183, 0.00607874, 0.984789)
+bones/52/rotation = Quaternion(0.130501, 0.00254128, 0.019303, 0.991257)
+bones/53/rotation = Quaternion(0.0331173, 0.0283883, 0.6502, 0.75851)
+bones/54/rotation = Quaternion(0.17356, 0.00553112, 0.0313686, 0.984308)
+bones/55/rotation = Quaternion(0.300661, 0.00520218, 0.0164993, 0.953574)
+bones/56/rotation = Quaternion(-0.113804, 0.0639199, -0.485519, 0.864427)
+bones/57/rotation = Quaternion(0.00941692, 0.258647, 0.965286, 0.035146)
+bones/58/rotation = Quaternion(-0.0146772, -0.258403, 0.964371, 0.0547774)
+bones/59/rotation = Quaternion(-0.188552, 0.106274, -0.479372, 0.850504)
+bones/60/rotation = Quaternion(-0.299121, -0.0308275, 0.0977722, 0.948692)
+bones/61/rotation = Quaternion(-0.460625, 0.0321894, -0.0618352, 0.884853)
+bones/68/rotation = Quaternion(-0.118604, -0.855649, -0.0317798, 0.50278)
+bones/69/rotation = Quaternion(0.0436194, -7.22807e-08, -8.50108e-09, 0.999048)
+bones/70/rotation = Quaternion(0.173648, 6.14698e-09, -7.56552e-09, 0.984808)
+bones/71/rotation = Quaternion(-0.155699, 0.0768862, -0.436043, 0.883014)
+bones/72/rotation = Quaternion(-0.146838, 0.000917654, -0.00618185, 0.989141)
+bones/73/rotation = Quaternion(-0.130502, 0.00250874, -0.0190556, 0.991262)
+bones/74/rotation = Quaternion(-0.0990998, 0.0849489, -0.645251, 0.752738)
+bones/75/rotation = Quaternion(-0.13046, 0.00415758, -0.0315799, 0.990942)
+bones/76/rotation = Quaternion(-0.0436128, 0.000754611, -0.0172835, 0.998899)
+bones/77/rotation = Quaternion(0.113804, 0.0639199, 0.485519, 0.864427)
+bones/78/rotation = Quaternion(0.00317098, -0.0870974, 0.995535, -0.036248)
+bones/79/rotation = Quaternion(0.00525803, -0.0869967, -0.99438, 0.0600998)
+bones/80/rotation = Quaternion(0.118861, 0.0539355, 0.409681, 0.902842)
+bones/81/rotation = Quaternion(0.0433896, -0.00447173, -0.10242, 0.993784)
+bones/82/rotation = Quaternion(0.0869316, 0.006246, 0.0713921, 0.993633)
+
+[node name="AnimationPlayer" parent="ModelRoot/Model" index="1" node_paths=PackedStringArray("m_skeleton_node")]
+playback_process_mode = 2
+script = ExtResource("5_3kayp")
+m_skeleton_node = NodePath("../Armature/Skeleton3D")
+
+[node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
+transform = Transform3D(-1.50753e-05, 1.92108e-08, 0.158522, 0.158522, 5.30196e-09, 1.50659e-05, 4.14941e-09, 0.158522, -2.86635e-08, -2.7602, 1.69999, 1.42464e-06)
+top_level = true
+bone_name = "spinball"
+bone_idx = 102
+use_external_skeleton = true
+external_skeleton = NodePath("../Model/Armature/Skeleton3D")
+
+[node name="Jumpball" parent="ModelRoot/JumpballRoot" instance=ExtResource("6_bb7bg")]
+transform = Transform3D(-4.3714e-07, 0, -10, 0, 10, 0, 10, 0, -4.3714e-07, 5, -5, 0)
+
+[node name="Jumpball" parent="ModelRoot/JumpballRoot/Jumpball" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
+
+[node name="PlayerParam" type="Node" parent="."]
+script = ExtResource("4_5y03s")
+m_jump_hang = 60
+m_jump_speed = 1.66
+m_jump_addit = 0.076
+m_gravity = 0.08
+m_air_accel = 0.031
+m_air_decel = -0.06
+m_air_brake = -0.17
+m_run_dragstart = 3.0
+m_jog_speed = 0.46
+m_run_speed = 1.39
+m_rush_speed = 2.3
+m_crash_speed = 3.7
+m_dash_speed = 5.09
+m_run_accel = 0.05
+m_run_decel = -0.06
+m_run_brake = -0.18
+m_air_drag = Vector3(-0.028, -0.01, -0.4)
+m_run_drag = Vector3(-0.015, -0.01, -0.25)
+m_roll_drag = Vector3(-0.008, -0.01, -0.4)
+m_eye_height = 6.0
+m_center_height = 3.4
+m_floor_clip = 0.1
+
+[node name="MainColShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.5, 0)
+shape = SubResource("CapsuleShape3D_xawvq")
+disabled = true
+
+[node name="RollColShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_nslek")
+disabled = true
+
+[node name="ObjectTrigger" type="StaticBody3D" parent="." node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
+collision_layer = 2147483648
+collision_mask = 3221225472
+script = ExtResource("8_3myij")
+m_listener_node = NodePath("..")
+m_shape_node = NodePath("ColShape")
+
+[node name="ColShape" type="CollisionShape3D" parent="ObjectTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76351, 0)
+shape = SubResource("SphereShape3D_rku8w")
+
+[node name="RadialTrigger" type="StaticBody3D" parent="." node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
+collision_layer = 0
+collision_mask = 1073741824
+script = ExtResource("8_3myij")
+m_listener_node = NodePath("..")
+m_shape_node = NodePath("../ObjectTrigger/ColShape")
+
+[node name="ColShape" type="CollisionShape3D" parent="RadialTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76351, 0)
+shape = SubResource("SphereShape3D_8omxm")
+
+[node name="Sound" type="Node3D" parent="."]
+script = ExtResource("10_yj34d")
+
+[node name="Land" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("10_pufcf")
+
+[node name="Jump" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("11_133cc")
+
+[node name="SpindashCharge" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("12_67enl")
+
+[node name="SpindashRelease" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("12_ocv1v")
+
+[node name="Brake" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("13_4gthu")
+
+[node name="Bounce" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("15_1ylgl")
+
+[node name="HomingAttack" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("13_i2k5y")
+
+[node name="AirKick" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("18_hsxuj")
+
+[node name="VoiceGrunt" type="Node3D" parent="Sound"]
+
+[node name="SonicGrunt01" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
+stream = ExtResource("14_vy53q")
+
+[node name="SonicGrunt02" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
+stream = ExtResource("15_706uf")
+
+[node name="SonicGrunt03" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
+stream = ExtResource("16_n2drm")
+
+[node name="SonicGrunt04" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
+stream = ExtResource("17_vwbr0")
+
+[node name="VoiceCelebrate" type="Node3D" parent="Sound"]
+
+[node name="SonicCelebrate01" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
+stream = ExtResource("19_3rgiw")
+
+[node name="SonicCelebrate02" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
+stream = ExtResource("20_ekni4")
+
+[node name="SonicCelebrate03" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
+stream = ExtResource("21_b67ax")
+
+[node name="SonicCelebrate04" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
+stream = ExtResource("22_nrt6u")
+
+[node name="Footstep" type="Node3D" parent="Sound"]
+
+[node name="FootstepConcrete01" type="AudioStreamPlayer3D" parent="Sound/Footstep"]
+stream = ExtResource("26_4qbgy")
+
+[node name="FootstepConcrete02" type="AudioStreamPlayer3D" parent="Sound/Footstep"]
+stream = ExtResource("27_mgs81")
+
+[node name="FootstepConcrete03" type="AudioStreamPlayer3D" parent="Sound/Footstep"]
+stream = ExtResource("28_aq3of")
+
+[node name="FootstepConcrete05" type="AudioStreamPlayer3D" parent="Sound/Footstep"]
+stream = ExtResource("29_a4xen")
+
+[node name="FootstepConcrete04" type="AudioStreamPlayer3D" parent="Sound/Footstep"]
+stream = ExtResource("30_jfp5h")
+
+[node name="FootstepConcrete" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("26_4qbgy")
+volume_db = -38.42
+
+[editable path="ModelRoot/Model"]
+[editable path="ModelRoot/JumpballRoot/Jumpball"]
