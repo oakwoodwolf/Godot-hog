@@ -8,4 +8,7 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+.vs/
+.godot/
+Build/
 data_*/
