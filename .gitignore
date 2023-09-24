@@ -12,3 +12,79 @@ export_presets.cfg
 .godot/
 Build/
 data_*/
+.godot/editor/create_recent.Node
+.godot/editor/editor_layout.cfg
+.godot/editor/filesystem_cache8
+.godot/editor/filesystem_update4
+.godot/editor/Load.tscn-editstate-099647d8f74a37b3c4c6d2d428d998d7.cfg
+.godot/editor/Load.tscn-folding-099647d8f74a37b3c4c6d2d428d998d7.cfg
+.godot/editor/map.tscn-editstate-e6d97c4feb736ad10c0d43b3f8310ea4.cfg
+.godot/editor/map.tscn-folding-e6d97c4feb736ad10c0d43b3f8310ea4.cfg
+.godot/editor/Player.tscn-editstate-918dc34086b369df3d2310da1d210e35.cfg
+.godot/editor/project_metadata.cfg
+.godot/editor/recent_dirs
+.godot/editor/ring.res-editstate-34a03ea91c393aed0b2b665692b37a25.cfg
+.godot/editor/root.tscn-editstate-6581cd44ca730c421bddc3302d6ce6cc.cfg
+.godot/editor/script_editor_cache.cfg
+.godot/editor/spring.res-editstate-a207cd2dbbdf9d8c79098765e63f4ad6.cfg
+.godot/exported/133200997/export-099647d8f74a37b3c4c6d2d428d998d7-Load.scn
+.godot/exported/133200997/export-918dc34086b369df3d2310da1d210e35-Player.scn
+.godot/exported/133200997/export-e6d97c4feb736ad10c0d43b3f8310ea4-map.scn
+.godot/exported/133200997/file_cache
+.godot/mono/metadata/ide_messaging_meta.txt
+.godot/mono/temp/bin/Debug/Sonic World Godot.dll
+.godot/mono/temp/bin/Debug/Sonic World Godot.pdb
+.godot/mono/temp/bin/ExportDebug/win-x64/Sonic World Godot.dll
+.godot/mono/temp/bin/ExportDebug/win-x64/Sonic World Godot.pdb
+.godot/mono/temp/obj/Debug/ref/Sonic World Godot.dll
+.godot/mono/temp/obj/Debug/refint/Sonic World Godot.dll
+.godot/mono/temp/obj/Debug/Sonic World Godot.csproj.CoreCompileInputs.cache
+.godot/mono/temp/obj/Debug/Sonic World Godot.dll
+.godot/mono/temp/obj/Debug/Sonic World Godot.pdb
+.godot/mono/temp/obj/ExportDebug/win-x64/ref/Sonic World Godot.dll
+.godot/mono/temp/obj/ExportDebug/win-x64/refint/Sonic World Godot.dll
+.godot/mono/temp/obj/ExportDebug/win-x64/Sonic World Godot.csproj.CoreCompileInputs.cache
+.godot/mono/temp/obj/ExportDebug/win-x64/Sonic World Godot.dll
+.godot/mono/temp/obj/ExportDebug/win-x64/Sonic World Godot.pdb
+.godot/uid_cache.bin
+.vs/Sonic World Godot/FileContentIndex/207c2b46-a135-437e-90f4-8f803c022cc3.vsidx
+.vs/Sonic World Godot/v17/.suo
+Build/SonicGodot.pck
+.godot/editor/create_recent.Node
+.godot/editor/editor_layout.cfg
+.godot/editor/filesystem_cache8
+.godot/editor/filesystem_update4
+.godot/editor/Load.tscn-editstate-099647d8f74a37b3c4c6d2d428d998d7.cfg
+.godot/editor/Load.tscn-folding-099647d8f74a37b3c4c6d2d428d998d7.cfg
+.godot/editor/map.tscn-editstate-e6d97c4feb736ad10c0d43b3f8310ea4.cfg
+.godot/editor/map.tscn-folding-e6d97c4feb736ad10c0d43b3f8310ea4.cfg
+.godot/editor/Player.tscn-editstate-918dc34086b369df3d2310da1d210e35.cfg
+.godot/editor/project_metadata.cfg
+.godot/editor/recent_dirs
+.godot/editor/ring.res-editstate-34a03ea91c393aed0b2b665692b37a25.cfg
+.godot/editor/root.tscn-editstate-6581cd44ca730c421bddc3302d6ce6cc.cfg
+.godot/editor/script_editor_cache.cfg
+.godot/editor/spring.res-editstate-a207cd2dbbdf9d8c79098765e63f4ad6.cfg
+.godot/exported/133200997/export-099647d8f74a37b3c4c6d2d428d998d7-Load.scn
+.godot/exported/133200997/export-918dc34086b369df3d2310da1d210e35-Player.scn
+.godot/exported/133200997/export-e6d97c4feb736ad10c0d43b3f8310ea4-map.scn
+.godot/exported/133200997/file_cache
+.godot/mono/metadata/ide_messaging_meta.txt
+.godot/mono/temp/bin/Debug/Sonic World Godot.dll
+.godot/mono/temp/bin/Debug/Sonic World Godot.pdb
+.godot/mono/temp/bin/ExportDebug/win-x64/Sonic World Godot.dll
+.godot/mono/temp/bin/ExportDebug/win-x64/Sonic World Godot.pdb
+.godot/mono/temp/obj/Debug/ref/Sonic World Godot.dll
+.godot/mono/temp/obj/Debug/refint/Sonic World Godot.dll
+.godot/mono/temp/obj/Debug/Sonic World Godot.csproj.CoreCompileInputs.cache
+.godot/mono/temp/obj/Debug/Sonic World Godot.dll
+.godot/mono/temp/obj/Debug/Sonic World Godot.pdb
+.godot/mono/temp/obj/ExportDebug/win-x64/ref/Sonic World Godot.dll
+.godot/mono/temp/obj/ExportDebug/win-x64/refint/Sonic World Godot.dll
+.godot/mono/temp/obj/ExportDebug/win-x64/Sonic World Godot.csproj.CoreCompileInputs.cache
+.godot/mono/temp/obj/ExportDebug/win-x64/Sonic World Godot.dll
+.godot/mono/temp/obj/ExportDebug/win-x64/Sonic World Godot.pdb
+.godot/uid_cache.bin
+.vs/Sonic World Godot/FileContentIndex/207c2b46-a135-437e-90f4-8f803c022cc3.vsidx
+.vs/Sonic World Godot/v17/.suo
+Build/SonicGodot.pck

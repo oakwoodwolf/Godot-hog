@@ -143,7 +143,7 @@ namespace SonicOnset
 		public override void _Ready()
 		{
 			// Load scene
-			LoadScene("res://map.tscn");
+			LoadScene("res://Scene/Menu/NetTest.tscn");
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -239,50 +239,50 @@ namespace SonicOnset
 			return Singleton().m_netsync;
 		}
 
-		/* public static void Rpc(Godot.Node node, string name, params Godot.Variant[] args) => GetServer().Rpc(node, name, args); */
+		 public static void Rpc(Godot.Node node, string name, params Godot.Variant[] args) => GetServer().Rpc(node, name, args); 
 
 		// Net server connection
-		public void StartLocalServer()
+		public static void StartLocalServer()
 		{
 			// Start local server
 			DisconnectServer();
-			m_server = new Net.LocalServer();
+			Singleton().m_server = new Net.LocalServer();
 
 			// Create net sync
-			m_netsync = new Net.NetSync();
+			Singleton().m_netsync = new Net.NetSync();
 		}
 
-		public void StartHostServer(int port, int max_clients)
+		public static void StartHostServer(int port, int max_clients)
 		{
 			// Start host server
 			DisconnectServer();
-			m_server = new Net.HostServer(m_multiplayer_api, port, max_clients);
+			Singleton().m_server = new Net.HostServer(Singleton().m_multiplayer_api, port, max_clients);
 
 			// Create net sync
-			m_netsync = new Net.NetSync();
+			Singleton().m_netsync = new Net.NetSync();
 		}
 
-		public void JoinServer(string ip, int port)
+		public static void JoinServer(string ip, int port)
 		{
 			// Start remote server
 			DisconnectServer();
-			m_server = new Net.RemoteServer(m_multiplayer_api, ip, port);
+			Singleton().m_server = new Net.RemoteServer(Singleton().m_multiplayer_api, ip, port);
 		}
 
-		public void DisconnectServer()
+		public static void DisconnectServer()
 		{
-			if (m_server != null)
+			if (Singleton().m_server != null)
 			{
 				// Disconnect server
-				m_server.Disconnect();
-				m_server = null;
+				Singleton().m_server.Disconnect();
+				Singleton().m_server = null;
 
 				// Destroy net sync
-				if (m_netsync != null)
-					m_netsync = null;
+				if (Singleton().m_netsync != null)
+					Singleton().m_netsync = null;
 
 				// Send us back to the main menu
-				LoadScene("res://Scene/NetTest/NetTest.tscn");
+				Singleton().LoadScene("res://Scene/Menu/NetTest.tscn");
 			}
 		}
 

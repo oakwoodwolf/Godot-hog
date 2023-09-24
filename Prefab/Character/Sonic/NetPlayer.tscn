@@ -1,0 +1,107 @@
+[gd_scene load_steps=9 format=3 uid="uid://dusvjwgnnowhr"]
+
+[ext_resource type="Script" path="res://Script/Player/NetPlayer.cs" id="1_3dl6x"]
+[ext_resource type="Script" path="res://Script/Character/Sonic/ModelRoot.cs" id="3_vx50b"]
+[ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="4_8c8ur"]
+[ext_resource type="Script" path="res://Script/Object/Animator.cs" id="5_g41i3"]
+[ext_resource type="PackedScene" uid="uid://dph8b5d7oq1cy" path="res://Prefab/Character/Sonic/spinball.tscn" id="6_okoai"]
+[ext_resource type="Texture2D" uid="uid://bk1bqlnbpbkoj" path="res://Prefab/Character/Sonic/son_ball.png" id="7_daby4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jloao"]
+albedo_texture = ExtResource("7_daby4")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
+radius = 2.5
+height = 11.0
+
+[node name="Player" type="CharacterBody3D"]
+top_level = true
+collision_layer = 0
+wall_min_slide_angle = 0.0
+floor_stop_on_slope = false
+floor_block_on_wall = false
+floor_max_angle = 1.0472
+floor_snap_length = 2.0
+script = ExtResource("1_3dl6x")
+
+[node name="ModelRoot" type="Node3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
+top_level = true
+script = ExtResource("3_vx50b")
+
+[node name="Model" parent="ModelRoot" instance=ExtResource("4_8c8ur")]
+transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0, -1, 0)
+
+[node name="Armature" parent="ModelRoot/Model" index="0"]
+transform = Transform3D(0.158522, 0, 0, 0, 0.158522, 0, 0, 0, 0.158522, 0, -2.2113, 0)
+
+[node name="Skeleton3D" parent="ModelRoot/Model/Armature" index="0"]
+bones/34/rotation = Quaternion(-0.0278757, -0.888138, -0.0257997, 0.458004)
+bones/35/position = Vector3(3.75596, -2.41572, 1.28462)
+bones/37/rotation = Quaternion(-0.0174981, 0.705285, -0.395455, -0.588117)
+bones/38/position = Vector3(4.7361, -1.07296, 0.490766)
+bones/38/rotation = Quaternion(-0.505745, 0.696255, -0.329553, -0.388388)
+bones/39/position = Vector3(3.87719, -2.27866, 1.4389)
+bones/41/position = Vector3(3.60751, -4.77701, -1.47918)
+bones/41/rotation = Quaternion(0.22654, 0.699795, 0.0940522, 0.67091)
+bones/41/scale = Vector3(0.789114, 0.789114, 0.789113)
+bones/42/position = Vector3(3.60751, -4.77701, 1.48048)
+bones/42/rotation = Quaternion(-0.0940523, 0.67091, -0.22654, 0.699795)
+bones/42/scale = Vector3(0.789113, 0.789113, 0.789113)
+bones/47/rotation = Quaternion(-0.0435778, 0.86273, 0.0754791, 0.498097)
+bones/48/rotation = Quaternion(-0.21644, -1.7345e-09, 2.46895e-08, 0.976296)
+bones/49/rotation = Quaternion(-0.258819, -2.9759e-08, -4.47218e-09, 0.965926)
+bones/50/rotation = Quaternion(-0.0781469, -0.0385899, 0.441085, 0.893224)
+bones/51/rotation = Quaternion(0.173645, 0.00107183, 0.00607874, 0.984789)
+bones/52/rotation = Quaternion(0.130501, 0.00254128, 0.019303, 0.991257)
+bones/53/rotation = Quaternion(0.0331173, 0.0283883, 0.6502, 0.75851)
+bones/54/rotation = Quaternion(0.17356, 0.00553112, 0.0313686, 0.984308)
+bones/55/rotation = Quaternion(0.300661, 0.00520218, 0.0164993, 0.953574)
+bones/56/rotation = Quaternion(-0.113804, 0.0639199, -0.485519, 0.864427)
+bones/57/rotation = Quaternion(0.00941692, 0.258647, 0.965286, 0.035146)
+bones/58/rotation = Quaternion(-0.0146772, -0.258403, 0.964371, 0.0547774)
+bones/59/rotation = Quaternion(-0.188552, 0.106274, -0.479372, 0.850504)
+bones/60/rotation = Quaternion(-0.299121, -0.0308275, 0.0977722, 0.948692)
+bones/61/rotation = Quaternion(-0.460625, 0.0321894, -0.0618352, 0.884853)
+bones/68/rotation = Quaternion(-0.118604, -0.855649, -0.0317798, 0.50278)
+bones/69/rotation = Quaternion(0.0436194, -7.22807e-08, -8.50108e-09, 0.999048)
+bones/70/rotation = Quaternion(0.173648, 6.14698e-09, -7.56552e-09, 0.984808)
+bones/71/rotation = Quaternion(-0.155699, 0.0768862, -0.436043, 0.883014)
+bones/72/rotation = Quaternion(-0.146838, 0.000917654, -0.00618185, 0.989141)
+bones/73/rotation = Quaternion(-0.130502, 0.00250874, -0.0190556, 0.991262)
+bones/74/rotation = Quaternion(-0.0990998, 0.0849489, -0.645251, 0.752738)
+bones/75/rotation = Quaternion(-0.13046, 0.00415758, -0.0315799, 0.990942)
+bones/76/rotation = Quaternion(-0.0436128, 0.000754611, -0.0172835, 0.998899)
+bones/77/rotation = Quaternion(0.113804, 0.0639199, 0.485519, 0.864427)
+bones/78/rotation = Quaternion(0.00317098, -0.0870974, 0.995535, -0.036248)
+bones/79/rotation = Quaternion(0.00525803, -0.0869967, -0.99438, 0.0600998)
+bones/80/rotation = Quaternion(0.118861, 0.0539355, 0.409681, 0.902842)
+bones/81/rotation = Quaternion(0.0433896, -0.00447173, -0.10242, 0.993784)
+bones/82/rotation = Quaternion(0.0869316, 0.006246, 0.0713921, 0.993633)
+
+[node name="AnimationPlayer" parent="ModelRoot/Model" index="1" node_paths=PackedStringArray("m_skeleton_node")]
+playback_process_mode = 2
+script = ExtResource("5_g41i3")
+m_skeleton_node = NodePath("../Armature/Skeleton3D")
+
+[node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
+transform = Transform3D(-1.50753e-05, 1.92108e-08, 0.158522, 0.158522, 5.30196e-09, 1.50659e-05, 4.14941e-09, 0.158522, -2.86635e-08, -2.7602, 1.69999, 1.42464e-06)
+top_level = true
+bone_name = "spinball"
+bone_idx = 102
+use_external_skeleton = true
+external_skeleton = NodePath("../Model/Armature/Skeleton3D")
+
+[node name="Jumpball" parent="ModelRoot/JumpballRoot" instance=ExtResource("6_okoai")]
+transform = Transform3D(-4.3714e-07, 0, -10, 0, 10, 0, 10, 0, -4.3714e-07, 5, -5, 0)
+
+[node name="Jumpball" parent="ModelRoot/JumpballRoot/Jumpball" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
+
+[node name="MainColShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.5, 0)
+shape = SubResource("CapsuleShape3D_xawvq")
+disabled = true
+
+[editable path="ModelRoot/Model"]
+[editable path="ModelRoot/JumpballRoot/Jumpball"]

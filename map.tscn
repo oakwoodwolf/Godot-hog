@@ -174,4 +174,6 @@ stream = ExtResource("7_1etu1")
 volume_db = -5.0
 autoplay = true
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+
 [editable path="Stage"]

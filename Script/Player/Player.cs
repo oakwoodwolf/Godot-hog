@@ -543,7 +543,7 @@ namespace SonicOnset
 			m_modelroot.SetShear(m_state.GetShear());
 
 			// Send RPC update
-/*			Root.Rpc(this, "HostRpc_Update", GlobalTransform); */
+			Root.Rpc(this, "HostRpc_Update", GlobalTransform); 
 
 			// Increment time
 			m_time++;

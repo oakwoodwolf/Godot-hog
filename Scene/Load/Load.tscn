@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdgu161plwjfp"]
+[gd_scene load_steps=4 format=3 uid="uid://bdgu161plwjfp"]
 
 [ext_resource type="Script" path="res://Script/UI/LoadUI/LoadUI.cs" id="1_xk4ig"]
+[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="2_of808"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nb3fd"]
+font = ExtResource("2_of808")
 
 [node name="Load" type="Node2D"]
 script = ExtResource("1_xk4ig")
@@ -40,3 +44,4 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Loading"
+label_settings = SubResource("LabelSettings_nb3fd")
