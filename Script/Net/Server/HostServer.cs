@@ -40,8 +40,10 @@ namespace SonicOnset.Net
 			ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
 			peer.CreateServer(port, max_clients);
 
-			// Setup multiplayer API
-			m_multiplayer_api = multiplayer_api;
+            // Setup multiplayer API
+            peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+
+            m_multiplayer_api = multiplayer_api;
 			m_multiplayer_api.MultiplayerPeer = peer;
 		}
 

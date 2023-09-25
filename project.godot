@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Sonic Test"
+config/name="Sonic Throwback"
+config/description="A Godot Sonic Fangame using Sonic Onset as a basis"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 boot_splash/show_image=false

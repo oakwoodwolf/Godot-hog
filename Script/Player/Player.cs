@@ -528,7 +528,7 @@ namespace SonicOnset
 
 			// Update model root
 			m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
-
+			
 			if (m_state.CanDynamicPose())
 			{
 				m_modelroot.SetTilt(m_state.GetTilt());

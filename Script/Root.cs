@@ -21,6 +21,8 @@
  * SOFTWARE.
 */
 
+using Godot;
+
 namespace SonicOnset
 {
 	public partial class Root : Godot.Node
@@ -190,6 +192,7 @@ namespace SonicOnset
 						case Godot.ResourceLoader.ThreadLoadStatus.Loaded:
 							// Get scene
 							Godot.PackedScene packed_scene = (Godot.PackedScene)Godot.ResourceLoader.LoadThreadedGet(m_loading_scene);
+
 							m_loading_scene = null;
 
 							if (m_next_scene == null)
@@ -289,6 +292,8 @@ namespace SonicOnset
 		// RPC methods
 		private void Rpc_PeerConnected(int id)
 		{
+			GD.Print("Peer Connection called: " + id);
+
 			// Check if we're the host
 			Net.IHostServer host_server = GetHostServer();
 			if (host_server != null)

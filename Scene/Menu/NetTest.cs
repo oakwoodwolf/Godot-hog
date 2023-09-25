@@ -54,7 +54,8 @@ namespace SonicOnset.Scene
 			int port = int.Parse(m_port_edit.Text);
 
 			Root.JoinServer(m_ip_edit.Text, port);
-			Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://map.tscn");
+
+
 		}
 
 

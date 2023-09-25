@@ -28,7 +28,7 @@ namespace SonicOnset.Net
 	public class NetSync
 	{
 		// Net sync state
-		private string m_scene_path;
+		private string m_scene_path = "res://map.tscn";
 
 		// Net sync functions
 		public void SetScene(string scene)
@@ -44,9 +44,11 @@ namespace SonicOnset.Net
 		// Net sync join syncing
 		public void SyncPeer(int peer)
 		{
-			// Bring peer to current scene
-			Net.IHostServer host_server = Root.GetHostServer();
-			host_server.RpcId(peer, Root.Singleton(), "Rpc_SetScene", m_scene_path);
+
+            // Bring peer to current scene
+            Net.IHostServer host_server = Root.GetHostServer();
+            GD.Print("HostServer " + m_scene_path);
+            host_server.RpcId(peer, Root.Singleton(), "Rpc_SetScene", m_scene_path);
 		}
 	}
 }

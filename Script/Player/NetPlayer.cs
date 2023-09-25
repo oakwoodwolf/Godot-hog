@@ -33,6 +33,7 @@ namespace SonicOnset
 
 		// Net player state
 		private Transform3D m_transform;
+		private string m_current_anim = "Idle";
 
 		// RPC methods
 		private void HostRpc_Update(Transform3D transform)
@@ -46,7 +47,9 @@ namespace SonicOnset
 			// Set model root state
 			m_transform = transform * m_modelroot_offset;
 		}
-
+	// Animation functions
+		internal void ClearAnimation() => m_modelroot.ClearAnimation();
+		internal void PlayAnimation(string name, double speed = 1.0f) => m_modelroot.PlayAnimation(name, speed);
 		// Net player node
 		public override void _Ready()
 		{
@@ -63,6 +66,7 @@ namespace SonicOnset
 		{
 			// Update model root
 			m_modelroot.SetTransform(m_transform);
+			PlayAnimation(m_current_anim);
 		}
 	}
 }

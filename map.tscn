@@ -1,9 +1,5 @@
-[gd_scene load_steps=13 format=3 uid="uid://de4vkmrt088iu"]
+[gd_scene load_steps=8 format=3 uid="uid://de4vkmrt088iu"]
 
-[ext_resource type="Script" path="res://Script/UI/MainUI/MainUI.cs" id="2_a5n4u"]
-[ext_resource type="Script" path="res://Script/UI/DebugUI/DebugUI.cs" id="2_tc41k"]
-[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="3_86ri7"]
-[ext_resource type="PackedScene" uid="uid://otr54bl2rcvd" path="res://Prefab/Character/Sonic/Player.tscn" id="3_tlwor"]
 [ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="4_36p73"]
 [ext_resource type="PackedScene" uid="uid://dxjcmoqvf2qc0" path="res://Prefab/Objects/Ring/ring.res" id="5_jnxed"]
 [ext_resource type="PackedScene" uid="uid://cty1jnquq12aj" path="res://Prefab/Objects/Spring/spring.res" id="6_wnfbi"]
@@ -29,19 +25,17 @@ background_color = Color(0, 0.607843, 0.866667, 1)
 background_energy_multiplier = 1.65
 sky = SubResource("Sky_gycvr")
 ambient_light_source = 2
-ambient_light_color = Color(0.694118, 0.678431, 0.603922, 1)
-ambient_light_energy = 0.78
-tonemap_mode = 2
-tonemap_exposure = 0.89
-tonemap_white = 5.0
+ambient_light_color = Color(0.694118, 0.678431, 0.709804, 1)
+tonemap_mode = 3
 ssao_enabled = true
 ssao_radius = 1.44
 ssao_intensity = 1.64
 ssao_power = 3.56762
 ssao_horizon = 0.23
 ssil_enabled = true
-ssil_intensity = 2.3
+sdfgi_enabled = true
 sdfgi_bounce_feedback = 0.1
+sdfgi_energy = 0.75
 glow_enabled = true
 glow_normalized = true
 glow_intensity = 0.53
@@ -55,18 +49,7 @@ volumetric_fog_length = 21.33
 adjustment_enabled = true
 adjustment_contrast = 1.06
 
-[sub_resource type="LabelSettings" id="LabelSettings_pakdb"]
-font = ExtResource("3_86ri7")
-font_size = 48
-outline_size = 10
-outline_color = Color(0.164706, 0, 0.180392, 1)
-shadow_size = 20
-shadow_color = Color(0.164706, 0, 0.180392, 1)
-shadow_offset = Vector2(1, 3)
-
 [node name="map" type="Node3D"]
-
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_tlwor")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ocal0")
@@ -74,67 +57,10 @@ environment = SubResource("Environment_ocal0")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866026, -0.5, 0.75, -0.433013, 0, 33.295, 0)
 light_color = Color(1, 1, 0.933333, 1)
-light_angular_distance = 0.46
 light_bake_mode = 1
 shadow_enabled = true
-
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="UI" node_paths=PackedStringArray("m_player")]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 64.0
-offset_top = 64.0
-offset_right = 104.0
-offset_bottom = 104.0
-script = ExtResource("2_a5n4u")
-m_player = NodePath("../../Player")
-
-[node name="ScoreLabel" type="Label" parent="UI/Control"]
-layout_mode = 0
-offset_right = 285.0
-offset_bottom = 77.0
-text = "Test"
-label_settings = SubResource("LabelSettings_pakdb")
-
-[node name="TimeLabel" type="Label" parent="UI/Control"]
-layout_mode = 0
-offset_top = 100.0
-offset_right = 285.0
-offset_bottom = 177.0
-text = "Test"
-label_settings = SubResource("LabelSettings_pakdb")
-
-[node name="RingsLabel" type="Label" parent="UI/Control"]
-layout_mode = 0
-offset_top = 200.0
-offset_right = 285.0
-offset_bottom = 277.0
-text = "Test"
-label_settings = SubResource("LabelSettings_pakdb")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="UI"]
-script = ExtResource("2_tc41k")
-
-[node name="DebugUIRoot" type="Control" parent="UI/CanvasLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 405.0
-offset_top = 2.0
-offset_right = 445.0
-offset_bottom = 42.0
-
-[node name="DebugUITree" type="Tree" parent="UI/CanvasLayer/DebugUIRoot"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="DebugCheck" type="CheckButton" parent="UI/CanvasLayer/DebugUIRoot"]
-layout_mode = 0
-offset_left = 467.0
-offset_top = 19.0
-offset_right = 511.0
-offset_bottom = 43.0
+directional_shadow_mode = 1
+directional_shadow_max_distance = 388.5
 
 [node name="Stage" parent="." instance=ExtResource("4_36p73")]
 
@@ -158,6 +84,7 @@ m_nocon = 20
 
 [node name="Spring2" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("6_wnfbi")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -67.0927)
+collision_layer = 3221225472
 m_power = 4.0
 m_nocon = 0
 m_shape_node = NodePath("../Spring/CollisionShape3D")
@@ -171,9 +98,8 @@ m_shape_node = NodePath("../Spring/CollisionShape3D")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_1etu1")
-volume_db = -5.0
-autoplay = true
+volume_db = -7.06
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="Players" type="Node3D" parent="."]
 
 [editable path="Stage"]
