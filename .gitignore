@@ -11,6 +11,7 @@ export_presets.cfg
 .vs/
 .godot/
 Build/
+Stages/EmeraldCoast/
 data_*/
 .godot/editor/create_recent.Node
 .godot/editor/editor_layout.cfg

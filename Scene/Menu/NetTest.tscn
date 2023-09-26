@@ -73,6 +73,20 @@ text = "32"
 placeholder_text = "Max Players"
 wrap_mode = 1
 
+[node name="Port3" type="Label" parent="UI/NetTestRoot/Bar"]
+layout_mode = 2
+text = "Stage Name:
+"
+label_settings = ExtResource("2_yypjk")
+
+[node name="StageEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_f73dx")
+text = "TestStage"
+placeholder_text = "Stage"
+wrap_mode = 1
+
 [node name="PlayButton" type="Button" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
 theme = ExtResource("2_f73dx")

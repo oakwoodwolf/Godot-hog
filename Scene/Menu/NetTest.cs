@@ -1,6 +1,7 @@
 // SonicOnset.Scene.NetTest.NetTest
 using System.Collections.Generic;
 using System.Reflection;
+using System.Xml.Linq;
 using Godot;
 using Godot.Bridge;
 using Godot.NativeInterop;
@@ -15,6 +16,8 @@ namespace SonicOnset.Scene
 		private TextEdit m_port_edit;
 
 		private TextEdit m_max_edit;
+		private TextEdit m_stage_edit;
+
 
 		private Button m_play_button;
 
@@ -27,6 +30,8 @@ namespace SonicOnset.Scene
 			m_ip_edit = GetNode<TextEdit>("Bar/IpEdit");
 			m_port_edit = GetNode<TextEdit>("Bar/PortEdit");
 			m_max_edit = GetNode<TextEdit>("Bar/MaxEdit");
+			m_stage_edit = GetNode<TextEdit>("Bar/StageEdit");
+
 			m_play_button = GetNode<Button>("Bar/PlayButton");
 			m_host_button = GetNode<Button>("Bar/HostButton");
 			m_join_button = GetNode<Button>("Bar/JoinButton");
@@ -40,13 +45,11 @@ namespace SonicOnset.Scene
 		{
 			Root.StartLocalServer();
 			//Assembly.LoadFile("Stage.dll");
-			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
-			if (success)
-			{
-				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/TestStage/Stage.tscn");
-			}
-			
+			LoadStagePack(m_stage_edit.Text);
+
 		}
+
+
 
 		private void OnHostButtonPressed()
 		{
@@ -54,23 +57,31 @@ namespace SonicOnset.Scene
 			int max_players = int.Parse(m_max_edit.Text);
 			Root.StartHostServer(port, max_players);
 			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
-			if (success)
-			{
-				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/TestStage/Stage.tscn");
-			}
+			LoadStagePack(m_stage_edit.Text);
 		}
 
 		private void OnJoinButtonPressed()
 		{
 			int port = int.Parse(m_port_edit.Text);
-
-			Root.JoinServer(m_ip_edit.Text, port);
+			var success = ProjectSettings.LoadResourcePack("res://" + m_stage_edit.Text + ".pck");
+			if (success)
+			{
+				Root.JoinServer(m_ip_edit.Text, port);
+			}
+			
 
 
 		}
 
+		private static void LoadStagePack(string name)
+		{
+			var success = ProjectSettings.LoadResourcePack("res://" + name + ".pck");
+			if (success)
+			{
+				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
+			}
+		}
 
 
-		
 	}
 }
