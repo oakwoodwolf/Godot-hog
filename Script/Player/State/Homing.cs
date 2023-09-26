@@ -159,7 +159,7 @@ namespace SonicOnset
 				}
 
 				// Set animation
-				m_parent.PlayAnimation("Spin", 7.0f);
+				m_parent.PlayAnimation("Spin", 4.0f);
 			}
 
 			// State overrides

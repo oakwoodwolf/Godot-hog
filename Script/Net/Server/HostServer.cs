@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -32,21 +32,47 @@ namespace SonicOnset.Net
 
 		// Remote peer ID override
 		private int m_remote_peer_id = 0;
+		private Upnp upnp;
+		private int port;
 
-		// Remote server
-		public HostServer(MultiplayerApi multiplayer_api, int port, int max_clients)
+        // Remote server
+        public HostServer(MultiplayerApi multiplayer_api, int port, int max_clients)
 		{
+            this.port = port;
+            
 			// Connect multiplayer peer
 			ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
 			peer.CreateServer(port, max_clients);
 
-            // Setup multiplayer API
-            peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+			// Setup multiplayer API
+			peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 
-            m_multiplayer_api = multiplayer_api;
+			m_multiplayer_api = multiplayer_api;
 			m_multiplayer_api.MultiplayerPeer = peer;
+			
+			upnpSetup();
 		}
+		public void upnpSetup()
+		{
+            upnp = new();
+            int discoverResult = upnp.Discover();
+            if (discoverResult == 0)
+            {
+                if (upnp.GetGateway() != null && upnp.GetGateway().IsValidGateway())
+                {
+                    int mapResultUDP = upnp.AddPortMapping(port, port, ProjectSettings.GetSetting("application/config/name").ToString(), "UDP", 0);
+                    int mapResultTCP = upnp.AddPortMapping(port, port, ProjectSettings.GetSetting("application/config/name").ToString(), "TCP", 0);
 
+                    if (mapResultUDP != 0) upnp.AddPortMapping(port, port, "", "UDP");
+                    if (mapResultTCP != 0) upnp.AddPortMapping(port, port, "", "TCP");
+                    GD.Print(mapResultTCP + " UDP: " + mapResultUDP);
+                }
+                string extIP = upnp.QueryExternalAddress();
+                GD.Print(extIP + "\nPort: " + port + "\ndiscoverResult: " + discoverResult + "\nGateway: " + upnp.GetGateway().IsValidGateway());
+            }
+            upnp.DeletePortMapping(port, "UDP");
+            upnp.DeletePortMapping(port, "TCP");
+        }
 		// Returns your own peer ID
 		public int GetPeerId() => m_multiplayer_api.GetUniqueId();
 
@@ -106,9 +132,8 @@ namespace SonicOnset.Net
 			int[] peers = GetPeerIds();
 			foreach (int peer in peers)
 				m_multiplayer_api.MultiplayerPeer.DisconnectPeer(peer, true);
-
-			// Close server
-			m_multiplayer_api.MultiplayerPeer.Close();
+            // Close server
+            m_multiplayer_api.MultiplayerPeer.Close();
 
 			// Remove multiplayer peer
 			m_multiplayer_api.MultiplayerPeer = null;

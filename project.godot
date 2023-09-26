@@ -119,10 +119,6 @@ look_down={
 ]
 }
 
-[layer_names]
-
-3d_physics/layer_31="Object"
-
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2

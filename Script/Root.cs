@@ -83,7 +83,9 @@ namespace SonicOnset
 		private void LoadScene(string scene_path)
 		{
 			// Begin loading new scene
-			m_next_scene = scene_path;
+			
+				m_next_scene = scene_path;
+			
 		}
 
 		private void SpawnPlayer()

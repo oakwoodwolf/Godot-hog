@@ -41,7 +41,7 @@ namespace SonicOnset.Net
 			peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 			m_multiplayer_api = multiplayer_api;
 			m_multiplayer_api.MultiplayerPeer = peer;
-			GD.Print("Joining Remote Server");
+			GD.Print("Joining Remote Server: " + ip + ":" + port);
 		}
 
 		// Returns your own peer ID

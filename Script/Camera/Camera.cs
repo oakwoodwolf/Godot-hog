@@ -30,7 +30,8 @@ namespace SonicOnset
 		// Target node
 		[Export]
 		public Node3D target_node;
-
+		[Export]
+		public float lerp_factor = 0.1f;
 		private float m_x = 0.0f;
 		private float m_y = -0.2f;
 
@@ -115,7 +116,7 @@ namespace SonicOnset
 			temp_transform.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), m_x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), m_y);
 			temp_transform.Origin += temp_transform.Basis.Z * 15.0f * m_zoom.m_pos;
 			temp_transform.Origin.Y += 3.5f * m_zoom.m_pos;
-			Transform = temp_transform;
+			Transform = Transform.InterpolateWith(temp_transform, lerp_factor);
 		}
 	}
 }

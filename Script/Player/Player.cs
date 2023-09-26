@@ -34,7 +34,7 @@ namespace SonicOnset
 	{
 		// Player nodes
 		[Export]
-		private Camera m_camera_node;
+		private Camera3D m_camera_node;
 
 		private CollisionShape3D m_main_colshape_node;
 		private CollisionShape3D m_roll_colshape_node;

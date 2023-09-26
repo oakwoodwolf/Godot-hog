@@ -1,5 +1,6 @@
 // SonicOnset.Scene.NetTest.NetTest
 using System.Collections.Generic;
+using System.Reflection;
 using Godot;
 using Godot.Bridge;
 using Godot.NativeInterop;
@@ -38,7 +39,13 @@ namespace SonicOnset.Scene
 		private void OnPlayButtonPressed()
 		{
 			Root.StartLocalServer();
-			Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://map.tscn");
+			//Assembly.LoadFile("Stage.dll");
+			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
+			if (success)
+			{
+				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/TestStage/Stage.tscn");
+			}
+			
 		}
 
 		private void OnHostButtonPressed()
@@ -46,7 +53,11 @@ namespace SonicOnset.Scene
 			int port = int.Parse(m_port_edit.Text);
 			int max_players = int.Parse(m_max_edit.Text);
 			Root.StartHostServer(port, max_players);
-			Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://map.tscn");
+			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
+			if (success)
+			{
+				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/TestStage/Stage.tscn");
+			}
 		}
 
 		private void OnJoinButtonPressed()

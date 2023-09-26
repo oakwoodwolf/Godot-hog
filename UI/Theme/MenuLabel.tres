@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://criity30xluq4"]
+
+[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="1_htg6l"]
+
+[resource]
+font = ExtResource("1_htg6l")
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)

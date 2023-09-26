@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=43 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -34,6 +34,14 @@
 [ext_resource type="Script" path="res://Script/UI/MainUI/MainUI.cs" id="32_rrae7"]
 [ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="33_dxw6o"]
 [ext_resource type="Script" path="res://Script/UI/DebugUI/DebugUI.cs" id="34_vvyab"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
+auto_exposure_enabled = true
+auto_exposure_speed = 2.0
+dof_blur_far_enabled = true
+dof_blur_far_distance = 1019.36
+dof_blur_amount = 0.03
+auto_exposure_min_sensitivity = 180.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jloao"]
 albedo_texture = ExtResource("7_fgpto")
@@ -89,11 +97,12 @@ m_camera_node = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
 top_level = true
+attributes = SubResource("CameraAttributesPractical_c82xd")
+doppler_tracking = 1
 current = true
-near = 1.0
-far = 10000.0
 script = ExtResource("2_name6")
 target_node = NodePath("../ModelRoot")
+lerp_factor = 0.35
 
 [node name="AudioListener3D" type="AudioListener3D" parent="Camera3D"]
 current = true
@@ -110,8 +119,8 @@ transform = Transform3D(-2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0, -1,
 transform = Transform3D(0.158522, 0, 0, 0, 0.158522, 0, 0, 0, 0.158522, 0, -2.2113, 0)
 
 [node name="Skeleton3D" parent="ModelRoot/Model/Armature" index="0"]
-bones/1/position = Vector3(-0.000279492, 10.4212, -5.45172)
-bones/1/rotation = Quaternion(-0.500828, -0.499137, 0.500828, 0.499204)
+bones/1/position = Vector3(-0.000279263, 22.1994, -1.34841)
+bones/1/rotation = Quaternion(0.181887, -0.683303, -0.181873, 0.683327)
 bones/2/rotation = Quaternion(-1.86036e-12, 1.27112e-12, -0.198252, 0.980151)
 bones/3/rotation = Quaternion(-4.23634e-12, 9.41205e-13, -0.258819, 0.965926)
 bones/4/position = Vector3(3.4951, -0.755984, -1.26477e-06)
@@ -140,21 +149,21 @@ bones/22/position = Vector3(3.10194, 2.28915, 4.09317)
 bones/22/rotation = Quaternion(-0.137731, 0.617096, 0.344733, 0.693817)
 bones/23/rotation = Quaternion(-0.419492, 0.0875704, -0.0745089, 0.900448)
 bones/24/scale = Vector3(0.000999987, 0.000999987, 0.000999987)
-bones/25/position = Vector3(6.58777, -3.52397, -2.4237)
+bones/25/position = Vector3(6.58862, -3.52458, -2.4237)
 bones/25/rotation = Quaternion(-0.130614, 0.694903, 0.130614, 0.694974)
-bones/26/position = Vector3(5.94372, -1.54292, -3.84958)
+bones/26/position = Vector3(5.94415, -1.5441, -3.84958)
 bones/26/rotation = Quaternion(-0.130614, 0.694904, 0.130614, 0.694974)
-bones/27/position = Vector3(7.05372, -4.15919, -0.00186884)
+bones/27/position = Vector3(7.05595, -4.16002, -0.00186893)
 bones/27/rotation = Quaternion(-0.130401, 0.694943, 0.130588, 0.694979)
-bones/28/position = Vector3(6.58872, -3.52443, 2.42305)
+bones/28/position = Vector3(6.59181, -3.52606, 2.42305)
 bones/28/rotation = Quaternion(-0.130614, 0.694903, 0.130614, 0.694974)
-bones/29/position = Vector3(5.94438, -1.54642, 3.85002)
+bones/29/position = Vector3(5.94476, -1.5467, 3.85002)
 bones/29/rotation = Quaternion(-0.130614, 0.694904, 0.130614, 0.694974)
-bones/30/position = Vector3(1.17034, -3.327, -2.40588)
+bones/30/position = Vector3(1.17175, -3.32685, -2.40588)
 bones/30/rotation = Quaternion(0.0794745, 0.702648, -0.0794745, 0.702605)
-bones/31/position = Vector3(1.19241, -4.1166, -0.0018496)
+bones/31/position = Vector3(1.19299, -4.11722, -0.00184983)
 bones/31/rotation = Quaternion(0.0795348, 0.702641, -0.079329, 0.702621)
-bones/32/position = Vector3(1.17062, -3.32833, 2.40534)
+bones/32/position = Vector3(1.17168, -3.32935, 2.40534)
 bones/32/rotation = Quaternion(0.0794745, 0.702648, -0.0794745, 0.702605)
 bones/37/rotation = Quaternion(-0.157156, 0.83338, -0.380846, -0.368425)
 bones/38/rotation = Quaternion(-0.392875, 0.723213, -0.366874, -0.433608)
@@ -234,7 +243,7 @@ bones/99/rotation = Quaternion(-0.0272767, 0.0852483, -0.299443, 0.949907)
 bones/100/scale = Vector3(0, 0, 0)
 bones/101/rotation = Quaternion(-1.30094e-08, -6.77955e-09, 0.5373, 0.843391)
 bones/102/position = Vector3(0.0791593, 0.0110786, 0.0606422)
-bones/102/scale = Vector3(0.000999987, 0.000999987, 0.000999987)
+bones/102/scale = Vector3(1, 1, 1)
 bones/103/position = Vector3(0.314329, 0.0270709, -0.000767133)
 bones/103/scale = Vector3(0.000999987, 0.000999987, 0.000999987)
 
@@ -244,7 +253,7 @@ script = ExtResource("5_3kayp")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(-1.0587e-08, 1.0663e-08, 0.00015852, 0.000158519, -5.25465e-07, 1.06296e-08, 5.25456e-07, 0.000158519, -1.06205e-08, 0.00965691, 1.46676, 0.866014)
+transform = Transform3D(-6.20663e-06, 1.59376e-06, 0.158522, -0.0788055, 0.137546, -4.46685e-06, -0.137546, -0.0788055, -4.59236e-06, 0.00965707, 3.31661, 0.20199)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -252,7 +261,7 @@ use_external_skeleton = true
 external_skeleton = NodePath("../Model/Armature/Skeleton3D")
 
 [node name="Jumpball" parent="ModelRoot/JumpballRoot" instance=ExtResource("6_bb7bg")]
-transform = Transform3D(-4.3714e-07, 0, -10, 0, 10, 0, 10, 0, -4.3714e-07, 5, -5, 0)
+transform = Transform3D(-4.37314e-07, -4.76837e-07, -10, 1.30967e-10, 10, -4.76837e-07, 10, 1.45519e-11, -4.37081e-07, 5, -4.99999, 7.45058e-09)
 
 [node name="Jumpball" parent="ModelRoot/JumpballRoot/Jumpball" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
@@ -276,7 +285,7 @@ m_run_accel = 0.05
 m_run_decel = -0.06
 m_run_brake = -0.18
 m_air_drag = Vector3(-0.028, -0.01, -0.4)
-m_run_drag = Vector3(-0.015, -0.01, -0.25)
+m_run_drag = Vector3(-0.015, -0.01, -0.35)
 m_roll_drag = Vector3(-0.008, -0.01, -0.4)
 m_eye_height = 6.0
 m_center_height = 3.4
@@ -295,7 +304,7 @@ disabled = true
 [node name="ObjectTrigger" type="StaticBody3D" parent="." node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
 collision_layer = 2147483648
-collision_mask = 3221225472
+collision_mask = 2147483648
 script = ExtResource("8_3myij")
 m_listener_node = NodePath("..")
 m_shape_node = NodePath("ColShape")

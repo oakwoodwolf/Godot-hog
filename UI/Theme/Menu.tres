@@ -1,0 +1,22 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ce1n4i1uednhs"]
+
+[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="1_s630d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tsaa"]
+bg_color = Color(0.721569, 0.223529, 0.580392, 1)
+skew = Vector2(1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 10)
+
+[resource]
+default_font = ExtResource("1_s630d")
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = SubResource("StyleBoxFlat_1tsaa")
+Button/styles/pressed = null

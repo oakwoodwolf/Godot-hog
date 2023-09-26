@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dusvjwgnnowhr"]
+[gd_scene load_steps=11 format=3 uid="uid://dusvjwgnnowhr"]
 
 [ext_resource type="Script" path="res://Script/Player/NetPlayer.cs" id="1_3dl6x"]
 [ext_resource type="Script" path="res://Script/Character/Sonic/ModelRoot.cs" id="3_vx50b"]
@@ -6,13 +6,10 @@
 [ext_resource type="Script" path="res://Script/Object/Animator.cs" id="5_g41i3"]
 [ext_resource type="PackedScene" uid="uid://dph8b5d7oq1cy" path="res://Prefab/Character/Sonic/spinball.tscn" id="6_okoai"]
 [ext_resource type="Texture2D" uid="uid://bk1bqlnbpbkoj" path="res://Prefab/Character/Sonic/son_ball.png" id="7_daby4"]
+[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="7_tv5ns"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jloao"]
 albedo_texture = ExtResource("7_daby4")
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
-radius = 2.5
-height = 11.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i00u8"]
 properties/0/path = NodePath(".:position")
@@ -27,6 +24,10 @@ properties/2/path = NodePath("ModelRoot/Model/AnimationPlayer:current_animation"
 properties/2/spawn = true
 properties/2/sync = true
 properties/2/watch = false
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
+radius = 2.5
+height = 11.0
 
 [node name="Player" type="CharacterBody3D"]
 top_level = true
@@ -52,11 +53,9 @@ transform = Transform3D(0.158522, 0, 0, 0, 0.158522, 0, 0, 0, 0.158522, 0, -2.21
 [node name="Skeleton3D" parent="ModelRoot/Model/Armature" index="0"]
 bones/1/position = Vector3(5.38101e-07, 17.7256, -8.56932e-06)
 bones/1/rotation = Quaternion(-0.553443, -0.603913, 0.387488, 0.422898)
-bones/2/scale = Vector3(1, 1, 1)
 bones/3/rotation = Quaternion(2.3076e-08, 6.05168e-10, -0.0645996, 0.997911)
 bones/4/position = Vector3(3.56124, 8.19568e-08, -1.3609e-06)
 bones/4/rotation = Quaternion(-0.0845985, -0.0209574, -0.0262346, 0.995849)
-bones/4/scale = Vector3(1, 1, 1)
 bones/5/rotation = Quaternion(0.256149, 0.0418966, 0.101549, 0.960375)
 bones/6/rotation = Quaternion(0.410597, 0.778754, -0.12126, 0.458528)
 bones/7/rotation = Quaternion(0.12126, 0.458528, -0.410597, 0.778754)
@@ -103,7 +102,6 @@ bones/41/rotation = Quaternion(0.22654, 0.699795, 0.0940522, 0.67091)
 bones/42/position = Vector3(3.60751, -4.77701, 1.48048)
 bones/42/rotation = Quaternion(-0.0940523, 0.67091, -0.22654, 0.699795)
 bones/43/rotation = Quaternion(0.0455883, 0.705602, 0.0455925, 0.705669)
-bones/43/scale = Vector3(1, 1, 1)
 bones/44/rotation = Quaternion(0.0417257, 0.465948, 0.0625709, 0.88161)
 bones/45/rotation = Quaternion(5.24664e-09, 1.90787e-09, -0.21644, 0.976296)
 bones/46/rotation = Quaternion(-0.012336, 0.194922, -0.0619444, 0.978783)
@@ -126,7 +124,6 @@ bones/62/position = Vector3(0.00682732, -0.0810267, -0.00502163)
 bones/62/rotation = Quaternion(0.0518162, -0.166404, 0.0338741, 0.984112)
 bones/63/rotation = Quaternion(1.98996e-09, -2.43478e-08, 0.104529, 0.994522)
 bones/64/rotation = Quaternion(-0.0455883, 0.705602, -0.0455925, 0.705669)
-bones/64/scale = Vector3(1, 1, 1)
 bones/65/rotation = Quaternion(0.0417257, -0.465948, -0.0625709, 0.88161)
 bones/66/rotation = Quaternion(5.84285e-09, 8.58541e-09, 0.21644, 0.976296)
 bones/67/rotation = Quaternion(-0.012336, -0.194922, 0.0619444, 0.978783)
@@ -165,7 +162,6 @@ bones/93/rotation = Quaternion(0.00387684, -0.105284, -0.0434506, 0.993485)
 bones/93/scale = Vector3(1.00124, 0.998705, 1.00006)
 bones/94/rotation = Quaternion(-3.21059e-10, 1.82048e-08, -0.0436194, 0.999048)
 bones/95/rotation = Quaternion(-0.184059, 0.191381, 0.00482374, 0.964091)
-bones/95/scale = Vector3(1, 1, 1)
 bones/96/rotation = Quaternion(-4.76579e-08, 3.85353e-08, -0.161563, 0.986862)
 bones/96/scale = Vector3(0.96, 1, 1)
 bones/97/position = Vector3(-7.54669, 0.160537, -0.0330652)
@@ -189,7 +185,7 @@ script = ExtResource("5_g41i3")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(4.71055e-06, -5.4012e-05, 0.00014896, 0.000157917, 1.38084e-05, 1.30265e-08, -1.29801e-05, 0.000148393, 5.4217e-05, 0.00880756, 2.62478, 0.00390519)
+transform = Transform3D(4.71059e-06, -5.4012e-05, 0.00014896, 0.000157917, 1.38083e-05, 1.29698e-08, -1.298e-05, 0.000148393, 5.4217e-05, 0.00880756, 2.62478, 0.00390521)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -202,13 +198,30 @@ transform = Transform3D(-4.3714e-07, 0, -10, 0, 10, 0, 10, 0, -4.3714e-07, 5, -5
 [node name="Jumpball" parent="ModelRoot/JumpballRoot/Jumpball" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
 
-[node name="MainColShape" type="CollisionShape3D" parent="."]
+[node name="Label3D" type="Label3D" parent="ModelRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.45886, 0)
+pixel_size = 0.015
+text = "Sonic"
+font = ExtResource("7_tv5ns")
+font_size = 144
+outline_size = 25
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_i00u8")
+
+[node name="collider" type="StaticBody3D" parent="."]
+collision_layer = 1073741824
+collision_mask = 1073741824
+
+[node name="collider" type="CollisionShape3D" parent="collider"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.5, 0)
 shape = SubResource("CapsuleShape3D_xawvq")
 disabled = true
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_i00u8")
+[node name="col" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 3.5, 0)
+shape = SubResource("CapsuleShape3D_xawvq")
+disabled = true
 
 [editable path="ModelRoot/Model"]
 [editable path="ModelRoot/JumpballRoot/Jumpball"]

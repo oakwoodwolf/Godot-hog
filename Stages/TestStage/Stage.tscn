@@ -1,13 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://de4vkmrt088iu"]
+[gd_scene load_steps=9 format=3 uid="uid://bhen8jeyqagsg"]
 
-[ext_resource type="Texture2D" uid="uid://wml4x3dh8onf" path="res://Stages/TestStage/Model/Sky.png" id="1_2aobb"]
-[ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="4_36p73"]
-[ext_resource type="PackedScene" uid="uid://dxjcmoqvf2qc0" path="res://Prefab/Objects/Ring/ring.res" id="5_jnxed"]
-[ext_resource type="PackedScene" uid="uid://cty1jnquq12aj" path="res://Prefab/Objects/Spring/spring.res" id="6_wnfbi"]
-[ext_resource type="AudioStream" uid="uid://crmv5aa75uvcm" path="res://Sounds/Shop.ogg" id="7_1etu1"]
+[ext_resource type="Texture2D" uid="uid://wml4x3dh8onf" path="res://Stages/TestStage/Model/Sky.png" id="1_jutqk"]
+[ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="2_x68w6"]
+[ext_resource type="PackedScene" uid="uid://dxjcmoqvf2qc0" path="res://Prefab/Objects/Ring/ring.res" id="3_1abtb"]
+[ext_resource type="PackedScene" uid="uid://cty1jnquq12aj" path="res://Prefab/Objects/Spring/spring.res" id="4_5ga4s"]
+[ext_resource type="AudioStream" uid="uid://crmv5aa75uvcm" path="res://Sounds/Shop.ogg" id="5_5ckot"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0pxxa"]
-panorama = ExtResource("1_2aobb")
+panorama = ExtResource("1_jutqk")
 
 [sub_resource type="Sky" id="Sky_gycvr"]
 sky_material = SubResource("PanoramaSkyMaterial_0pxxa")
@@ -53,15 +53,15 @@ shadow_enabled = true
 directional_shadow_mode = 0
 directional_shadow_max_distance = 388.5
 
-[node name="Stage" parent="." instance=ExtResource("4_36p73")]
+[node name="Stage" parent="." instance=ExtResource("2_x68w6")]
 
 [node name="TestStage" parent="Stage" index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 
-[node name="Ring" parent="." instance=ExtResource("5_jnxed")]
+[node name="Ring" parent="." instance=ExtResource("3_1abtb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12277, 0.736364, -13.0225)
 
-[node name="Ring2" parent="." instance=ExtResource("5_jnxed")]
+[node name="Ring2" parent="." instance=ExtResource("3_1abtb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.475, 0.736364, -35.0225)
 
 [node name="LightmapGI" type="LightmapGI" parent="."]
@@ -72,19 +72,19 @@ max_texture_size = 2048
 
 [node name="LightmapProbe" type="LightmapProbe" parent="LightmapGI"]
 
-[node name="Spring" parent="." instance=ExtResource("6_wnfbi")]
+[node name="Spring" parent="." instance=ExtResource("4_5ga4s")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -20.1807)
 m_power = 4.0
 m_nocon = 20
 
-[node name="Spring2" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("6_wnfbi")]
+[node name="Spring2" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("4_5ga4s")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -67.0927)
 collision_layer = 3221225472
 m_power = 4.0
 m_nocon = 0
 m_shape_node = NodePath("../Spring/CollisionShape3D")
 
-[node name="Spring3" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("6_wnfbi")]
+[node name="Spring3" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("4_5ga4s")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, 61.4651)
 m_power = 4.0
 m_nocon = 0
@@ -92,7 +92,7 @@ m_roll = true
 m_shape_node = NodePath("../Spring/CollisionShape3D")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_1etu1")
+stream = ExtResource("5_5ckot")
 volume_db = -7.06
 autoplay = true
 

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh1od21n3h5ol"]
+[gd_scene load_steps=4 format=3 uid="uid://dh1od21n3h5ol"]
 
 [ext_resource type="Script" path="res://Scene/Menu/NetTest.cs" id="1_y5sr7"]
+[ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="2_f73dx"]
+[ext_resource type="LabelSettings" uid="uid://criity30xluq4" path="res://UI/Theme/MenuLabel.tres" id="2_yypjk"]
 
 [node name="NetTest" type="Node3D"]
 
@@ -31,36 +33,58 @@ offset_top = 128.0
 offset_right = 1128.0
 offset_bottom = 878.0
 
+[node name="Label" type="Label" parent="UI/NetTestRoot/Bar"]
+layout_mode = 2
+text = "IP Address:"
+label_settings = ExtResource("2_yypjk")
+
 [node name="IpEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_f73dx")
 text = "51.171.74.29"
 placeholder_text = "IP Address"
 wrap_mode = 1
 
+[node name="Port" type="Label" parent="UI/NetTestRoot/Bar"]
+layout_mode = 2
+text = "Port:"
+label_settings = ExtResource("2_yypjk")
+
 [node name="PortEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_f73dx")
 text = "12004"
 placeholder_text = "Port"
 wrap_mode = 1
 
+[node name="Port2" type="Label" parent="UI/NetTestRoot/Bar"]
+layout_mode = 2
+text = "Max Players:
+"
+label_settings = ExtResource("2_yypjk")
+
 [node name="MaxEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("2_f73dx")
 text = "32"
 placeholder_text = "Max Players"
 wrap_mode = 1
 
 [node name="PlayButton" type="Button" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
+theme = ExtResource("2_f73dx")
 text = "Play"
 
 [node name="HostButton" type="Button" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
+theme = ExtResource("2_f73dx")
 text = "host"
 
 [node name="JoinButton" type="Button" parent="UI/NetTestRoot/Bar"]
 layout_mode = 2
+theme = ExtResource("2_f73dx")
 text = "JOIN
 "

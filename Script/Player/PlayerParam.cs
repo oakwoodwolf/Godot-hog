@@ -67,13 +67,15 @@ namespace SonicOnset
 	public partial class PlayerParam : Node
 	{
 		public Player.Param m_param;
-
+		[ExportGroup("Jump")]
+		/* The amount in frames that the jump stays at its peak. */ 
 		[Export]
 		public uint m_jump_hang { get { return m_param.m_jump_hang; } set { m_param.m_jump_hang = value; } }
 		[Export]
 		public float m_jump_speed { get { return m_param.m_jump_speed; } set { m_param.m_jump_speed = value; } }
 		[Export]
 		public float m_jump_addit { get { return m_param.m_jump_addit; } set { m_param.m_jump_addit = value; } }
+		[ExportGroup("Air")]
 		[Export]
 		public float m_gravity { get { return m_param.m_gravity; } set { m_param.m_gravity = value; } }
 		[Export]
@@ -82,6 +84,7 @@ namespace SonicOnset
 		public float m_air_decel { get { return m_param.m_air_decel; } set { m_param.m_air_decel = value; } }
 		[Export]
 		public float m_air_brake { get { return m_param.m_air_brake; } set { m_param.m_air_brake = value; } }
+		[ExportGroup("Ground")]
 		[Export]
 		public float m_run_dragstart { get { return m_param.m_run_dragstart; } set { m_param.m_run_dragstart = value; } }
 		[Export]
@@ -100,12 +103,14 @@ namespace SonicOnset
 		public float m_run_decel { get { return m_param.m_run_decel; } set { m_param.m_run_decel = value; } }
 		[Export]
 		public float m_run_brake { get { return m_param.m_run_brake; } set { m_param.m_run_brake = value; } }
+		[ExportGroup("Drag")]
 		[Export]
 		public Vector3 m_air_drag { get { return m_param.m_air_drag; } set { m_param.m_air_drag = value; } }
 		[Export]
 		public Vector3 m_run_drag { get { return m_param.m_run_drag; } set { m_param.m_run_drag = value; } }
 		[Export]
 		public Vector3 m_roll_drag { get { return m_param.m_roll_drag; } set { m_param.m_roll_drag = value; } }
+		[ExportGroup("Heights")]
 		[Export]
 		public float m_eye_height { get { return m_param.m_eye_height; } set { m_param.m_eye_height = value; } }
 		[Export]
