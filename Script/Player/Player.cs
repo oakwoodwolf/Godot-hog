@@ -544,7 +544,6 @@ namespace SonicOnset
 
 			// Send RPC update
 			Root.Rpc(this, "HostRpc_Update", GlobalTransform, currentAnim);
-            Root.GetHostServer().RpcAll(this, "Change_NameRpc", "Jerry");
             // Increment time
             m_time++;
 

@@ -189,7 +189,7 @@ script = ExtResource("5_g41i3")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(4.71059e-06, -5.4012e-05, 0.00014896, 0.000157917, 1.38083e-05, 1.29698e-08, -1.298e-05, 0.000148393, 5.4217e-05, 0.00880756, 2.62478, 0.00390521)
+transform = Transform3D(-2.97157e-05, 0.000340723, -0.00093968, 0.000996186, 8.71067e-05, 8.18171e-08, 8.18813e-05, -0.000936106, -0.000342016, -0.0555605, 17.8908, -0.0246351)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102

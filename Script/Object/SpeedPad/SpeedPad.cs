@@ -44,6 +44,10 @@ namespace SonicOnset
 		{
 			// Get nodes
 			m_panel_sound = Util.IAudioStreamPlayer.FromNode(GetNode("PanelSound"));
+			
+			m_shape_node = GetNode<CollisionShape3D>("ColShape");
+			m_listener_node = GetNode<StaticBody3D>(".");
+
 
 			// Setup base
 			base._Ready();

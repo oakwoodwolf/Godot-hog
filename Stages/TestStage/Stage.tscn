@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhen8jeyqagsg"]
+[gd_scene load_steps=10 format=3 uid="uid://bhen8jeyqagsg"]
 
 [ext_resource type="Texture2D" uid="uid://wml4x3dh8onf" path="res://Stages/TestStage/Model/Sky.png" id="1_jutqk"]
 [ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="2_x68w6"]
 [ext_resource type="PackedScene" uid="uid://dxjcmoqvf2qc0" path="res://Prefab/Objects/Ring/ring.res" id="3_1abtb"]
 [ext_resource type="PackedScene" uid="uid://cty1jnquq12aj" path="res://Prefab/Objects/Spring/spring.res" id="4_5ga4s"]
 [ext_resource type="AudioStream" uid="uid://crmv5aa75uvcm" path="res://Sounds/Shop.ogg" id="5_5ckot"]
+[ext_resource type="PackedScene" uid="uid://bau65n1dvrobo" path="res://Prefab/Objects/DashPad/pad.res" id="6_r8min"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0pxxa"]
 panorama = ExtResource("1_jutqk")
@@ -97,5 +98,9 @@ volume_db = -7.06
 autoplay = true
 
 [node name="Players" type="Node3D" parent="."]
+
+[node name="pad" parent="." instance=ExtResource("6_r8min")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, 0)
+m_power = 1.0
 
 [editable path="Stage"]
