@@ -33,19 +33,28 @@ namespace SonicOnset
 
 		// Net player state
 		private Transform3D m_transform;
+		public Label3D m_nametag;
 		private string m_current_anim = "Idle";
 
 		// RPC methods
-		private void HostRpc_Update(Transform3D transform)
+		private void HostRpc_Update(Transform3D transform, string anim)
 		{
 			// Forward the RPC to all clients
-			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform);
+			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
 		}
-
-		private void Rpc_Update(Transform3D transform)
+		private void Change_NameRpc(string name)
+		{
+			Root.GetHostServer().RpcAll(this, "Get_NameRPC", name);
+		}
+		private void Get_NameRPC(string name)
+		{
+			m_nametag.Text = name;
+		}
+		private void Rpc_Update(Transform3D transform, string anim)
 		{
 			// Set model root state
 			m_transform = transform * m_modelroot_offset;
+			m_current_anim = anim;
 		}
 	// Animation functions
 		internal void ClearAnimation() => m_modelroot.ClearAnimation();
@@ -55,6 +64,7 @@ namespace SonicOnset
 		{
 			// Get model root
 			m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
+			m_nametag = GetNode<Label3D>("ModelRoot/Nametag");
 			m_modelroot_offset = GlobalTransform.Inverse() * m_modelroot.GlobalTransform;
 			m_transform = GlobalTransform * m_modelroot_offset;
 
@@ -66,6 +76,7 @@ namespace SonicOnset
 		{
 			// Update model root
 			m_modelroot.SetTransform(m_transform);
+
 			PlayAnimation(m_current_anim);
 		}
 	}

@@ -24,6 +24,10 @@ properties/2/path = NodePath("ModelRoot/Model/AnimationPlayer:current_animation"
 properties/2/spawn = true
 properties/2/sync = true
 properties/2/watch = false
+properties/3/path = NodePath("ModelRoot/Nametag:text")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
 radius = 2.5
@@ -198,7 +202,7 @@ transform = Transform3D(-4.3714e-07, 0, -10, 0, 10, 0, 10, 0, -4.3714e-07, 5, -5
 [node name="Jumpball" parent="ModelRoot/JumpballRoot/Jumpball" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
 
-[node name="Label3D" type="Label3D" parent="ModelRoot"]
+[node name="Nametag" type="Label3D" parent="ModelRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.45886, 0)
 pixel_size = 0.015
 text = "Sonic"

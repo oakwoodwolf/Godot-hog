@@ -35,6 +35,7 @@ namespace SonicOnset.Character
 		{
 			// Skeleton and bone
 			private Skeleton3D m_skeleton_node;
+			
 			internal int m_bone_idx;
 
 			// Constructor
@@ -88,8 +89,8 @@ namespace SonicOnset.Character
 		// Model nodes
 		internal Animator m_animation_player;
 		internal Skeleton3D m_skeleton_node;
-
-		internal Util.Animation.SkeletonPose m_rest_pose;
+        public string m_current_anim;
+        internal Util.Animation.SkeletonPose m_rest_pose;
 
 		internal System.Collections.Generic.Dictionary<string, Util.Animation.AnimationTrack> m_animation_tracks = new System.Collections.Generic.Dictionary<string, Util.Animation.AnimationTrack>();
 
@@ -98,7 +99,11 @@ namespace SonicOnset.Character
 		internal const double c_anim_blend_fast = 0.12;
 
 		public virtual void ClearAnimation() => m_animation_player.ClearAnimation();
-		public virtual void PlayAnimation(string name, double speed = 1.0f) => m_animation_player.PlayAnimation(name, speed);
+		public virtual void PlayAnimation(string name, double speed = 1.0f) 
+		{
+			m_current_anim = name;
+			m_animation_player.PlayAnimation(name, speed); 
+		}
 
 		// Tilt state
 		internal Util.Spring m_tilt = new Util.Spring(3.0f, 0.0f);
@@ -137,15 +142,16 @@ namespace SonicOnset.Character
 		{
 			// Setup base
 			base._Ready();
-		}
+            m_animation_player = GetNode<Animator>("Model/AnimationPlayer");
+        }
 
-		public override void _Process(double delta)
+        public override void _Process(double delta)
 		{
 			// Update base
 			base._Process(delta);
 
-			// Update tilt
-			m_tilt.Step((float)delta);
+            // Update tilt
+            m_tilt.Step((float)delta);
 		}
 	}
 }

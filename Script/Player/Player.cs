@@ -26,16 +26,15 @@
 
 using Godot;
 using System.Collections.Generic;
-
 namespace SonicOnset
 {
-	// Player controller class
+    // Player controller class
 	public partial class Player : CharacterBody3D, IObject
 	{
 		// Player nodes
 		[Export]
 		private Camera3D m_camera_node;
-
+		private string currentAnim;
 		private CollisionShape3D m_main_colshape_node;
 		private CollisionShape3D m_roll_colshape_node;
 
@@ -486,6 +485,7 @@ namespace SonicOnset
 
 			// Update player parameters
 			m_param = m_param_node.m_param;
+			currentAnim = m_modelroot.m_current_anim;
 
 			// Update input state
 			{
@@ -543,10 +543,10 @@ namespace SonicOnset
 			m_modelroot.SetShear(m_state.GetShear());
 
 			// Send RPC update
-			Root.Rpc(this, "HostRpc_Update", GlobalTransform); 
-
-			// Increment time
-			m_time++;
+			Root.Rpc(this, "HostRpc_Update", GlobalTransform, currentAnim);
+            Root.GetHostServer().RpcAll(this, "Change_NameRpc", "Jerry");
+            // Increment time
+            m_time++;
 
 			// Update debug context
 #if DEBUG
@@ -574,10 +574,10 @@ namespace SonicOnset
 		}
 
 		// RPC methods
-		private void HostRpc_Update(Transform3D transform)
+		private void HostRpc_Update(Transform3D transform, string anim)
 		{
 			// Forward the RPC to all clients
-			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform);
+			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
 		}
 	}
 }

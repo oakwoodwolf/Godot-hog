@@ -185,7 +185,6 @@ namespace SonicOnset.Character.Sonic
 		{
 			// Process base
 			base._Process(delta);
-
 			// Get interpolation fraction
 			float fraction = (float)Engine.GetPhysicsInterpolationFraction();
 
@@ -211,5 +210,6 @@ namespace SonicOnset.Character.Sonic
 			m_tiltbone_upper_torso.Tilt(m_upper_torso_tilt);
 			m_tiltbone_lower_torso.Tilt(m_lower_torso_tilt); 
 		}
+
 	}
 }

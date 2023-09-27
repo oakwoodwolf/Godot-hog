@@ -243,7 +243,6 @@ bones/99/rotation = Quaternion(-0.0272767, 0.0852483, -0.299443, 0.949907)
 bones/100/scale = Vector3(0, 0, 0)
 bones/101/rotation = Quaternion(-1.30094e-08, -6.77955e-09, 0.5373, 0.843391)
 bones/102/position = Vector3(0.0791593, 0.0110786, 0.0606422)
-bones/102/scale = Vector3(1, 1, 1)
 bones/103/position = Vector3(0.314329, 0.0270709, -0.000767133)
 bones/103/scale = Vector3(0.000999987, 0.000999987, 0.000999987)
 
@@ -253,7 +252,7 @@ script = ExtResource("5_3kayp")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(-6.20663e-06, 1.59376e-06, 0.158522, -0.0788055, 0.137546, -4.46685e-06, -0.137546, -0.0788055, -4.59236e-06, 0.00965707, 3.31661, 0.20199)
+transform = Transform3D(3.78896e-05, -1.0427e-05, -1, -0.497126, 0.867678, -2.79099e-05, 0.867679, 0.497126, 2.76864e-05, -0.0609193, 22.255, -1.27421)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
