@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhen8jeyqagsg"]
+[gd_scene load_steps=11 format=3 uid="uid://bhen8jeyqagsg"]
 
 [ext_resource type="Texture2D" uid="uid://wml4x3dh8onf" path="res://Stages/TestStage/Model/Sky.png" id="1_jutqk"]
 [ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="2_x68w6"]
@@ -41,6 +41,12 @@ volumetric_fog_length = 21.33
 adjustment_enabled = true
 adjustment_contrast = 1.06
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2mjvs"]
+properties/0/path = NodePath(".:visible")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
 [node name="map" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -65,6 +71,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12277, 0.736364, -13.0225)
 [node name="Ring2" parent="." instance=ExtResource("3_1abtb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.475, 0.736364, -35.0225)
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Ring2"]
+replication_config = SubResource("SceneReplicationConfig_2mjvs")
+
 [node name="LightmapGI" type="LightmapGI" parent="."]
 visible = false
 quality = 0
@@ -78,19 +87,17 @@ transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -
 m_power = 4.0
 m_nocon = 20
 
-[node name="Spring2" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("4_5ga4s")]
+[node name="Spring2" parent="." instance=ExtResource("4_5ga4s")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -67.0927)
 collision_layer = 3221225472
 m_power = 4.0
 m_nocon = 0
-m_shape_node = NodePath("../Spring/CollisionShape3D")
 
-[node name="Spring3" parent="." node_paths=PackedStringArray("m_shape_node") instance=ExtResource("4_5ga4s")]
+[node name="Spring3" parent="." instance=ExtResource("4_5ga4s")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, 61.4651)
 m_power = 4.0
 m_nocon = 0
 m_roll = true
-m_shape_node = NodePath("../Spring/CollisionShape3D")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_5ckot")
@@ -104,3 +111,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, 0)
 m_power = 1.0
 
 [editable path="Stage"]
+[editable path="Ring2"]
+[editable path="Ring2/Ring"]

@@ -135,6 +135,7 @@ namespace SonicOnset
 				}
 				else
 				{
+					GD.Print(m_target_node + " TARGET");
 					// Rotate to target
 					Transform3D center_transform = m_parent.GetCenterTransform();
 					Transform3D transform = center_transform.LookingAt(m_target_node.GlobalTransform.Origin, -m_parent.m_gravity);

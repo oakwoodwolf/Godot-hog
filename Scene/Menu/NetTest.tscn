@@ -42,7 +42,7 @@ label_settings = ExtResource("2_yypjk")
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_f73dx")
-text = "51.171.74.29"
+text = "localhost"
 placeholder_text = "IP Address"
 wrap_mode = 1
 
@@ -102,3 +102,52 @@ layout_mode = 2
 theme = ExtResource("2_f73dx")
 text = "JOIN
 "
+
+[node name="Loading" type="Control" parent="UI/NetTestRoot"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fade" type="ColorRect" parent="UI/NetTestRoot/Loading"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0.423529, 0.501961)
+
+[node name="Black" type="ColorRect" parent="UI/NetTestRoot/Loading/Fade"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MenuLabel" type="Label" parent="UI/NetTestRoot/Loading/Fade/Black"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -12.5
+offset_right = 41.5
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading..."
+label_settings = ExtResource("2_yypjk")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dusvjwgnnowhr"]
+[gd_scene load_steps=12 format=3 uid="uid://dusvjwgnnowhr"]
 
 [ext_resource type="Script" path="res://Script/Player/NetPlayer.cs" id="1_3dl6x"]
 [ext_resource type="Script" path="res://Script/Character/Sonic/ModelRoot.cs" id="3_vx50b"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dph8b5d7oq1cy" path="res://Prefab/Character/Sonic/spinball.tscn" id="6_okoai"]
 [ext_resource type="Texture2D" uid="uid://bk1bqlnbpbkoj" path="res://Prefab/Character/Sonic/son_ball.png" id="7_daby4"]
 [ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="7_tv5ns"]
+[ext_resource type="PackedScene" uid="uid://do7abjyipje2x" path="res://Prefab/shadow.tscn" id="8_34sqa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jloao"]
 albedo_texture = ExtResource("7_daby4")
@@ -189,7 +190,7 @@ script = ExtResource("5_g41i3")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(-2.97157e-05, 0.000340723, -0.00093968, 0.000996186, 8.71067e-05, 8.18171e-08, 8.18813e-05, -0.000936106, -0.000342016, -0.0555605, 17.8908, -0.0246351)
+transform = Transform3D(4.71059e-06, -5.4012e-05, 0.00014896, 0.000157917, 1.38083e-05, 1.29698e-08, -1.298e-05, 0.000148393, 5.4217e-05, 0.00880756, 2.62478, 0.00390521)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -204,11 +205,16 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
 
 [node name="Nametag" type="Label3D" parent="ModelRoot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.45886, 0)
+ignore_occlusion_culling = true
+visibility_range_fade_mode = 1
 pixel_size = 0.015
 text = "Sonic"
 font = ExtResource("7_tv5ns")
 font_size = 144
 outline_size = 25
+
+[node name="Shadow" parent="ModelRoot" instance=ExtResource("8_34sqa")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -6.2, 0)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_i00u8")

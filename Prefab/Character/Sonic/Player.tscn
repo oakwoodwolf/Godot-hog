@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=45 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -9,9 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://dph8b5d7oq1cy" path="res://Prefab/Character/Sonic/spinball.tscn" id="6_bb7bg"]
 [ext_resource type="Texture2D" uid="uid://bk1bqlnbpbkoj" path="res://Prefab/Character/Sonic/son_ball.png" id="7_fgpto"]
 [ext_resource type="Script" path="res://Script/Object/ObjectTrigger.cs" id="8_3myij"]
+[ext_resource type="PackedScene" uid="uid://do7abjyipje2x" path="res://Prefab/shadow.tscn" id="8_s3gam"]
 [ext_resource type="AudioStream" uid="uid://ypsn55hwuxkv" path="res://Sounds/Player/GroundLandDirt.ogg" id="10_pufcf"]
 [ext_resource type="Script" path="res://Script/Player/SoundHandler.cs" id="10_yj34d"]
 [ext_resource type="AudioStream" uid="uid://dr4qgq6ljukhp" path="res://Sounds/Player/JumpMed.ogg" id="11_133cc"]
+[ext_resource type="Script" path="res://Script/Object/ObjectTriggerInterest.cs" id="11_pwmnf"]
 [ext_resource type="AudioStream" uid="uid://bjwq7bayihe0c" path="res://Sounds/Player/SpinDashCharge.ogg" id="12_67enl"]
 [ext_resource type="AudioStream" uid="uid://b347gbondf8mr" path="res://Sounds/Player/SpinDashRelease.ogg" id="12_ocv1v"]
 [ext_resource type="AudioStream" uid="uid://x5vvd31kcugx" path="res://Sounds/Player/GroundSkid.ogg" id="13_4gthu"]
@@ -55,7 +57,7 @@ radius = 2.0
 height = 4.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rku8w"]
-radius = 4.0
+radius = 5.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8omxm"]
 margin = 0.0
@@ -179,7 +181,11 @@ external_skeleton = NodePath("../Model/Armature/Skeleton3D")
 transform = Transform3D(-4.37314e-07, -4.76837e-07, -10, 1.30967e-10, 10, -4.76837e-07, 10, 1.45519e-11, -4.37081e-07, 5, -4.99999, 7.45058e-09)
 
 [node name="Jumpball" parent="ModelRoot/JumpballRoot/Jumpball" index="0"]
+cast_shadow = 0
 surface_material_override/0 = SubResource("StandardMaterial3D_jloao")
+
+[node name="Shadow" parent="ModelRoot" instance=ExtResource("8_s3gam")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -6.2, 0)
 
 [node name="PlayerParam" type="Node" parent="."]
 script = ExtResource("4_5y03s")
@@ -219,7 +225,7 @@ disabled = true
 [node name="ObjectTrigger" type="StaticBody3D" parent="." node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
 collision_layer = 2147483648
-collision_mask = 2147483648
+collision_mask = 3221225472
 script = ExtResource("8_3myij")
 m_listener_node = NodePath("..")
 m_shape_node = NodePath("ColShape")
@@ -232,9 +238,9 @@ shape = SubResource("SphereShape3D_rku8w")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
 collision_layer = 0
 collision_mask = 1073741824
-script = ExtResource("8_3myij")
+script = ExtResource("11_pwmnf")
 m_listener_node = NodePath("..")
-m_shape_node = NodePath("../ObjectTrigger/ColShape")
+m_shape_node = NodePath("ColShape")
 
 [node name="ColShape" type="CollisionShape3D" parent="RadialTrigger"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76351, 0)

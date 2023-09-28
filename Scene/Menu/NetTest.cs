@@ -17,7 +17,8 @@ namespace SonicOnset.Scene
 
 		private TextEdit m_max_edit;
 		private TextEdit m_stage_edit;
-
+		private Control m_load_drop;
+		private Label m_load_label;
 
 		private Button m_play_button;
 
@@ -31,6 +32,7 @@ namespace SonicOnset.Scene
 			m_port_edit = GetNode<TextEdit>("Bar/PortEdit");
 			m_max_edit = GetNode<TextEdit>("Bar/MaxEdit");
 			m_stage_edit = GetNode<TextEdit>("Bar/StageEdit");
+			m_load_drop = GetNode<Control>("Loading");
 
 			m_play_button = GetNode<Button>("Bar/PlayButton");
 			m_host_button = GetNode<Button>("Bar/HostButton");
@@ -44,7 +46,6 @@ namespace SonicOnset.Scene
 		private void OnPlayButtonPressed()
 		{
 			Root.StartLocalServer();
-			//Assembly.LoadFile("Stage.dll");
 			LoadStagePack(m_stage_edit.Text);
 
 		}
@@ -53,6 +54,7 @@ namespace SonicOnset.Scene
 
 		private void OnHostButtonPressed()
 		{
+			m_load_drop.Visible = true;
 			int port = int.Parse(m_port_edit.Text);
 			int max_players = int.Parse(m_max_edit.Text);
 			Root.StartHostServer(port, max_players);
@@ -62,6 +64,7 @@ namespace SonicOnset.Scene
 
 		private void OnJoinButtonPressed()
 		{
+			m_load_drop.Visible = true;
 			int port = int.Parse(m_port_edit.Text);
 			var success = ProjectSettings.LoadResourcePack("res://" + m_stage_edit.Text + ".pck");
 			if (success)
@@ -78,6 +81,9 @@ namespace SonicOnset.Scene
 			var success = ProjectSettings.LoadResourcePack("res://" + name + ".pck");
 			if (success)
 			{
+				if (FileAccess.FileExists("res://"+ name +"/") )
+					{ Assembly.LoadFile(name + ".dll"); }
+
 				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
 			}
 		}

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://do7abjyipje2x"]
+
+[ext_resource type="Shader" path="res://Prefab/Character/Sonic/shadow.gdshader" id="1_kav2d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mb7jp"]
+render_priority = -100
+shader = ExtResource("1_kav2d")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_s315d"]
+material = SubResource("ShaderMaterial_mb7jp")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 50.0
+
+[node name="Shadow" type="Node3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -2.6, 0)
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+custom_aabb = AABB(-128, -128, -128, 256, 256, 256)
+mesh = SubResource("CylinderMesh_s315d")

@@ -48,7 +48,8 @@ namespace SonicOnset
 		{
 			// Get nodes
 			m_animation_player = GetNode<AnimationPlayer>("Model/AnimationPlayer");
-
+			m_shape_node = GetNode<CollisionShape3D>("ColShape");
+			m_listener_node = GetNode<StaticBody3D>(".");
 			m_bounce_sound = Util.IAudioStreamPlayer.FromNode(GetNode("BounceSound"));
 
 			// Setup base
