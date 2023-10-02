@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -29,5 +29,6 @@ namespace SonicOnset
 	{
 		// Object properties
 		public bool CanHomingAttack() { return false; }
+		public bool CanLightDash() { return false; }
 	}
 }

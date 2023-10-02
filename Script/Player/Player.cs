@@ -105,7 +105,8 @@ namespace SonicOnset
 			virtual internal bool CheckSpinAbility() { return false; }
 			virtual internal bool CheckLandAbility() { return false; }
 
-			virtual internal void FlagHitBounce() { } // When you bounce off an object, for special abilities like Air Kick and Chaos Snap
+
+            virtual internal void FlagHitBounce() { } // When you bounce off an object, for special abilities like Air Kick and Chaos Snap
 			virtual internal void ClearHitBounce() { } // Performing an ability should clear the bounce flag
 
 			// Ability list class

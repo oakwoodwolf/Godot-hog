@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhen8jeyqagsg"]
+[gd_scene load_steps=10 format=3 uid="uid://bhen8jeyqagsg"]
 
 [ext_resource type="Texture2D" uid="uid://wml4x3dh8onf" path="res://Stages/TestStage/Model/Sky.png" id="1_jutqk"]
 [ext_resource type="PackedScene" uid="uid://bowywnh8up60o" path="res://Stages/TestStage/Model/Stage.gltf" id="2_x68w6"]
@@ -41,12 +41,6 @@ volumetric_fog_length = 21.33
 adjustment_enabled = true
 adjustment_contrast = 1.06
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2mjvs"]
-properties/0/path = NodePath(".:visible")
-properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
-
 [node name="map" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -64,15 +58,6 @@ directional_shadow_max_distance = 388.5
 
 [node name="TestStage" parent="Stage" index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-
-[node name="Ring" parent="." instance=ExtResource("3_1abtb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12277, 0.736364, -13.0225)
-
-[node name="Ring2" parent="." instance=ExtResource("3_1abtb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.475, 0.736364, -35.0225)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Ring2"]
-replication_config = SubResource("SceneReplicationConfig_2mjvs")
 
 [node name="LightmapGI" type="LightmapGI" parent="."]
 visible = false
@@ -110,6 +95,31 @@ autoplay = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, 0)
 m_power = 1.0
 
+[node name="Ring" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 1, 53)
+
+[node name="Ring2" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 3.73634, 62)
+
+[node name="Ring3" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 8.73634, 70)
+
+[node name="Ring4" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 13.7363, 77)
+
+[node name="Ring5" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 19.7363, 86)
+
+[node name="Ring6" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41, 25.7363, 94)
+
+[node name="Ring7" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 29.7363, 102)
+
+[node name="Ring8" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 32.7363, 111)
+
+[node name="Ring9" parent="." instance=ExtResource("3_1abtb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 65, 36.7363, 117)
+
 [editable path="Stage"]
-[editable path="Ring2"]
-[editable path="Ring2/Ring"]

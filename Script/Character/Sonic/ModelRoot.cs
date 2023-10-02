@@ -125,7 +125,10 @@ namespace SonicOnset.Character.Sonic
 			m_animation_player.m_specs["FallFast"] = new Animator.AnimationSpec(0.13, false, false, null,
 				new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("FallFast") }
 			);
-			m_animation_player.m_specs["Land"] = new Animator.AnimationSpec(0.08, false, false, "Idle",
+            m_animation_player.m_specs["Forward"] = new Animator.AnimationSpec(0.13, false, false, null,
+    new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Forward") }
+);
+            m_animation_player.m_specs["Land"] = new Animator.AnimationSpec(0.08, false, false, "Idle",
 				new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Land") }
 			);
 

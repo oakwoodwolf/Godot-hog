@@ -28,11 +28,13 @@ namespace SonicOnset
 	public partial class Ring : ObjectTriggerInterest, IObject
 	{
 		// Node setup
+
 		public override void _Ready()
 		{
 			// Play ring spinning animation
 			GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
-
+			m_shape_node = GetNode<CollisionShape3D>("ColShape");
+			m_listener_node = GetNode<StaticBody3D>(".");
 			// Setup base
 			base._Ready();
 		}
@@ -55,5 +57,7 @@ namespace SonicOnset
 				}
 			}
 		}
+		public bool CanLightDash() { return true; }
+
 	}
 }

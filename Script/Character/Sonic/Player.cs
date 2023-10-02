@@ -38,7 +38,7 @@ namespace SonicOnset.Character.Sonic
 
 				// Create abilities
 				m_abilities.Add(new Jump(player));
-				
+				m_abilities.Add(new Lightdash(player));
 				m_abilities.Add(new Spindash(player));
 				m_abilities.Add(new HomingAttack(player));
 				m_abilities.Add(new Bounce(player));

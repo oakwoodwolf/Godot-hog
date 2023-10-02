@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=46 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -35,6 +35,7 @@
 [ext_resource type="AudioStream" uid="uid://sj8mtx4f4uar" path="res://Sounds/Player/Footstep/GroundStep4Stone.ogg" id="30_jfp5h"]
 [ext_resource type="Script" path="res://Script/UI/MainUI/MainUI.cs" id="32_rrae7"]
 [ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="33_dxw6o"]
+[ext_resource type="AudioStream" uid="uid://bsokchdjd4w6c" path="res://Sounds/Player/Voice/attackX.ogg" id="34_invfp"]
 [ext_resource type="Script" path="res://Script/UI/DebugUI/DebugUI.cs" id="34_vvyab"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
@@ -46,6 +47,7 @@ dof_blur_amount = 0.03
 auto_exposure_min_sensitivity = 180.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jloao"]
+transparency = 1
 albedo_texture = ExtResource("7_fgpto")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
@@ -321,6 +323,11 @@ stream = ExtResource("30_jfp5h")
 [node name="FootstepConcrete" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("26_4qbgy")
 volume_db = -38.42
+
+[node name="VoiceSpecial" type="Node3D" parent="Sound"]
+
+[node name="SonicSpecial01" type="AudioStreamPlayer" parent="Sound/VoiceSpecial"]
+stream = ExtResource("34_invfp")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_bs7vw")
