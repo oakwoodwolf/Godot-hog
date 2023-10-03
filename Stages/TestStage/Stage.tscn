@@ -59,14 +59,6 @@ directional_shadow_max_distance = 388.5
 [node name="TestStage" parent="Stage" index="0"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 
-[node name="LightmapGI" type="LightmapGI" parent="."]
-visible = false
-quality = 0
-directional = true
-max_texture_size = 2048
-
-[node name="LightmapProbe" type="LightmapProbe" parent="LightmapGI"]
-
 [node name="Spring" parent="." instance=ExtResource("4_5ga4s")]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 144.765, -0.648527, -20.1807)
 m_power = 4.0

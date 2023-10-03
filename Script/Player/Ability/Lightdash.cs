@@ -41,7 +41,7 @@ namespace SonicOnset
                 private bool GetRingTarget()
                 {
                     // Query in radial area
-                    Godot.Collections.Array<Node3D> radial_nodes = m_parent.m_radial_trigger.QueryIntersections();
+                    Godot.Collections.Array<Node3D> radial_nodes = m_parent.m_attack_trigger.QueryIntersections();
 
                     // Check for nodes
                     float target_distance = float.PositiveInfinity;
@@ -62,7 +62,7 @@ namespace SonicOnset
                             continue;
 
                         // Get distance and dot value
-                        float distance = offset.Length() / 3;
+                        float distance = offset.Length();
                         float dot = offset.Normalized().Dot(m_parent.GetLook());
                         if (dot < 0.3825f)
                             continue;

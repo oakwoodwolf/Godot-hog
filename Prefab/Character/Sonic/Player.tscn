@@ -63,7 +63,7 @@ radius = 5.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8omxm"]
 margin = 0.0
-radius = 100.0
+radius = 26.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bs7vw"]
 properties/0/path = NodePath(".:position")
@@ -245,6 +245,18 @@ m_listener_node = NodePath("..")
 m_shape_node = NodePath("ColShape")
 
 [node name="ColShape" type="CollisionShape3D" parent="RadialTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76351, 0)
+shape = SubResource("SphereShape3D_8omxm")
+
+[node name="AttackTrigger" type="StaticBody3D" parent="." node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
+collision_layer = 0
+collision_mask = 1073741824
+script = ExtResource("11_pwmnf")
+m_listener_node = NodePath("..")
+m_shape_node = NodePath("ColShape")
+
+[node name="ColShape" type="CollisionShape3D" parent="AttackTrigger"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76351, 0)
 shape = SubResource("SphereShape3D_8omxm")
 

@@ -41,8 +41,10 @@ namespace SonicOnset
 		private PlayerParam m_param_node;
 
 		private ObjectTriggerInterest m_radial_trigger;
+        private ObjectTriggerInterest m_attack_trigger;
 
-		internal Character.ModelRoot m_modelroot;
+
+        internal Character.ModelRoot m_modelroot;
 		private Transform3D m_modelroot_offset;
 
 		// Debug context
@@ -456,8 +458,9 @@ namespace SonicOnset
 			m_param_node = GetNode<PlayerParam>("PlayerParam");
 
 			m_radial_trigger = GetNode<ObjectTriggerInterest>("RadialTrigger");
+            m_attack_trigger = GetNode<ObjectTriggerInterest>("AttackTrigger");
 
-			m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
+            m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
 			m_modelroot_offset = GlobalTransform.Inverse() * m_modelroot.GlobalTransform;
 
 			// Initialize collision

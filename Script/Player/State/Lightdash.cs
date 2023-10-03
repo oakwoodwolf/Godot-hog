@@ -42,7 +42,7 @@ namespace SonicOnset
             private Node3D GetRingTarget()
             {
                 // Query in radial area
-                Godot.Collections.Array<Node3D> radial_nodes = m_parent.m_radial_trigger.QueryIntersections();
+                Godot.Collections.Array<Node3D> radial_nodes = m_parent.m_attack_trigger.QueryIntersections();
 
                 // Check for nodes
                 Node3D target_node = null;
