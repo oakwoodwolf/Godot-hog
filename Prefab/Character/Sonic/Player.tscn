@@ -101,7 +101,6 @@ floor_max_angle = 1.0472
 floor_snap_length = 2.0
 script = ExtResource("1_4cy5j")
 m_camera_node = NodePath("Camera3D")
-m_gravity = Vector3(1, -1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
 top_level = true
