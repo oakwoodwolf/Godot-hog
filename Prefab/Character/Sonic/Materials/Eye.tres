@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dafu3moyhrrxj"]
+
+[resource]
+resource_name = "Eye"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+metallic = 0.1
+metallic_specular = 1.0
+roughness = 0.1

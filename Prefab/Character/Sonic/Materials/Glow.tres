@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://j6nc2e78w6u2"]
+
+[resource]
+resource_name = "Glow"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.2, 1, 0.290196, 1)
+metallic = 0.8
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.2, 1, 0.290196, 1)

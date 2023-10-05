@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d0xbodk3byco0"]
+
+[resource]
+resource_name = "Shoe_red"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.788235, 0.0313726, 0.0117647, 1)
+metallic = 0.2
+roughness = 0.2
+clearcoat_enabled = true
+clearcoat_roughness = 1.0

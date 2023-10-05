@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://cp84pup5yh6ys"]
+
+[ext_resource type="Texture2D" uid="uid://c74q5swuj8da7" path="res://Prefab/Character/Sonic/son_cloth.png" id="1_hcnfo"]
+[ext_resource type="Texture2D" uid="uid://gknm2vicso1v" path="res://Prefab/Character/Sonic/chr_sonic_cloth_nrm_HD.png" id="2_gqyb6"]
+
+[resource]
+resource_name = "Cloth"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.2)
+albedo_texture = ExtResource("1_hcnfo")
+normal_enabled = true
+normal_texture = ExtResource("2_gqyb6")

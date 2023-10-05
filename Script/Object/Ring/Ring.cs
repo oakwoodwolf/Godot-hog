@@ -28,6 +28,9 @@ namespace SonicOnset
 	public partial class Ring : ObjectTriggerInterest, IObject
 	{
 		// Node setup
+		[Export]
+		public Godot.PackedScene particle;
+		private Util.IAudioStreamPlayer m_ring_sound;
 
 		public override void _Ready()
 		{
@@ -35,6 +38,8 @@ namespace SonicOnset
 			GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
 			m_shape_node = GetNode<CollisionShape3D>("ColShape");
 			m_listener_node = GetNode<StaticBody3D>(".");
+			m_ring_sound = Util.IAudioStreamPlayer.FromNode(GetNode("RingSound"));
+			particle = (Godot.PackedScene)Godot.ResourceLoader.Load("res://Particles/RingParticle.res");
 			// Setup base
 			base._Ready();
 		}
@@ -48,6 +53,9 @@ namespace SonicOnset
 			{
 				if (player.m_state.HitObject(this))
 				{
+					m_ring_sound.Play();
+					Node part = particle.Instantiate();
+
 					// Add ring to player
 					player.AddRings(1);
 					player.AddScore(10);

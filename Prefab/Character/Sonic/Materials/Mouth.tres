@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://qdxf87h2a01t"]
+
+[resource]
+resource_name = "Mouth"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.466672, 0.0175448, 0.0951887, 1)
+metallic = 0.5
+roughness = 0.5

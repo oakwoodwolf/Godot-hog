@@ -1,0 +1,21 @@
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://dr8qf2y1ldc3x"]
+
+[ext_resource type="Texture2D" uid="uid://dcvstutt5atd8" path="res://Prefab/Character/Sonic/son_body.png" id="1_7q0lb"]
+[ext_resource type="Texture2D" uid="uid://bidk4ytdr8owm" path="res://Prefab/Character/Sonic/son_body_spc.png" id="2_c6sba"]
+[ext_resource type="Texture2D" uid="uid://dysfhm3erasbi" path="res://Prefab/Character/Sonic/chr_sonic_body01_sss_HD.png" id="2_hq1k1"]
+[ext_resource type="Texture2D" uid="uid://dbktjngn5adyi" path="res://Prefab/Character/Sonic/chr_sonic_body01_fal.png" id="2_lbvbd"]
+
+[resource]
+resource_name = "Body"
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_7q0lb")
+metallic_specular = 0.55
+metallic_texture = ExtResource("2_c6sba")
+metallic_texture_channel = 3
+roughness = 0.85
+rim_enabled = true
+rim_tint = 1.0
+rim_texture = ExtResource("2_lbvbd")
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 1.0
+subsurf_scatter_texture = ExtResource("2_hq1k1")

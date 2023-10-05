@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://dixs2h7aqddu2"]
+
+[ext_resource type="Texture2D" uid="uid://dcvstutt5atd8" path="res://Prefab/Character/Sonic/son_body.png" id="1_wmlbn"]
+[ext_resource type="Texture2D" uid="uid://dbktjngn5adyi" path="res://Prefab/Character/Sonic/chr_sonic_body01_fal.png" id="2_407tr"]
+[ext_resource type="Texture2D" uid="uid://dysfhm3erasbi" path="res://Prefab/Character/Sonic/chr_sonic_body01_sss_HD.png" id="2_c8c2h"]
+
+[resource]
+resource_name = "Skin"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.2)
+albedo_texture = ExtResource("1_wmlbn")
+roughness = 0.7
+rim_enabled = true
+rim_tint = 1.0
+rim_texture = ExtResource("2_407tr")
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 1.0
+subsurf_scatter_skin_mode = true
+subsurf_scatter_texture = ExtResource("2_c8c2h")
