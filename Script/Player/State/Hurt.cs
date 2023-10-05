@@ -25,41 +25,57 @@ using Godot;
 
 namespace SonicOnset
 {
-	public partial class Ring : ObjectTriggerInterest, IObject
+	public partial class Player
 	{
-		// Node setup
-		private Util.IAudioStreamPlayer m_ring_sound;
-
-		public override void _Ready()
+		public partial class Hurt : State
 		{
-			// Play ring spinning animation
-			GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
-			m_shape_node = GetNode<CollisionShape3D>("ColShape");
-			m_listener_node = GetNode<StaticBody3D>(".");
-			m_ring_sound = Util.IAudioStreamPlayer.FromNode(GetNode("RingSound"));
-			// Setup base
-			base._Ready();
-		}
+			// Hurt state
+			int m_nocon = 1;
 
-		// Trigger listener
-		public void Touch(Node3D other)
-		{
-			// Check if player
-			Player player = other as Player;
-			if (player != null)
+			// Fall state
+			internal Hurt(Player parent)
 			{
-				if (player.m_state.HitObject(this))
-				{
-					// Add ring to player
-					player.AddRings(1);
-					player.AddScore(10);
+				// Set parent
+				m_parent = parent;
+                // Set animation
+                m_parent.ClearAnimation();
+				m_parent.PlayAnimation("Hurt");
+                m_parent.PlaySound("Damage");
+                m_parent.PlaySound("VoiceHurt");
+;
+			}
 
-					// Delete self
-					QueueFree();
-				}
+			internal override void Process()
+			{
+		
+					// Fall to gravity
+					m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
+		
+
+				// Physics
+				float y_speed = m_parent.GetSpeedY();
+				m_parent.PhysicsMove();
+				m_parent.CheckGrip();
+
+				if (m_parent.m_status.m_grounded)
+				{
+                    m_parent.PlaySound("DamageLand");
+                    m_parent.SetStateLand(y_speed);
+                }
+                
+
+				// Check if nocon expired
+				if (m_nocon < 0)
+					m_nocon++;
+				else
+					m_nocon--;
+			}
+
+			// State overrides
+			internal override bool CanDynamicPose()
+			{
+				return false;
 			}
 		}
-		public bool CanLightDash() { return true; }
-
 	}
 }

@@ -25,18 +25,33 @@ using Godot;
 
 namespace SonicOnset
 {
-	public partial class Ring : ObjectTriggerInterest, IObject
+	public partial class Enemy : ObjectTriggerInterest, IObject
 	{
-		// Node setup
-		private Util.IAudioStreamPlayer m_ring_sound;
+		// Spring parameters
+		[Export]
+		float m_power = 6.0f;
+		[Export]
+		int m_nocon = 60;
+		[Export]
+		bool m_roll = false;
 
+		// Debounce
+		Debounce m_debounce = new Debounce();
+
+		// Nodes
+		private AnimationPlayer m_animation_player;
+
+		private Util.IAudioStreamPlayer m_enemy_sound;
+
+		// Node setup
 		public override void _Ready()
 		{
-			// Play ring spinning animation
-			GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
+			// Get nodes
+			m_animation_player = GetNode<AnimationPlayer>("Model/AnimationPlayer");
 			m_shape_node = GetNode<CollisionShape3D>("ColShape");
 			m_listener_node = GetNode<StaticBody3D>(".");
-			m_ring_sound = Util.IAudioStreamPlayer.FromNode(GetNode("RingSound"));
+			m_enemy_sound = Util.IAudioStreamPlayer.FromNode(GetNode("BounceSound"));
+
 			// Setup base
 			base._Ready();
 		}
@@ -48,18 +63,33 @@ namespace SonicOnset
 			Player player = other as Player;
 			if (player != null)
 			{
+				// Check debounce
+				if (!m_debounce.Check())
+					return;
+				m_debounce.Set(10);
+
+				// Play animation
+				m_animation_player.Play("SpringBounce");
+
+				// Play sound
+				m_enemy_sound.Play();
+
+				// Launch player
 				if (player.m_state.HitObject(this))
 				{
-					// Add ring to player
-					player.AddRings(1);
-					player.AddScore(10);
 
-					// Delete self
-					QueueFree();
+					// Set player state
+					player.SetStateHurt();
+
+					player.m_ability.FlagHitBounce();
+
+					player.m_input_stop.Set((ulong)Mathf.Abs(m_nocon));
+					player.m_status.m_grounded = false;
 				}
 			}
 		}
-		public bool CanLightDash() { return true; }
 
+		// Object properties
+		public bool CanHomingAttack() { return true; }
 	}
 }

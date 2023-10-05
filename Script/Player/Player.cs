@@ -25,6 +25,7 @@
 // - Just clean up the code in general, this is a mess
 
 using Godot;
+using SonicOnset.Character.Sonic;
 using System.Collections.Generic;
 namespace SonicOnset
 {
@@ -90,8 +91,9 @@ namespace SonicOnset
 		public Input.Button m_input_secondary = new Input.Button();
 		public Input.Button m_input_tertiary = new Input.Button();
 		public Input.Button m_input_quaternary = new Input.Button();
+		public Input.Button m_input_debug_respawn = new Input.Button();
 
-		public Debounce m_input_stop = new Debounce();
+        public Debounce m_input_stop = new Debounce();
 		public Debounce m_input_speed = new Debounce();
 
 		// Player ability
@@ -106,6 +108,7 @@ namespace SonicOnset
 			virtual internal bool CheckFallAbility() { return false; }
 			virtual internal bool CheckSpinAbility() { return false; }
 			virtual internal bool CheckLandAbility() { return false; }
+            virtual internal bool CheckHurtAbility() { return false; }
 
 
             virtual internal void FlagHitBounce() { } // When you bounce off an object, for special abilities like Air Kick and Chaos Snap
@@ -310,9 +313,22 @@ namespace SonicOnset
 			else
 				SetState(new Run(this));
 		}
+        internal void SetStateHurt()
+        {
+            SetState(new Player.Hurt(this));
+            Vector3 speed = this.ToSpeed(this.Velocity);
+            if (this.m_status.m_grounded)
+            {
+                speed.X = -1;
+                speed.Y = 1.25f;
+            }
+            this.Velocity = this.FromSpeed(speed);
 
-		// Coordinate systems
-		internal Vector3 GetLook()
+
+            return;
+        }
+        // Coordinate systems
+        internal Vector3 GetLook()
 		{
 			return -GlobalTransform.Basis.Z;
 		}
@@ -434,7 +450,7 @@ namespace SonicOnset
 			sound_node.Stop();
 		}
 
-		internal void UpdateSound(float db = 0.0f, float speed = 1.0f)
+		internal void UpdateSound(float db = 1.0f, float speed = 1.0f)
 		{
 			// Get sound node
 			Util.IAudioStreamPlayer sound_node = GetSound("Footstep");
@@ -481,7 +497,8 @@ namespace SonicOnset
 		public override void _PhysicsProcess(double delta)
 		{
 			// Reset if too low
-			if (GlobalPosition.Y < -100.0f)
+			
+			if (m_input_debug_respawn.m_released)
 			{
 				GlobalTransform = Transform3D.Identity;
 				Velocity = Vector3.Zero;
@@ -499,15 +516,16 @@ namespace SonicOnset
 				bool input_secondary = Input.Server.GetButton("move_secondary");
 				bool input_tertiary = Input.Server.GetButton("move_tertiary");
 				bool input_quaternary = Input.Server.GetButton("move_quaternary");
+                bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
 
-				m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
+                m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
 				m_input_jump.Update(input_jump);
 				m_input_spin.Update(input_spin);
 				m_input_secondary.Update(input_secondary);
 				m_input_tertiary.Update(input_tertiary);
 				m_input_quaternary.Update(input_quaternary);
-
-				if (!m_input_stop.Check())
+                m_input_debug_respawn.Update(input_debug_respawn);
+                if (!m_input_stop.Check())
 				{
 					m_input_stick.m_x = 0.0f;
 					m_input_stick.m_y = 0.0f;
