@@ -101,6 +101,7 @@ floor_max_angle = 1.0472
 floor_snap_length = 2.0
 script = ExtResource("1_4cy5j")
 m_camera_node = NodePath("Camera3D")
+m_gravity = Vector3(1, -1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
 top_level = true
@@ -306,6 +307,8 @@ m_run_brake = -0.18
 m_air_drag = Vector3(-0.028, -0.01, -0.4)
 m_run_drag = Vector3(-0.015, -0.01, -0.35)
 m_roll_drag = Vector3(-0.008, -0.01, -0.4)
+m_invincibility_timer = 120.0
+m_flicker_timer = 2.0
 m_eye_height = 6.0
 m_center_height = 3.4
 m_floor_clip = 0.1

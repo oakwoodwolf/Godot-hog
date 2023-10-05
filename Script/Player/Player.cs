@@ -47,6 +47,7 @@ namespace SonicOnset
 
         internal Character.ModelRoot m_modelroot;
 		private Transform3D m_modelroot_offset;
+		private float m_hurt_counter, m_flicker_counter;
 
 		// Debug context
 		 // private UI.DebugUI.DebugUI.DebugUIContext m_debug_context = UI.DebugUI.DebugUI.AcquireContext("Player");
@@ -74,11 +75,17 @@ namespace SonicOnset
 		{
 			m_rings += rings;
 		}
+        public void SetRings(uint rings)
+        {
+            m_rings = rings;
+        }
 
-		// Player status
-		public struct Status
+        // Player status
+        public struct Status
 		{
 			public bool m_grounded = true;
+			public bool m_hurt = false;
+			public bool m_invincible = false;
 
 			public Status() {}
 		}
@@ -305,26 +312,34 @@ namespace SonicOnset
 			
 			// Play landing sound
 			float audio_db = Util.Audio.MultiplierToDb(Mathf.Clamp(0.2f + -y_speed * 0.17f, 0.0f, 1.0f));
-			PlaySound("Land", audio_db);
+			if (!m_status.m_hurt)
+			{
+                PlaySound("Land", audio_db);
+            }  else
+			{
+                PlaySound("DamageLand", audio_db);
+            }
 
-			// Check if we have enough speed to run
-			if (GetAbsSpeedX() < m_param.m_jog_speed)
+            // Check if we have enough speed to run
+            if (GetAbsSpeedX() < m_param.m_jog_speed)
 				SetState(new Idle(this, y_speed < -2.5f));
 			else
 				SetState(new Run(this));
 		}
         internal void SetStateHurt()
         {
-            SetState(new Player.Hurt(this));
-            Vector3 speed = this.ToSpeed(this.Velocity);
-            if (this.m_status.m_grounded)
-            {
+			if (!m_status.m_invincible)
+			{
+                m_status.m_invincible = true;
+                SetState(new Player.Hurt(this));
+                Vector3 speed = this.ToSpeed(this.Velocity);
                 speed.X = -1;
-                speed.Y = 1.25f;
+                if (this.m_status.m_grounded)
+                { 
+                    speed.Y = 1.25f;
+                }
+                this.Velocity = this.FromSpeed(speed);
             }
-            this.Velocity = this.FromSpeed(speed);
-
-
             return;
         }
         // Coordinate systems
@@ -592,10 +607,45 @@ namespace SonicOnset
 
 			// m_debug_context.SetItems(debugs);
 #endif
+			//Handle Damage
+			if (m_status.m_hurt)
+				handleDamage();
 		}
+		public void handleDamage()
+		{
+			m_hurt_counter++;
+			if(m_hurt_counter < m_param.m_invincibility_timer)
+			{
+				m_status.m_invincible = true;
+				SkinFlicker();
+			} else
+			{
+				m_status.m_invincible = false;
+                m_status.m_hurt = false;
+				m_hurt_counter = 0;
+                m_modelroot.Visible = true;
 
-		// RPC methods
-		private void HostRpc_Update(Transform3D transform, string anim)
+            }
+        }
+        void SkinFlicker()
+        {
+            m_flicker_counter += m_param.m_flicker_timer;
+            if (m_flicker_counter > 0)
+            {
+                m_modelroot.Visible = true;
+            }
+            else
+            {
+                m_modelroot.Visible = false;
+            }
+            if (m_flicker_counter > 10)
+            {
+                m_flicker_counter = -10;
+            }
+
+        }
+        // RPC methods
+        private void HostRpc_Update(Transform3D transform, string anim)
 		{
 			// Forward the RPC to all clients
 			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);

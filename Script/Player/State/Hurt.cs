@@ -31,7 +31,8 @@ namespace SonicOnset
 		{
 			// Hurt state
 			int m_nocon = 1;
-
+			public float flickerCount;
+			public float FlickerSpeed = 2f;
 			// Fall state
 			internal Hurt(Player parent)
 			{
@@ -42,16 +43,22 @@ namespace SonicOnset
 				m_parent.PlayAnimation("Hurt");
                 m_parent.PlaySound("Damage");
                 m_parent.PlaySound("VoiceHurt");
+				if (m_parent.m_rings < 50)
+				{
+                    m_parent.m_rings = 0;
+                } else 
+				{
+					m_parent.m_rings -= 50; 
+				}
+				
 ;
 			}
-
+			
 			internal override void Process()
 			{
 		
 					// Fall to gravity
 					m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
-		
-
 				// Physics
 				float y_speed = m_parent.GetSpeedY();
 				m_parent.PhysicsMove();
@@ -59,8 +66,10 @@ namespace SonicOnset
 
 				if (m_parent.m_status.m_grounded)
 				{
-                    m_parent.PlaySound("DamageLand");
+                    m_parent.m_status.m_hurt = true;
+
                     m_parent.SetStateLand(y_speed);
+                    m_parent.m_modelroot.Visible = true;
                 }
                 
 
@@ -70,7 +79,6 @@ namespace SonicOnset
 				else
 					m_nocon--;
 			}
-
 			// State overrides
 			internal override bool CanDynamicPose()
 			{

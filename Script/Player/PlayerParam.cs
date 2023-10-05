@@ -58,8 +58,11 @@ namespace SonicOnset
 			public float m_center_height = 5.4f;
 
 			public float m_floor_clip = 2.0f;
+			public float m_invincibility_timer = 120f;
+            public float m_flicker_timer = 2f;
 
-			public Param() { }
+
+            public Param() { }
 		}
 	}
 
@@ -110,7 +113,13 @@ namespace SonicOnset
 		public Vector3 m_run_drag { get { return m_param.m_run_drag; } set { m_param.m_run_drag = value; } }
 		[Export]
 		public Vector3 m_roll_drag { get { return m_param.m_roll_drag; } set { m_param.m_roll_drag = value; } }
-		[ExportGroup("Heights")]
+		[ExportGroup("Ability")]
+		[ExportSubgroup("Hurt")]
+		[Export]
+		public float m_invincibility_timer { get { return m_param.m_invincibility_timer; } set { m_param.m_invincibility_timer = value; } }
+        [Export]
+        public float m_flicker_timer { get { return m_param.m_flicker_timer; } set { m_param.m_flicker_timer = value; } }
+        [ExportGroup("Heights")]
 		[Export]
 		public float m_eye_height { get { return m_param.m_eye_height; } set { m_param.m_eye_height = value; } }
 		[Export]

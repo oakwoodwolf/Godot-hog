@@ -5,6 +5,8 @@ namespace SonicOnset
 	public partial class Rail : Path3D
 	{
 		Player testplayer = null;
+		[Export]
+		public RemoteTransform3D transform;
 
 		public override void _Ready()
 		{
@@ -30,7 +32,6 @@ namespace SonicOnset
 
 			if (diff.Length() < 6.0f)
 			{
-
 			}
 		}
 	}
