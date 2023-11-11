@@ -30,26 +30,32 @@ namespace SonicOnset
 		public partial class Hurt : State
 		{
 			// Hurt state
-			int m_nocon = 1;
-			public float flickerCount;
-			public float FlickerSpeed = 2f;
+			int m_nocon = 60;
+			bool animPlayed = false;
 			// Fall state
 			internal Hurt(Player parent)
 			{
 				// Set parent
 				m_parent = parent;
                 // Set animation
-                m_parent.ClearAnimation();
-				m_parent.PlayAnimation("Hurt");
                 m_parent.PlaySound("Damage");
-                m_parent.PlaySound("VoiceHurt");
-				if (m_parent.m_rings < 50)
+
+                if (!m_parent.m_status.m_dead)
 				{
-                    m_parent.m_rings = 0;
-                } else 
-				{
-					m_parent.m_rings -= 50; 
-				}
+					m_parent.m_input_stop.Set((ulong)Mathf.Abs(m_nocon));
+                    m_parent.ClearAnimation();
+                    m_parent.PlayAnimation("Hurt");
+                    m_parent.PlaySound("VoiceHurt");
+                    if (m_parent.m_rings < 50)
+                    {
+                        m_parent.m_rings = 0;
+                    }
+                    else
+                    {
+                        m_parent.m_rings -= 50;
+                    }
+                } 
+               
 				
 ;
 			}
@@ -66,9 +72,9 @@ namespace SonicOnset
 
 				if (m_parent.m_status.m_grounded)
 				{
-                    m_parent.m_status.m_hurt = true;
+					if (!m_parent.m_status.m_dead) { m_parent.m_status.m_hurt = true; m_parent.SetStateLand(y_speed);
+                    }
 
-                    m_parent.SetStateLand(y_speed);
                     m_parent.m_modelroot.Visible = true;
                 }
                 
@@ -78,12 +84,26 @@ namespace SonicOnset
 					m_nocon++;
 				else
 					m_nocon--;
+				if (m_parent.m_status.m_dead)
+				{
+
+					if (m_parent.m_status.m_grounded)
+					{
+                        m_parent.BrakeMovement();
+						if (!animPlayed)
+						{
+							animPlayed = true;
+                            m_parent.PlayAnimation("Dead");				
+                        }
+                    }
+                }
 			}
 			// State overrides
 			internal override bool CanDynamicPose()
 			{
 				return false;
 			}
-		}
+
+        }
 	}
 }

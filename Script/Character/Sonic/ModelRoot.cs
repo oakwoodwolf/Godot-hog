@@ -122,6 +122,9 @@ namespace SonicOnset.Character.Sonic
             m_animation_player.m_specs["Hurt"] = new Animator.AnimationSpec(0.13, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Hurt") }
             );
+            m_animation_player.m_specs["Dead"] = new Animator.AnimationSpec(0.25, false, false, null,
+               new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Dead") }
+           );
             m_animation_player.m_specs["Fall"] = new Animator.AnimationSpec(0.13, false, false, null,
 				new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Fall") }
 			);

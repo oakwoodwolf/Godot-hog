@@ -68,22 +68,19 @@ namespace SonicOnset
 					return;
 				m_debounce.Set(10);
 
-				// Play animation
-				m_animation_player.Play("SpringBounce");
-
-				// Play sound
-				m_enemy_sound.Play();
+				
 
 				// Launch player
-				if (player.m_state.HitObject(this))
+				if (player.m_state.HitObject(this) && !player.m_status.m_invincible)
 				{
+                    m_enemy_sound.Play();
+                    m_animation_player.Play("SpringBounce");
 
-					// Set player state
-					player.SetStateHurt();
+                    // Set player state
+                    player.SetStateHurt();
 
 					player.m_ability.FlagHitBounce();
 
-					player.m_input_stop.Set((ulong)Mathf.Abs(m_nocon));
 					player.m_status.m_grounded = false;
 				}
 			}

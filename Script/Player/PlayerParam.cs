@@ -61,6 +61,8 @@ namespace SonicOnset
 			public float m_invincibility_timer = 120f;
             public float m_flicker_timer = 2f;
             public bool m_reset_speed_on_hit = true;
+            public float m_dead_timer = 120f;
+
 
 
 
@@ -123,7 +125,8 @@ namespace SonicOnset
         public float m_flicker_timer { get { return m_param.m_flicker_timer; } set { m_param.m_flicker_timer = value; } }
         [Export]
         public bool m_reset_speed_on_hit { get { return m_param.m_reset_speed_on_hit; } set { m_param.m_reset_speed_on_hit = value; } }
-
+        [Export]
+        public float m_dead_timer { get { return m_param.m_dead_timer; } set { m_param.m_dead_timer = value; } }
         [ExportGroup("Heights")]
 		[Export]
 		public float m_eye_height { get { return m_param.m_eye_height; } set { m_param.m_eye_height = value; } }

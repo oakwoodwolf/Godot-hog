@@ -47,7 +47,7 @@ namespace SonicOnset
 
 		internal Character.ModelRoot m_modelroot;
 		private Transform3D m_modelroot_offset;
-		private float m_hurt_counter, m_flicker_counter;
+		private float m_hurt_counter, m_flicker_counter, m_dead_counter;
 
 		// Debug context
 		 // private UI.DebugUI.DebugUI.DebugUIContext m_debug_context = UI.DebugUI.DebugUI.AcquireContext("Player");
@@ -85,6 +85,7 @@ namespace SonicOnset
 		{
 			public bool m_grounded = true;
 			public bool m_hurt = false;
+			public bool m_dead = false;
 			public bool m_invincible = false;
 
 			public Status() {}
@@ -330,22 +331,34 @@ namespace SonicOnset
 		{
 			if (!m_status.m_invincible)
 			{
-				m_status.m_invincible = true;
-				SetState(new Player.Hurt(this));
-				Vector3 speed = this.ToSpeed(this.Velocity);
-				if (m_param.m_reset_speed_on_hit)
+				if (m_rings < 1)
 				{
-					speed.X = -1;
-				} else
+					m_status.m_dead = true;
+					m_status.m_invincible = true;
+					SetState(new Player.Hurt(this));
+
+				}
+				else
 				{
-					speed.X = speed.X / 2;
-					speed.Z = speed.Z / 2;
+					m_status.m_invincible = true;
+					SetState(new Player.Hurt(this));
+					Vector3 speed = this.ToSpeed(this.Velocity);
+					if (m_param.m_reset_speed_on_hit)
+					{
+						speed.X = -1;
+					}
+					else
+					{
+						speed.X = speed.X / 2;
+						speed.Z = speed.Z / 2;
+					}
+					if (this.m_status.m_grounded)
+					{
+						speed.Y = 1.25f;
+					}
+					this.Velocity = this.FromSpeed(speed);
 				}
-				if (this.m_status.m_grounded)
-				{ 
-					speed.Y = 1.25f;
-				}
-				this.Velocity = this.FromSpeed(speed);
+				
 			}
 			return;
 		}
@@ -522,8 +535,7 @@ namespace SonicOnset
 			
 			if (m_input_debug_respawn.m_released)
 			{
-				GlobalTransform = Transform3D.Identity;
-				Velocity = Vector3.Zero;
+				Respawn();
 			}
 
 			// Update player parameters
@@ -617,7 +629,16 @@ namespace SonicOnset
 			//Handle Damage
 			if (m_status.m_hurt)
 				handleDamage();
+			if (m_status.m_dead)
+				handleDeath();
 		}
+
+		private void Respawn()
+		{
+			GlobalTransform = GetParent<Node3D>().GlobalTransform;
+			Velocity = Vector3.Zero;
+		}
+
 		public void handleDamage()
 		{
 			m_hurt_counter++;
@@ -650,6 +671,19 @@ namespace SonicOnset
 				m_flicker_counter = -10;
 			}
 
+		}
+		public void handleDeath()
+		{
+			m_input_stop.Set((ulong)Mathf.Abs(m_param.m_dead_timer));
+			m_dead_counter++;
+			if (m_dead_counter > m_param.m_dead_timer)
+			{
+				m_input_stop.Set((ulong)Mathf.Abs(0));
+				m_dead_counter = 0;
+				Respawn();
+				m_status.m_invincible = false;
+				m_status.m_dead = false;
+			}
 		}
 		// RPC methods
 		private void HostRpc_Update(Transform3D transform, string anim)

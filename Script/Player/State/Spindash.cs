@@ -97,8 +97,8 @@ namespace SonicOnset
 			internal override void Process()
 			{
 				// Charge speed
-				if (m_speed < 10.0f)
-					m_speed += 0.4f;
+				if (m_speed < 7.0f)
+					m_speed += 0.15f;
 				else
 					m_init_speed *= 0.95f;
 
