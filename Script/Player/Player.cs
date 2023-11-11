@@ -29,7 +29,7 @@ using SonicOnset.Character.Sonic;
 using System.Collections.Generic;
 namespace SonicOnset
 {
-    // Player controller class
+	// Player controller class
 	public partial class Player : CharacterBody3D, IObject
 	{
 		// Player nodes
@@ -42,10 +42,10 @@ namespace SonicOnset
 		private PlayerParam m_param_node;
 
 		private ObjectTriggerInterest m_radial_trigger;
-        private ObjectTriggerInterest m_attack_trigger;
+		private ObjectTriggerInterest m_attack_trigger;
 
 
-        internal Character.ModelRoot m_modelroot;
+		internal Character.ModelRoot m_modelroot;
 		private Transform3D m_modelroot_offset;
 		private float m_hurt_counter, m_flicker_counter;
 
@@ -75,13 +75,13 @@ namespace SonicOnset
 		{
 			m_rings += rings;
 		}
-        public void SetRings(uint rings)
-        {
-            m_rings = rings;
-        }
+		public void SetRings(uint rings)
+		{
+			m_rings = rings;
+		}
 
-        // Player status
-        public struct Status
+		// Player status
+		public struct Status
 		{
 			public bool m_grounded = true;
 			public bool m_hurt = false;
@@ -100,7 +100,7 @@ namespace SonicOnset
 		public Input.Button m_input_quaternary = new Input.Button();
 		public Input.Button m_input_debug_respawn = new Input.Button();
 
-        public Debounce m_input_stop = new Debounce();
+		public Debounce m_input_stop = new Debounce();
 		public Debounce m_input_speed = new Debounce();
 
 		// Player ability
@@ -115,10 +115,10 @@ namespace SonicOnset
 			virtual internal bool CheckFallAbility() { return false; }
 			virtual internal bool CheckSpinAbility() { return false; }
 			virtual internal bool CheckLandAbility() { return false; }
-            virtual internal bool CheckHurtAbility() { return false; }
+			virtual internal bool CheckHurtAbility() { return false; }
 
 
-            virtual internal void FlagHitBounce() { } // When you bounce off an object, for special abilities like Air Kick and Chaos Snap
+			virtual internal void FlagHitBounce() { } // When you bounce off an object, for special abilities like Air Kick and Chaos Snap
 			virtual internal void ClearHitBounce() { } // Performing an ability should clear the bounce flag
 
 			// Ability list class
@@ -314,36 +314,43 @@ namespace SonicOnset
 			float audio_db = Util.Audio.MultiplierToDb(Mathf.Clamp(0.2f + -y_speed * 0.17f, 0.0f, 1.0f));
 			if (!m_status.m_hurt)
 			{
-                PlaySound("Land", audio_db);
-            }  else
+				PlaySound("Land", audio_db);
+			}  else
 			{
-                PlaySound("DamageLand", audio_db);
-            }
+				PlaySound("DamageLand", audio_db);
+			}
 
-            // Check if we have enough speed to run
-            if (GetAbsSpeedX() < m_param.m_jog_speed)
+			// Check if we have enough speed to run
+			if (GetAbsSpeedX() < m_param.m_jog_speed)
 				SetState(new Idle(this, y_speed < -2.5f));
 			else
 				SetState(new Run(this));
 		}
-        internal void SetStateHurt()
-        {
+		internal void SetStateHurt()
+		{
 			if (!m_status.m_invincible)
 			{
-                m_status.m_invincible = true;
-                SetState(new Player.Hurt(this));
-                Vector3 speed = this.ToSpeed(this.Velocity);
-                speed.X = -1;
-                if (this.m_status.m_grounded)
-                { 
-                    speed.Y = 1.25f;
-                }
-                this.Velocity = this.FromSpeed(speed);
-            }
-            return;
-        }
-        // Coordinate systems
-        internal Vector3 GetLook()
+				m_status.m_invincible = true;
+				SetState(new Player.Hurt(this));
+				Vector3 speed = this.ToSpeed(this.Velocity);
+				if (m_param.m_reset_speed_on_hit)
+				{
+					speed.X = -1;
+				} else
+				{
+					speed.X = speed.X / 2;
+					speed.Z = speed.Z / 2;
+				}
+				if (this.m_status.m_grounded)
+				{ 
+					speed.Y = 1.25f;
+				}
+				this.Velocity = this.FromSpeed(speed);
+			}
+			return;
+		}
+		// Coordinate systems
+		internal Vector3 GetLook()
 		{
 			return -GlobalTransform.Basis.Z;
 		}
@@ -489,9 +496,9 @@ namespace SonicOnset
 			m_param_node = GetNode<PlayerParam>("PlayerParam");
 
 			m_radial_trigger = GetNode<ObjectTriggerInterest>("RadialTrigger");
-            m_attack_trigger = GetNode<ObjectTriggerInterest>("AttackTrigger");
+			m_attack_trigger = GetNode<ObjectTriggerInterest>("AttackTrigger");
 
-            m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
+			m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
 			m_modelroot_offset = GlobalTransform.Inverse() * m_modelroot.GlobalTransform;
 
 			// Initialize collision
@@ -531,16 +538,16 @@ namespace SonicOnset
 				bool input_secondary = Input.Server.GetButton("move_secondary");
 				bool input_tertiary = Input.Server.GetButton("move_tertiary");
 				bool input_quaternary = Input.Server.GetButton("move_quaternary");
-                bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
+				bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
 
-                m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
+				m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
 				m_input_jump.Update(input_jump);
 				m_input_spin.Update(input_spin);
 				m_input_secondary.Update(input_secondary);
 				m_input_tertiary.Update(input_tertiary);
 				m_input_quaternary.Update(input_quaternary);
-                m_input_debug_respawn.Update(input_debug_respawn);
-                if (!m_input_stop.Check())
+				m_input_debug_respawn.Update(input_debug_respawn);
+				if (!m_input_stop.Check())
 				{
 					m_input_stick.m_x = 0.0f;
 					m_input_stick.m_y = 0.0f;
@@ -581,8 +588,8 @@ namespace SonicOnset
 
 			// Send RPC update
 			Root.Rpc(this, "HostRpc_Update", GlobalTransform, currentAnim);
-            // Increment time
-            m_time++;
+			// Increment time
+			m_time++;
 
 			// Update debug context
 #if DEBUG
@@ -621,31 +628,31 @@ namespace SonicOnset
 			} else
 			{
 				m_status.m_invincible = false;
-                m_status.m_hurt = false;
+				m_status.m_hurt = false;
 				m_hurt_counter = 0;
-                m_modelroot.Visible = true;
+				m_modelroot.Visible = true;
 
-            }
-        }
-        void SkinFlicker()
-        {
-            m_flicker_counter += m_param.m_flicker_timer;
-            if (m_flicker_counter > 0)
-            {
-                m_modelroot.Visible = true;
-            }
-            else
-            {
-                m_modelroot.Visible = false;
-            }
-            if (m_flicker_counter > 10)
-            {
-                m_flicker_counter = -10;
-            }
+			}
+		}
+		void SkinFlicker()
+		{
+			m_flicker_counter += m_param.m_flicker_timer;
+			if (m_flicker_counter > 0)
+			{
+				m_modelroot.Visible = true;
+			}
+			else
+			{
+				m_modelroot.Visible = false;
+			}
+			if (m_flicker_counter > 10)
+			{
+				m_flicker_counter = -10;
+			}
 
-        }
-        // RPC methods
-        private void HostRpc_Update(Transform3D transform, string anim)
+		}
+		// RPC methods
+		private void HostRpc_Update(Transform3D transform, string anim)
 		{
 			// Forward the RPC to all clients
 			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);

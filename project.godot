@@ -37,6 +37,10 @@ window/size/always_on_top.editor=true
 
 project/assembly_name="Sonic World Godot"
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+
 [input]
 
 move_left={

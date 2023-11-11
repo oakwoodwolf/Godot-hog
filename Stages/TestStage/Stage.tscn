@@ -21,12 +21,10 @@ sky = SubResource("Sky_gycvr")
 ambient_light_source = 2
 ambient_light_color = Color(0.694118, 0.678431, 0.709804, 1)
 tonemap_mode = 3
-ssao_enabled = true
 ssao_radius = 1.44
 ssao_intensity = 1.64
 ssao_power = 3.56762
 ssao_horizon = 0.23
-ssil_enabled = true
 sdfgi_bounce_feedback = 0.1
 sdfgi_energy = 0.75
 glow_enabled = true
@@ -86,7 +84,7 @@ autoplay = true
 
 [node name="pad" parent="." instance=ExtResource("6_r8min")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, 0)
-m_power = 1.0
+m_nocon = 10
 
 [node name="Ring" parent="." instance=ExtResource("3_1abtb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 1, 53)

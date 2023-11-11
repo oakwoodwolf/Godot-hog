@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=50 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -40,6 +40,7 @@
 [ext_resource type="AudioStream" uid="uid://b7rb37v1ddjbr" path="res://Sounds/Player/Damage.ogg" id="35_q77ci"]
 [ext_resource type="AudioStream" uid="uid://dq3tl2rxf78lq" path="res://Sounds/Player/DamageLand.ogg" id="36_5hx7k"]
 [ext_resource type="AudioStream" uid="uid://mbo1fncgnnux" path="res://Sounds/Player/Voice/hurt.ogg" id="37_cqtbj"]
+[ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="41_gb37d"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
 auto_exposure_enabled = true
@@ -109,7 +110,7 @@ doppler_tracking = 1
 current = true
 script = ExtResource("2_name6")
 target_node = NodePath("../ModelRoot")
-lerp_factor = 0.35
+lerp_factor = 0.5
 
 [node name="AudioListener3D" type="AudioListener3D" parent="Camera3D"]
 current = true
@@ -304,10 +305,11 @@ m_run_accel = 0.05
 m_run_decel = -0.06
 m_run_brake = -0.18
 m_air_drag = Vector3(-0.028, -0.01, -0.4)
-m_run_drag = Vector3(-0.015, -0.01, -0.35)
+m_run_drag = Vector3(-0.008, -0.01, -0.35)
 m_roll_drag = Vector3(-0.008, -0.01, -0.4)
 m_invincibility_timer = 120.0
 m_flicker_timer = 2.0
+m_reset_speed_on_hit = true
 m_eye_height = 6.0
 m_center_height = 3.4
 m_floor_clip = 0.1
@@ -492,6 +494,7 @@ label_settings = SubResource("LabelSettings_gtix8")
 script = ExtResource("34_vvyab")
 
 [node name="DebugUIRoot" type="Control" parent="UI/CanvasLayer"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 405.0
@@ -500,16 +503,20 @@ offset_right = 445.0
 offset_bottom = 42.0
 
 [node name="DebugUITree" type="Tree" parent="UI/CanvasLayer/DebugUIRoot"]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="DebugCheck" type="CheckButton" parent="UI/CanvasLayer/DebugUIRoot"]
+visible = false
 layout_mode = 0
 offset_left = 467.0
 offset_top = 19.0
 offset_right = 511.0
 offset_bottom = 43.0
+
+[node name="Debug" parent="UI" instance=ExtResource("41_gb37d")]
 
 [editable path="ModelRoot/Model"]
 [editable path="ModelRoot/JumpballRoot/Jumpball"]
