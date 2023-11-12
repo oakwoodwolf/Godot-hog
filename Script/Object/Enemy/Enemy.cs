@@ -71,7 +71,7 @@ namespace SonicOnset
 				
 
 				// Launch player
-				if (player.m_state.HitObject(this) && !player.m_status.m_invincible)
+				if (player.m_state.HitObject(this) && (!player.m_status.m_invincible && !player.m_status.m_hurt))
 				{
                     m_enemy_sound.Play();
                     m_animation_player.Play("SpringBounce");

@@ -76,7 +76,7 @@ namespace SonicOnset
 						target_distance = dot_value;
 					}
 				}
-
+				if (target_node != null) GD.Print(target_node.Name);
 				return target_node;
 			}
 

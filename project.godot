@@ -130,6 +130,7 @@ debug_respawn={
 
 [layer_names]
 
+3d_physics/layer_10="DeathPlane"
 3d_physics/layer_29="Enemy"
 3d_physics/layer_30="Hazard"
 3d_physics/layer_31="Object"

@@ -34,7 +34,7 @@ namespace SonicOnset
 	{
 		// Player nodes
 		[Export]
-		private Camera3D m_camera_node;
+		private Camera m_camera_node;
 		private string currentAnim;
 		private CollisionShape3D m_main_colshape_node;
 		private CollisionShape3D m_roll_colshape_node;
@@ -65,7 +65,7 @@ namespace SonicOnset
 		public ulong m_score { get; private set; } = 0;
 		public ulong m_time { get; private set; } = 0;
 		public uint m_rings { get; private set; } = 0;
-
+		public bool hasHomed = false;
 		public void AddScore(ulong score)
 		{
 			m_score += score;
@@ -197,6 +197,7 @@ namespace SonicOnset
 				internal override void FlagHitBounce()
 				{
 					foreach (Ability ability in m_abilities)
+
 						ability.FlagHitBounce();
 				}
 
@@ -333,9 +334,7 @@ namespace SonicOnset
 			{
 				if (m_rings < 1)
 				{
-					m_status.m_dead = true;
-					m_status.m_invincible = true;
-					SetState(new Player.Hurt(this));
+					SetStateDead();
 
 				}
 				else
@@ -362,6 +361,14 @@ namespace SonicOnset
 			}
 			return;
 		}
+
+		private void SetStateDead()
+		{
+			m_status.m_dead = true;
+			m_status.m_invincible = true;
+			SetState(new Player.Hurt(this));
+		}
+
 		// Coordinate systems
 		internal Vector3 GetLook()
 		{
@@ -674,6 +681,8 @@ namespace SonicOnset
 		}
 		public void handleDeath()
 		{
+			m_camera_node.mode = Camera.CameraMode.Frozen;
+
 			m_input_stop.Set((ulong)Mathf.Abs(m_param.m_dead_timer));
 			m_dead_counter++;
 			if (m_dead_counter > m_param.m_dead_timer)
@@ -681,8 +690,27 @@ namespace SonicOnset
 				m_input_stop.Set((ulong)Mathf.Abs(0));
 				m_dead_counter = 0;
 				Respawn();
+				m_camera_node.mode = Camera.CameraMode.Normal;
+				m_rings = 0;
 				m_status.m_invincible = false;
 				m_status.m_dead = false;
+			}
+		}
+		public void Touch(Node3D other)
+		{
+			CollisionObject3D obj = other as CollisionObject3D;
+			if (obj.CollisionLayer != 0) GD.Print(obj.CollisionLayer);
+
+			if (obj.CollisionLayer == 10)
+			{
+
+				if (!m_status.m_dead)
+				{
+					SetStateDead();
+
+				}
+
+
 			}
 		}
 		// RPC methods

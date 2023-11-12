@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=51 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -40,6 +40,7 @@
 [ext_resource type="AudioStream" uid="uid://b7rb37v1ddjbr" path="res://Sounds/Player/Damage.ogg" id="35_q77ci"]
 [ext_resource type="AudioStream" uid="uid://dq3tl2rxf78lq" path="res://Sounds/Player/DamageLand.ogg" id="36_5hx7k"]
 [ext_resource type="AudioStream" uid="uid://mbo1fncgnnux" path="res://Sounds/Player/Voice/hurt.ogg" id="37_cqtbj"]
+[ext_resource type="AudioStream" uid="uid://bkt1is82a7axu" path="res://Sounds/Player/Voice/die.ogg" id="38_w2a6m"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="41_gb37d"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
@@ -67,7 +68,7 @@ radius = 5.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8omxm"]
 margin = 0.0
-radius = 26.0
+radius = 100.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bs7vw"]
 properties/0/path = NodePath(".:position")
@@ -180,7 +181,7 @@ script = ExtResource("5_3kayp")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(-1.25639e-05, -1.37483e-05, 0.000157422, 1.14616e-06, -0.000157923, -1.37006e-05, 0.000158017, 5.23448e-08, 1.2616e-05, -0.000306563, 0.315349, 0.00459306)
+transform = Transform3D(-1.50753e-05, 1.92108e-08, 0.158522, 0.158522, 5.30196e-09, 1.50659e-05, 4.14941e-09, 0.158522, -2.86635e-08, -2.7602, 1.89999, 1.42464e-06)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -240,7 +241,7 @@ disabled = true
 [node name="ObjectTrigger" type="StaticBody3D" parent="." node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 2.5, 0)
 collision_layer = 2147483648
-collision_mask = 3221225472
+collision_mask = 3221225984
 script = ExtResource("8_3myij")
 m_listener_node = NodePath("..")
 m_shape_node = NodePath("ColShape")
@@ -364,6 +365,11 @@ stream = ExtResource("36_5hx7k")
 
 [node name="SonicHurt01" type="AudioStreamPlayer" parent="Sound/VoiceHurt"]
 stream = ExtResource("37_cqtbj")
+
+[node name="VoiceDead" type="Node3D" parent="Sound"]
+
+[node name="SonicDead01" type="AudioStreamPlayer" parent="Sound/VoiceDead"]
+stream = ExtResource("38_w2a6m")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_bs7vw")

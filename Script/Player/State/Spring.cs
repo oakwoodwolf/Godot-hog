@@ -40,7 +40,7 @@ namespace SonicOnset
 
 				// Set spring state
 				m_nocon = nocon;
-
+				m_parent.hasHomed = false;
 				// Set animation
 				m_parent.ClearAnimation();
 				m_parent.PlayAnimation("Up");

@@ -54,9 +54,13 @@ namespace SonicOnset
                     {
                         m_parent.m_rings -= 50;
                     }
-                } 
-               
-				
+                } else
+				{
+                    m_parent.PlaySound("VoiceDead");
+
+                }
+
+
 ;
 			}
 			

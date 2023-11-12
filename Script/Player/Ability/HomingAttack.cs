@@ -41,13 +41,14 @@ namespace SonicOnset
 				internal override bool CheckJumpAbility()
 				{
 					// Check if we're already homing
-					if (m_parent.m_state is Player.Homing)
+					if (m_parent.m_state is Player.Homing || m_parent.hasHomed)
 						return false;
 
 					// Check jump button
 					if (m_parent.m_input_jump.m_pressed)
 					{
 						// Switch to homing state
+						m_parent.hasHomed = true;
 						m_parent.SetState(new Player.Homing(m_parent));
 
 						// Give homing speed
@@ -57,6 +58,15 @@ namespace SonicOnset
 						return true;
 					}
 					return false;
+				}
+                internal override bool CheckFallAbility()
+                {
+                    return CheckJumpAbility();
+                }
+				internal override bool CheckLandAbility()
+				{
+					m_parent.hasHomed = false;
+					return base.CheckLandAbility();
 				}
 			}
 		}

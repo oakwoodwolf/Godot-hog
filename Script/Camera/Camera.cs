@@ -25,13 +25,21 @@ using Godot;
 
 namespace SonicOnset
 {
+	
 	public partial class Camera : Camera3D
 	{
-		// Target node
-		[Export]
+        public enum CameraMode
+        {
+			Normal,
+			Frozen,
+        }
+        // Target node
+        [Export]
 		public Node3D target_node;
 		[Export]
 		public float lerp_factor = 0.1f;
+		[Export]
+		public CameraMode mode = CameraMode.Normal;
 		private float m_x = 0.0f;
 		private float m_y = -0.2f;
 
@@ -99,24 +107,40 @@ namespace SonicOnset
 		// Update
 		public override void _Process(double delta)
 		{
-			// Zoom camera
-			m_zoom.Step((float)delta);
+			switch (mode)
+			{
+				case CameraMode.Frozen:
+					this.Transform = Transform.LookingAt(target_node.GlobalPosition);
+					break;
+				default:
+                    ProcessCamera(delta);
+                    break;
+
+			}
+
+
 
 			// Move camera by rotate vector
 			Vector2 rotate_vector = Input.Server.GetLookVector();
 			m_x += rotate_vector.X * -4.0f * (float)delta;
-			m_y += rotate_vector.Y *  3.0f * (float)delta;
+			m_y += rotate_vector.Y * 3.0f * (float)delta;
 
 			// Limit camera
 			m_x %= Mathf.Pi * 2.0f;
 			m_y = Mathf.Clamp(m_y, Mathf.Pi * -0.499f, Mathf.Pi * 0.499f);
 
-			// Move behind the target node
-			var temp_transform = target_node.GlobalTransform;
-			temp_transform.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), m_x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), m_y);
-			temp_transform.Origin += temp_transform.Basis.Z * 15.0f * m_zoom.m_pos;
-			temp_transform.Origin.Y += 3.5f * m_zoom.m_pos;
-			Transform = Transform.InterpolateWith(temp_transform, lerp_factor);
 		}
+
+		private void ProcessCamera(double delta)
+		{
+			// Zoom camera
+			m_zoom.Step((float)delta);
+            // Move behind the target node
+            var temp_transform = target_node.GlobalTransform;
+            temp_transform.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), m_x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), m_y);
+            temp_transform.Origin += temp_transform.Basis.Z * 15.0f * m_zoom.m_pos;
+            temp_transform.Origin.Y += 3.5f * m_zoom.m_pos;
+            Transform = Transform.InterpolateWith(temp_transform, lerp_factor);
+        }
 	}
 }
