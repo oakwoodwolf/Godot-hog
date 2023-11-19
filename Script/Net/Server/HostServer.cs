@@ -36,7 +36,7 @@ namespace SonicOnset.Net
 		private int port;
 
         // Remote server
-        public HostServer(MultiplayerApi multiplayer_api, int port, int max_clients)
+        public HostServer(MultiplayerApi multiplayer_api, int port, int max_clients, bool upnp = false)
 		{
             this.port = port;
             
@@ -50,7 +50,7 @@ namespace SonicOnset.Net
 			m_multiplayer_api = multiplayer_api;
 			m_multiplayer_api.MultiplayerPeer = peer;
 			
-			upnpSetup();
+			if (upnp) upnpSetup();
 		}
 		public void upnpSetup()
 		{
@@ -68,11 +68,12 @@ namespace SonicOnset.Net
                     GD.Print(mapResultTCP + " UDP: " + mapResultUDP);
                 }
                 string extIP = upnp.QueryExternalAddress();
-                GD.Print(extIP + "\nPort: " + port + "\ndiscoverResult: " + discoverResult + "\nGateway: " + upnp.GetGateway().IsValidGateway());
+                GD.Print(extIP + "\nPort: " + port );
             }
+
             upnp.DeletePortMapping(port, "UDP");
             upnp.DeletePortMapping(port, "TCP");
-        }
+        } 
 		// Returns your own peer ID
 		public int GetPeerId() => m_multiplayer_api.GetUniqueId();
 

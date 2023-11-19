@@ -13,6 +13,6 @@ public partial class SoundHandler : Node3D
 	{
 	}
 	public void PlayFootstepSound() {
-		
+		GD.Print("Sound played");
 	}
 }

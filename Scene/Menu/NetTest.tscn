@@ -55,7 +55,7 @@ label_settings = ExtResource("2_yypjk")
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_f73dx")
-text = "12004"
+text = "7500"
 placeholder_text = "Port"
 wrap_mode = 1
 
@@ -102,6 +102,11 @@ layout_mode = 2
 theme = ExtResource("2_f73dx")
 text = "JOIN
 "
+
+[node name="CheckBox" type="CheckBox" parent="UI/NetTestRoot/Bar"]
+layout_mode = 2
+theme = ExtResource("2_f73dx")
+text = "Upnp"
 
 [node name="Loading" type="Control" parent="UI/NetTestRoot"]
 visible = false
@@ -151,3 +156,5 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Loading..."
 label_settings = ExtResource("2_yypjk")
+
+[connection signal="toggled" from="UI/NetTestRoot/Bar/CheckBox" to="UI/NetTestRoot" method="_on_check_box_toggled"]

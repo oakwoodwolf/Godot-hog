@@ -257,11 +257,11 @@ namespace SonicOnset
 			Singleton().m_netsync = new Net.NetSync();
 		}
 
-		public static void StartHostServer(int port, int max_clients)
+		public static void StartHostServer(int port, int max_clients, bool upnp)
 		{
 			// Start host server
 			DisconnectServer();
-			Singleton().m_server = new Net.HostServer(Singleton().m_multiplayer_api, port, max_clients);
+			Singleton().m_server = new Net.HostServer(Singleton().m_multiplayer_api, port, max_clients, upnp);
 
 			// Create net sync
 			Singleton().m_netsync = new Net.NetSync();

@@ -28,7 +28,9 @@ namespace SonicOnset
 	public partial class Ring : ObjectTriggerInterest, IObject
 	{
 		// Node setup
-		private Util.IAudioStreamPlayer m_ring_sound;
+		[Export]
+		public PackedScene m_ring_particle;
+
 
 		public override void _Ready()
 		{
@@ -36,7 +38,6 @@ namespace SonicOnset
 			GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
 			m_shape_node = GetNode<CollisionShape3D>("ColShape");
 			m_listener_node = GetNode<StaticBody3D>(".");
-			m_ring_sound = Util.IAudioStreamPlayer.FromNode(GetNode("RingSound"));
 			// Setup base
 			base._Ready();
 		}
@@ -52,6 +53,10 @@ namespace SonicOnset
 				{
 					// Add ring to player
 					player.AddRings(1);
+					GpuParticles3D sparkles = ResourceLoader.Load<PackedScene>("res://Particles/RingParticle.res").Instantiate() as GpuParticles3D;
+					// Add the node as a child of the node the script is attached to.
+					GetParent().AddChild(sparkles);
+					sparkles.GlobalTransform = GlobalTransform;
 					player.AddScore(10);
 
 					// Delete self

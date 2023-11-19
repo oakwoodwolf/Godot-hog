@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=52 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -41,6 +41,7 @@
 [ext_resource type="AudioStream" uid="uid://dq3tl2rxf78lq" path="res://Sounds/Player/DamageLand.ogg" id="36_5hx7k"]
 [ext_resource type="AudioStream" uid="uid://mbo1fncgnnux" path="res://Sounds/Player/Voice/hurt.ogg" id="37_cqtbj"]
 [ext_resource type="AudioStream" uid="uid://bkt1is82a7axu" path="res://Sounds/Player/Voice/die.ogg" id="38_w2a6m"]
+[ext_resource type="AudioStream" uid="uid://bc4k006ah3hck" path="res://Sounds/Object/Ring.ogg" id="39_ibs8m"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="41_gb37d"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
@@ -181,7 +182,7 @@ script = ExtResource("5_3kayp")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(-1.50753e-05, 1.92108e-08, 0.158522, 0.158522, 5.30196e-09, 1.50659e-05, 4.14941e-09, 0.158522, -2.86635e-08, -2.7602, 1.89999, 1.42464e-06)
+transform = Transform3D(9.50992e-05, 2.98091e-08, -1, 1, 3.34462e-08, 9.50396e-05, -2.61613e-08, -1, 2.98214e-08, 17.4121, 12.057, -6.35788e-06)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -223,7 +224,7 @@ m_roll_drag = Vector3(-0.008, -0.01, -0.4)
 m_invincibility_timer = 120.0
 m_flicker_timer = 2.0
 m_reset_speed_on_hit = true
-m_dead_timer = 120.0
+m_dead_timer = 150.0
 m_eye_height = 6.0
 m_center_height = 3.4
 m_floor_clip = 0.1
@@ -370,6 +371,9 @@ stream = ExtResource("37_cqtbj")
 
 [node name="SonicDead01" type="AudioStreamPlayer" parent="Sound/VoiceDead"]
 stream = ExtResource("38_w2a6m")
+
+[node name="Ring" type="AudioStreamPlayer3D" parent="Sound"]
+stream = ExtResource("39_ibs8m")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_bs7vw")

@@ -25,6 +25,8 @@ namespace SonicOnset.Scene
 		private Button m_host_button;
 
 		private Button m_join_button;
+		private CheckBox m_upnp_checkbox;
+		private bool upnp;
 
 		public override void _Ready()
 		{
@@ -33,6 +35,8 @@ namespace SonicOnset.Scene
 			m_max_edit = GetNode<TextEdit>("Bar/MaxEdit");
 			m_stage_edit = GetNode<TextEdit>("Bar/StageEdit");
 			m_load_drop = GetNode<Control>("Loading");
+			m_upnp_checkbox = GetNode<CheckBox>("Bar/CheckBox");
+
 
 			m_play_button = GetNode<Button>("Bar/PlayButton");
 			m_host_button = GetNode<Button>("Bar/HostButton");
@@ -57,7 +61,7 @@ namespace SonicOnset.Scene
 			m_load_drop.Visible = true;
 			int port = int.Parse(m_port_edit.Text);
 			int max_players = int.Parse(m_max_edit.Text);
-			Root.StartHostServer(port, max_players);
+			Root.StartHostServer(port, max_players, upnp);
 			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
 			LoadStagePack(m_stage_edit.Text);
 		}
@@ -87,7 +91,14 @@ namespace SonicOnset.Scene
 				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
 			}
 		}
-
+		private void _on_check_box_toggled(bool button_pressed)
+		{
+			GD.Print("toggled " + button_pressed);
+			upnp = button_pressed;
+		}
 
 	}
 }
+
+
+
