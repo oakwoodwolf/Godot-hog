@@ -1,15 +1,67 @@
-[gd_scene load_steps=4 format=3 uid="uid://dh1od21n3h5ol"]
+[gd_scene load_steps=5 format=3 uid="uid://dh1od21n3h5ol"]
 
 [ext_resource type="Script" path="res://Scene/Menu/NetTest.cs" id="1_y5sr7"]
 [ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="2_f73dx"]
 [ext_resource type="LabelSettings" uid="uid://criity30xluq4" path="res://UI/Theme/MenuLabel.tres" id="2_yypjk"]
+[ext_resource type="Script" path="res://Scene/Menu/Menu.cs" id="4_gw5yb"]
 
 [node name="NetTest" type="Node3D"]
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="NetTestRoot" type="Control" parent="UI"]
+[node name="Main Menu" type="Control" parent="UI"]
 layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_f73dx")
+script = ExtResource("4_gw5yb")
+
+[node name="ColorRect" type="ColorRect" parent="UI/Main Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.443137, 1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="UI/Main Menu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Play"
+
+[node name="Options" type="Button" parent="UI/Main Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Options"
+
+[node name="Quit" type="Button" parent="UI/Main Menu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Quit"
+
+[node name="PlayMenu" type="Control" parent="UI/Main Menu"]
+visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,7 +69,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_y5sr7")
 
-[node name="BackGround" type="ColorRect" parent="UI/NetTestRoot"]
+[node name="BackGround" type="ColorRect" parent="UI/Main Menu/PlayMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,19 +78,19 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.45098, 0.239216, 0.227451, 1)
 
-[node name="Bar" type="VBoxContainer" parent="UI/NetTestRoot"]
+[node name="Bar" type="VBoxContainer" parent="UI/Main Menu/PlayMenu"]
 layout_mode = 1
 offset_left = 128.0
 offset_top = 128.0
 offset_right = 1128.0
 offset_bottom = 878.0
 
-[node name="Label" type="Label" parent="UI/NetTestRoot/Bar"]
+[node name="Label" type="Label" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 text = "IP Address:"
 label_settings = ExtResource("2_yypjk")
 
-[node name="IpEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
+[node name="IpEdit" type="TextEdit" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_f73dx")
@@ -46,12 +98,12 @@ text = "localhost"
 placeholder_text = "IP Address"
 wrap_mode = 1
 
-[node name="Port" type="Label" parent="UI/NetTestRoot/Bar"]
+[node name="Port" type="Label" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 text = "Port:"
 label_settings = ExtResource("2_yypjk")
 
-[node name="PortEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
+[node name="PortEdit" type="TextEdit" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_f73dx")
@@ -59,13 +111,13 @@ text = "7500"
 placeholder_text = "Port"
 wrap_mode = 1
 
-[node name="Port2" type="Label" parent="UI/NetTestRoot/Bar"]
+[node name="Port2" type="Label" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 text = "Max Players:
 "
 label_settings = ExtResource("2_yypjk")
 
-[node name="MaxEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
+[node name="MaxEdit" type="TextEdit" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_f73dx")
@@ -73,13 +125,13 @@ text = "32"
 placeholder_text = "Max Players"
 wrap_mode = 1
 
-[node name="Port3" type="Label" parent="UI/NetTestRoot/Bar"]
+[node name="Port3" type="Label" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 text = "Stage Name:
 "
 label_settings = ExtResource("2_yypjk")
 
-[node name="StageEdit" type="TextEdit" parent="UI/NetTestRoot/Bar"]
+[node name="StageEdit" type="TextEdit" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("2_f73dx")
@@ -87,28 +139,28 @@ text = "TestStage"
 placeholder_text = "Stage"
 wrap_mode = 1
 
-[node name="PlayButton" type="Button" parent="UI/NetTestRoot/Bar"]
+[node name="PlayButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 theme = ExtResource("2_f73dx")
 text = "Play"
 
-[node name="HostButton" type="Button" parent="UI/NetTestRoot/Bar"]
+[node name="HostButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 theme = ExtResource("2_f73dx")
 text = "host"
 
-[node name="JoinButton" type="Button" parent="UI/NetTestRoot/Bar"]
+[node name="JoinButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 theme = ExtResource("2_f73dx")
 text = "JOIN
 "
 
-[node name="CheckBox" type="CheckBox" parent="UI/NetTestRoot/Bar"]
+[node name="CheckBox" type="CheckBox" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 theme = ExtResource("2_f73dx")
 text = "Upnp"
 
-[node name="Loading" type="Control" parent="UI/NetTestRoot"]
+[node name="Loading" type="Control" parent="UI/Main Menu/PlayMenu"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -117,7 +169,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Fade" type="ColorRect" parent="UI/NetTestRoot/Loading"]
+[node name="Fade" type="ColorRect" parent="UI/Main Menu/PlayMenu/Loading"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -126,7 +178,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0.423529, 0.501961)
 
-[node name="Black" type="ColorRect" parent="UI/NetTestRoot/Loading/Fade"]
+[node name="Black" type="ColorRect" parent="UI/Main Menu/PlayMenu/Loading/Fade"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -141,7 +193,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="MenuLabel" type="Label" parent="UI/NetTestRoot/Loading/Fade/Black"]
+[node name="MenuLabel" type="Label" parent="UI/Main Menu/PlayMenu/Loading/Fade/Black"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -157,4 +209,7 @@ grow_vertical = 2
 text = "Loading..."
 label_settings = ExtResource("2_yypjk")
 
-[connection signal="toggled" from="UI/NetTestRoot/Bar/CheckBox" to="UI/NetTestRoot" method="_on_check_box_toggled"]
+[connection signal="pressed" from="UI/Main Menu/VBoxContainer/Play" to="UI/Main Menu" method="_on_play_pressed"]
+[connection signal="pressed" from="UI/Main Menu/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
+[connection signal="pressed" from="UI/Main Menu/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
+[connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="_on_check_box_toggled"]
