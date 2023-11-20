@@ -22,6 +22,8 @@
 */
 
 using Godot;
+using Godot.Collections;
+using System;
 using System.Net;
 
 namespace SonicOnset
@@ -51,8 +53,8 @@ namespace SonicOnset
 
 		private Net.IServer m_server = null;
 		private Net.NetSync m_netsync = null;
-		public ConfigFile settingsFile = new ConfigFile();
-
+		public static ConfigFile settingsFile = new ConfigFile();
+		public static Dictionary<int, int> windowModes = new Dictionary<int, int> { {0, (int)DisplayServer.WindowMode.Windowed }, { 1, (int)DisplayServer.WindowMode.Fullscreen }, { 2, (int)DisplayServer.WindowMode.ExclusiveFullscreen } };
 		// Root singleton
 		public override void _EnterTree()
 		{
@@ -225,9 +227,15 @@ namespace SonicOnset
 			}
 		}
 		public void LoadSettings() {
-			if (settingsFile.Load("res://settings.cfg") != Error.Ok) {
+			if (settingsFile.Load("res://settings.cfg") != Error.Ok)
+			{
 				SetupSettings();
-			} else settingsFile.Load("res://settings.cfg");
+			}
+			else 
+			{
+				DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
+				DisplayServer.WindowGetMode(settingsFile.GetValue("VIDEO", "WindowMode").AsInt16());
+            };
 
 		}
 		public void SetupSettings()
@@ -237,7 +245,7 @@ namespace SonicOnset
 			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
 			DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Enabled);
 			//Write to config file
-			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize());
+			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize().X.ToString() + "x" + DisplayServer.WindowGetSize().Y.ToString());
 			settingsFile.SetValue("VIDEO", "Vsync", 1);
 			settingsFile.SetValue("VIDEO", "WindowMode", 2);
 			settingsFile.SetValue("VIDEO", "Graphics", 0);
@@ -246,10 +254,11 @@ namespace SonicOnset
 			settingsFile.Save("res://settings.cfg");
 
 		}
-		public void ChangeSetting(string section, string key, Variant value)
+		public static void SaveSetting()
 		{
-			settingsFile.SetValue(section, key, value);
-			settingsFile.Save("res://settings.cfg");
+			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize());
+            settingsFile.SetValue("VIDEO", "WindowMode", (int)DisplayServer.WindowGetMode());
+            settingsFile.Save("res://settings.cfg");
 		}
 		// Get clock
 		public static ulong GetClock()

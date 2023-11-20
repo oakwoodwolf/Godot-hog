@@ -218,7 +218,6 @@ theme_override_font_sizes/font_size = 48
 text = "Quit"
 
 [node name="OptionsMenu" type="Control" parent="UI/Main Menu"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -248,32 +247,36 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 scrolling_enabled = false
 
-[node name="GridContainer" type="GridContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -24.0
-offset_bottom = -24.0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = -64.0
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
+layout_mode = 2
 columns = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer"]
+[node name="Resolution" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer/VBoxContainer"]
+[node name="ResolutionLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/Resolution"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "Resolution
 "
 
-[node name="ResolutionButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer/VBoxContainer"]
+[node name="ResolutionButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/Resolution"]
 unique_name_in_owner = true
 layout_mode = 2
-item_count = 4
+theme_override_font_sizes/font_size = 42
+item_count = 5
 selected = 0
 popup/item_0/text = "620x480"
 popup/item_0/id = 0
@@ -283,9 +286,53 @@ popup/item_2/text = "1024x768"
 popup/item_2/id = 2
 popup/item_3/text = "1280x720"
 popup/item_3/id = 3
+popup/item_4/text = "1920x1080"
+popup/item_4/id = 4
+
+[node name="WindowMode" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="WindowModeLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/WindowMode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Window Mode
+"
+
+[node name="WindowModeButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/WindowMode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+item_count = 3
+selected = 0
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "Borderless"
+popup/item_2/id = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Apply" type="Button" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Apply
+"
+
+[node name="Return" type="Button" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 42
+text = "Return
+"
 
 [connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="_on_check_box_toggled"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Play" to="UI/Main Menu" method="_on_play_pressed"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
-[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer/VBoxContainer/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/WindowMode/WindowModeButton" to="UI/Main Menu" method="_on_window_mode_button_item_selected"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Apply" to="UI/Main Menu" method="_on_apply_pressed"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Return" to="UI/Main Menu" method="_on_return_pressed"]

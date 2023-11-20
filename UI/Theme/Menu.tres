@@ -3,20 +3,31 @@
 [ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="1_s630d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tsaa"]
+content_margin_left = 24.0
 bg_color = Color(0.721569, 0.223529, 0.580392, 1)
 skew = Vector2(1, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 16.0
+expand_margin_right = 16.0
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(0, 10)
 
 [resource]
 default_font = ExtResource("1_s630d")
+Button/font_sizes/font_size = 42
 Button/styles/disabled = null
 Button/styles/focus = null
 Button/styles/hover = null
 Button/styles/normal = SubResource("StyleBoxFlat_1tsaa")
 Button/styles/pressed = null
+GridContainer/constants/h_separation = 128
+GridContainer/constants/v_separation = 64
+VBoxContainer/constants/separation = 32
