@@ -22,6 +22,7 @@
 */
 
 using Godot;
+using System.Net;
 
 namespace SonicOnset
 {
@@ -50,6 +51,7 @@ namespace SonicOnset
 
 		private Net.IServer m_server = null;
 		private Net.NetSync m_netsync = null;
+		public ConfigFile settingsFile = new ConfigFile();
 
 		// Root singleton
 		public override void _EnterTree()
@@ -146,6 +148,7 @@ namespace SonicOnset
 		// Root node
 		public override void _Ready()
 		{
+			LoadSettings();
 			// Load scene
 			LoadScene("res://Scene/Menu/NetTest.tscn");
 		}
@@ -221,7 +224,33 @@ namespace SonicOnset
 				}
 			}
 		}
+		public void LoadSettings() {
+			if (settingsFile.Load("res://settings.cfg") != Error.Ok) {
+				SetupSettings();
+			} else settingsFile.Load("res://settings.cfg");
 
+		}
+		public void SetupSettings()
+		{
+			//Auto-detect Window size
+			DisplayServer.WindowSetSize(DisplayServer.ScreenGetSize());
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
+			DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Enabled);
+			//Write to config file
+			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize());
+			settingsFile.SetValue("VIDEO", "Vsync", 1);
+			settingsFile.SetValue("VIDEO", "WindowMode", 2);
+			settingsFile.SetValue("VIDEO", "Graphics", 0);
+			settingsFile.SetValue("VIDEO", "ColourBlind", 0);
+
+			settingsFile.Save("res://settings.cfg");
+
+		}
+		public void ChangeSetting(string section, string key, Variant value)
+		{
+			settingsFile.SetValue(section, key, value);
+			settingsFile.Save("res://settings.cfg");
+		}
 		// Get clock
 		public static ulong GetClock()
 		{

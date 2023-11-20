@@ -47,13 +47,15 @@ namespace SonicOnset
 
 		internal Character.ModelRoot m_modelroot;
 		private Transform3D m_modelroot_offset;
-		private float m_hurt_counter, m_flicker_counter, m_dead_counter;
+		private float m_hurt_counter, m_flicker_counter, m_dead_counter, m_rings_to_release;
+		private bool m_releasing_rings = false;
+        public Node3D releaseDirection;
 
-		// Debug context
-		 // private UI.DebugUI.DebugUI.DebugUIContext m_debug_context = UI.DebugUI.DebugUI.AcquireContext("Player");
+        // Debug context
+        // private UI.DebugUI.DebugUI.DebugUIContext m_debug_context = UI.DebugUI.DebugUI.AcquireContext("Player");
 
-		// Player physics state
-		[Export]
+        // Player physics state
+        [Export]
 		public Vector3 m_gravity = -Vector3.Up;
 
 		internal Param m_param = new Param();
@@ -100,6 +102,7 @@ namespace SonicOnset
 		public Input.Button m_input_tertiary = new Input.Button();
 		public Input.Button m_input_quaternary = new Input.Button();
 		public Input.Button m_input_debug_respawn = new Input.Button();
+		
 
 		public Debounce m_input_stop = new Debounce();
 		public Debounce m_input_speed = new Debounce();
@@ -341,7 +344,9 @@ namespace SonicOnset
 				{
 					m_status.m_invincible = true;
 					SetState(new Player.Hurt(this));
-					Vector3 speed = this.ToSpeed(this.Velocity);
+					m_releasing_rings = true;
+					m_rings_to_release = m_rings;
+                    Vector3 speed = this.ToSpeed(this.Velocity);
 					if (m_param.m_reset_speed_on_hit)
 					{
 						speed.X = -1;
@@ -528,9 +533,9 @@ namespace SonicOnset
 			m_ray_query.CollisionMask = CollisionMask;
 			m_ray_query.Exclude.Add(GetRid());
 			m_ray_query.HitBackFaces = false;
-
-			// Initialize player state
-			SetState(new Idle(this));
+			m_rings_to_release = m_param.m_rings_to_release;
+            // Initialize player state
+            SetState(new Idle(this));
 
 			// Setup base
 			base._Ready();
@@ -661,7 +666,12 @@ namespace SonicOnset
 				m_modelroot.Visible = true;
 
 			}
-		}
+            if (m_releasing_rings)
+            {
+                if (m_rings_to_release > m_param.m_rings_to_release) { m_rings_to_release = m_param.m_rings_to_release; }
+                RingLoss();
+            }
+        }
 		void SkinFlicker()
 		{
 			m_flicker_counter += m_param.m_flicker_timer;
@@ -676,6 +686,24 @@ namespace SonicOnset
 			if (m_flicker_counter > 10)
 			{
 				m_flicker_counter = -10;
+			}
+
+		}
+		void RingLoss()
+		{
+			m_rings = 0;
+			if (m_rings_to_release > 0)
+			{
+				Vector3 pos = GlobalPosition;
+				pos.Y++;
+				DroppedRing movingRing = ResourceLoader.Load<PackedScene>("res://Prefab/Objects/Ring/ringdropped.res").Instantiate() as DroppedRing;
+				this.GetParent().GetParent().AddChild(this);
+				movingRing.ApplyForce(this.Transform.Basis.Z, pos);
+				releaseDirection.Rotate(this.GlobalPosition, 30f);
+				m_rings_to_release--;
+			} else
+			{
+				m_releasing_rings = false;
 			}
 
 		}
@@ -699,19 +727,20 @@ namespace SonicOnset
 		public void Touch(Node3D other)
 		{
 			CollisionObject3D obj = other as CollisionObject3D;
-			if (obj.CollisionLayer != 0) GD.Print(obj.CollisionLayer);
+			
 
 			if (obj.CollisionLayer == 10)
 			{
-
-				if (!m_status.m_dead)
+                GD.Print(obj.CollisionLayer);
+               Respawn();
+                /*if (!m_status.m_dead)
 				{
-					SetStateDead();
+				
 
-				}
+				}*/
 
 
-			}
+            }
 		}
 		// RPC methods
 		private void HostRpc_Update(Transform3D transform, string anim)

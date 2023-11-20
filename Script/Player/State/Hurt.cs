@@ -46,14 +46,6 @@ namespace SonicOnset
                     m_parent.ClearAnimation();
                     m_parent.PlayAnimation("Hurt");
                     m_parent.PlaySound("VoiceHurt");
-                    if (m_parent.m_rings < 50)
-                    {
-                        m_parent.m_rings = 0;
-                    }
-                    else
-                    {
-                        m_parent.m_rings -= 50;
-                    }
                 } else
 				{
                     m_parent.PlaySound("VoiceDead");
