@@ -19,46 +19,6 @@ grow_vertical = 2
 theme = ExtResource("2_f73dx")
 script = ExtResource("4_gw5yb")
 
-[node name="ColorRect" type="ColorRect" parent="UI/Main Menu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0.443137, 1, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="Play" type="Button" parent="UI/Main Menu/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 48
-text = "Play"
-
-[node name="Options" type="Button" parent="UI/Main Menu/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "Options"
-
-[node name="Quit" type="Button" parent="UI/Main Menu/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "Quit"
-
 [node name="PlayMenu" type="Control" parent="UI/Main Menu"]
 visible = false
 layout_mode = 1
@@ -209,7 +169,123 @@ grow_vertical = 2
 text = "Loading..."
 label_settings = ExtResource("2_yypjk")
 
-[connection signal="pressed" from="UI/Main Menu/VBoxContainer/Play" to="UI/Main Menu" method="_on_play_pressed"]
-[connection signal="pressed" from="UI/Main Menu/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
-[connection signal="pressed" from="UI/Main Menu/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
+[node name="TitleScreen" type="Control" parent="UI/Main Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/Main Menu/TitleScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.443137, 1, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu/TitleScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Play"
+
+[node name="Options" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Options"
+
+[node name="Quit" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Quit"
+
+[node name="OptionsMenu" type="Control" parent="UI/Main Menu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/Main Menu/OptionsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.356863, 0, 0.356863, 1)
+
+[node name="TabContainer" type="TabContainer" parent="UI/Main Menu/OptionsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Video" type="TabBar" parent="UI/Main Menu/OptionsMenu/TabContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+scrolling_enabled = false
+
+[node name="GridContainer" type="GridContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Resolution
+"
+
+[node name="ResolutionButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "620x480"
+popup/item_0/id = 0
+popup/item_1/text = "800x600"
+popup/item_1/id = 1
+popup/item_2/text = "1024x768"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+
 [connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="_on_check_box_toggled"]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Play" to="UI/Main Menu" method="_on_play_pressed"]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/GridContainer/VBoxContainer/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]
