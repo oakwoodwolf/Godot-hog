@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dh1od21n3h5ol"]
+[gd_scene load_steps=6 format=3 uid="uid://dh1od21n3h5ol"]
 
 [ext_resource type="Script" path="res://Scene/Menu/NetTest.cs" id="1_y5sr7"]
 [ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="2_f73dx"]
 [ext_resource type="LabelSettings" uid="uid://criity30xluq4" path="res://UI/Theme/MenuLabel.tres" id="2_yypjk"]
 [ext_resource type="Script" path="res://Scene/Menu/Menu.cs" id="4_gw5yb"]
+[ext_resource type="FontFile" uid="uid://x8eixbno6qd" path="res://UI/Fonts/Prototype.ttf" id="5_1t25e"]
 
 [node name="NetTest" type="Node3D"]
 
@@ -20,6 +21,7 @@ theme = ExtResource("2_f73dx")
 script = ExtResource("4_gw5yb")
 
 [node name="PlayMenu" type="Control" parent="UI/Main Menu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,12 +100,12 @@ text = "TestStage"
 placeholder_text = "Stage"
 wrap_mode = 1
 
-[node name="PlayButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
+[node name="StartButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("2_f73dx")
 theme_override_font_sizes/font_size = 32
-text = "Play"
+text = "Start"
 
 [node name="HostButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
@@ -126,6 +128,7 @@ size_flags_horizontal = 8
 theme = ExtResource("2_f73dx")
 theme_override_font_sizes/font_size = 24
 text = "Upnp"
+flat = true
 
 [node name="Loading" type="Control" parent="UI/Main Menu/PlayMenu"]
 visible = false
@@ -208,24 +211,55 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Play" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 0
-theme = ExtResource("2_f73dx")
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 48
 text = "Play"
 
 [node name="Options" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../PlayButton")
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../PlayButton")
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 48
 text = "Options"
 
 [node name="Quit" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_next = NodePath("../PlayButton")
+focus_previous = NodePath("../Options")
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 48
 text = "Quit"
 
+[node name="VersionTagTitle" type="Label" parent="UI/Main Menu/TitleScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -133.0
+offset_top = -68.667
+offset_right = -24.0
+offset_bottom = -24.0004
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_1t25e")
+theme_override_font_sizes/font_size = 32
+text = "Version"
+horizontal_alignment = 2
+
 [node name="OptionsMenu" type="Control" parent="UI/Main Menu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -308,16 +342,18 @@ text = "Window Mode
 "
 
 [node name="WindowModeButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 42
 item_count = 3
 selected = 0
+fit_to_longest_item = false
 popup/item_0/text = "Windowed"
 popup/item_0/id = 0
 popup/item_1/text = "Fullscreen"
 popup/item_1/id = 1
-popup/item_2/text = "Borderless"
+popup/item_2/text = "Exclusive Fullscreen"
 popup/item_2/id = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
@@ -339,7 +375,7 @@ text = "Return
 "
 
 [connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="_on_check_box_toggled"]
-[connection signal="mouse_entered" from="UI/Main Menu/TitleScreen/VBoxContainer/Play" to="UI/Main Menu/TitleScreen/VBoxContainer/Play" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/PlayButton" to="UI/Main Menu" method="_on_play_pressed"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
 [connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]

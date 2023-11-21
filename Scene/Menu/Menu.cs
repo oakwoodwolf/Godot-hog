@@ -10,7 +10,12 @@ namespace SonicOnset
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
+			GetNode<Label>("%VersionTagTitle").Text = ProjectSettings.GetSetting("application/config/name").AsString();
+			GetNode<Button>("%PlayButton").GrabFocus();
 			resolutionButton = GetNode<OptionButton>("%ResolutionButton");
+			OptionButton windowModeButton = GetNode<OptionButton>("%WindowModeButton");
+			windowModeButton.Select(CheckWindowMode((UInt16)DisplayServer.WindowGetMode()));
+			GD.Print(DisplayServer.WindowGetMode());
 			resolutionButton.Select(CheckResolution(DisplayServer.WindowGetSize()));
 		}
 
@@ -22,11 +27,13 @@ namespace SonicOnset
 		private void _on_play_pressed()
 		{
 			GetNode<Control>("PlayMenu").Visible = true;
-			GetNode<Control>("TitleScreen").Visible = false;
+            GetNode<Button>("PlayMenu/Bar/StartButton").GrabFocus();
+            GetNode<Control>("TitleScreen").Visible = false;
 		}
 		private void _on_options_pressed()
 		{
 			GetNode<Control>("OptionsMenu").Visible = true;
+			resolutionButton.GrabFocus();
 			GetNode<Control>("TitleScreen").Visible = false;
 		}
 		private void _on_quit_pressed()
@@ -48,6 +55,23 @@ namespace SonicOnset
 			}
 			return -1;
 		}
+		private int CheckWindowMode(UInt16 res)
+		{
+			int i = 0;
+			switch (res) {
+				case (UInt16)DisplayServer.WindowMode.Fullscreen:
+					i = 1;
+                    break;
+                case (UInt16)DisplayServer.WindowMode.ExclusiveFullscreen:
+                    i = 2;
+                    break;
+                default:
+
+                    break;
+
+            }
+            return i;
+        }
 		private void _on_resolution_button_item_selected(Int16 index)
 		{
 
@@ -61,19 +85,15 @@ namespace SonicOnset
 		{
 			GetNode<Control>("OptionsMenu").Visible = false;
 			GetNode<Control>("TitleScreen").Visible = true;
-			Root.SaveSetting();
+            GetNode<Button>("%PlayButton").GrabFocus();
+            Root.SaveSetting();
 		}
 		private void _on_return_pressed()
 		{
 			GetNode<Control>("OptionsMenu").Visible = false;
 			GetNode<Control>("TitleScreen").Visible = true;
-		}
+            GetNode<Button>("%PlayButton").GrabFocus();
+        }
 
 	}
 }
-
-
-
-
-
-

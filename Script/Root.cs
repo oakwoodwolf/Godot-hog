@@ -235,7 +235,7 @@ namespace SonicOnset
 			else 
 			{
 				DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
-				DisplayServer.WindowGetMode(settingsFile.GetValue("VIDEO", "WindowMode").AsInt16());
+				DisplayServer.WindowSetMode((DisplayServer.WindowMode)(settingsFile.GetValue("VIDEO", "WindowMode").AsUInt16()));
 			};
 
 		}

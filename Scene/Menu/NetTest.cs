@@ -38,7 +38,7 @@ namespace SonicOnset.Scene
 			m_upnp_checkbox = GetNode<CheckBox>("Bar/CheckBox");
 
 
-			m_play_button = GetNode<Button>("Bar/PlayButton");
+			m_play_button = GetNode<Button>("Bar/StartButton");
 			m_host_button = GetNode<Button>("Bar/HostButton");
 			m_join_button = GetNode<Button>("Bar/JoinButton");
 			m_play_button.Connect("pressed", new Callable(this, "OnPlayButtonPressed"));
