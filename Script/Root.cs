@@ -103,13 +103,14 @@ namespace SonicOnset
 			m_players.AddChild(player);
 		}
 
-		private void SpawnPeer(int peer_id)
+		private void SpawnPeer(int peer_id, string name = "Player")
 		{
 			// Instantiate player
 			Godot.PackedScene player_scene = (Godot.PackedScene)Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/NetPlayer.tscn");
 			Godot.Node player = player_scene.Instantiate();
 			player.Name = peer_id.ToString();
-
+			Label3D label = player.GetNode<Label3D>("ModelRoot/Nametag");
+			label.Text = name;
 			// Add player to scene
 			m_players.AddChild(player);
 		}
@@ -235,7 +236,7 @@ namespace SonicOnset
 			{
 				DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
 				DisplayServer.WindowGetMode(settingsFile.GetValue("VIDEO", "WindowMode").AsInt16());
-            };
+			};
 
 		}
 		public void SetupSettings()
@@ -257,8 +258,8 @@ namespace SonicOnset
 		public static void SaveSetting()
 		{
 			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize());
-            settingsFile.SetValue("VIDEO", "WindowMode", (int)DisplayServer.WindowGetMode());
-            settingsFile.Save("res://settings.cfg");
+			settingsFile.SetValue("VIDEO", "WindowMode", (int)DisplayServer.WindowGetMode());
+			settingsFile.Save("res://settings.cfg");
 		}
 		// Get clock
 		public static ulong GetClock()

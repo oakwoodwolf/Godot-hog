@@ -42,14 +42,6 @@ namespace SonicOnset
 			// Forward the RPC to all clients
 			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
 		}
-		private void Change_NameRpc(string name)
-		{
-			Root.GetHostServer().RpcAll(this, "Get_NameRPC", name);
-		}
-		private void Get_NameRPC(string name)
-		{
-			m_nametag.Text = name;
-		}
 		private void Rpc_Update(Transform3D transform, string anim)
 		{
 			// Set model root state

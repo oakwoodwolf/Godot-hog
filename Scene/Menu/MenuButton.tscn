@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://hxuadkl7ec5c"]
+
+[ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="1_kkaqe"]
+[ext_resource type="Script" path="res://Scene/Menu/MenuButton.cs" id="2_utmh7"]
+
+[node name="Play" type="Button"]
+size_flags_vertical = 0
+theme = ExtResource("1_kkaqe")
+theme_override_font_sizes/font_size = 48
+text = "Play"
+script = ExtResource("2_utmh7")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

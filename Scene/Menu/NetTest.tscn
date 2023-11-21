@@ -20,7 +20,6 @@ theme = ExtResource("2_f73dx")
 script = ExtResource("4_gw5yb")
 
 [node name="PlayMenu" type="Control" parent="UI/Main Menu"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,10 +39,10 @@ color = Color(0.45098, 0.239216, 0.227451, 1)
 
 [node name="Bar" type="VBoxContainer" parent="UI/Main Menu/PlayMenu"]
 layout_mode = 1
-offset_left = 128.0
-offset_top = 128.0
-offset_right = 1128.0
-offset_bottom = 878.0
+offset_left = 105.0
+offset_top = 32.0
+offset_right = 1504.0
+offset_bottom = 1025.0
 
 [node name="Label" type="Label" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
@@ -101,23 +100,31 @@ wrap_mode = 1
 
 [node name="PlayButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme = ExtResource("2_f73dx")
+theme_override_font_sizes/font_size = 32
 text = "Play"
 
 [node name="HostButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme = ExtResource("2_f73dx")
+theme_override_font_sizes/font_size = 32
 text = "host"
 
 [node name="JoinButton" type="Button" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme = ExtResource("2_f73dx")
+theme_override_font_sizes/font_size = 32
 text = "JOIN
 "
 
 [node name="CheckBox" type="CheckBox" parent="UI/Main Menu/PlayMenu/Bar"]
 layout_mode = 2
+size_flags_horizontal = 8
 theme = ExtResource("2_f73dx")
+theme_override_font_sizes/font_size = 24
 text = "Upnp"
 
 [node name="Loading" type="Control" parent="UI/Main Menu/PlayMenu"]
@@ -204,6 +211,7 @@ alignment = 1
 [node name="Play" type="Button" parent="UI/Main Menu/TitleScreen/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = ExtResource("2_f73dx")
 theme_override_font_sizes/font_size = 48
 text = "Play"
 
@@ -252,29 +260,28 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 64.0
+offset_left = 96.0
 offset_top = 64.0
-offset_right = -64.0
+offset_right = -96.0
 offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GridContainer" type="GridContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
+[node name="Resolution" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
 layout_mode = 2
-columns = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 
-[node name="Resolution" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer"]
-layout_mode = 2
-
-[node name="ResolutionLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/Resolution"]
+[node name="ResolutionLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "Resolution
 "
 
-[node name="ResolutionButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/Resolution"]
+[node name="ResolutionButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 42
 item_count = 5
 selected = 0
@@ -289,17 +296,20 @@ popup/item_3/id = 3
 popup/item_4/text = "1920x1080"
 popup/item_4/id = 4
 
-[node name="WindowMode" type="VBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer"]
+[node name="Resolution2" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
 
-[node name="WindowModeLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/WindowMode"]
+[node name="WindowModeLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "Window Mode
 "
 
-[node name="WindowModeButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/WindowMode"]
+[node name="WindowModeButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2"]
 layout_mode = 2
+size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 42
 item_count = 3
 selected = 0
@@ -329,10 +339,10 @@ text = "Return
 "
 
 [connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="_on_check_box_toggled"]
-[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Play" to="UI/Main Menu" method="_on_play_pressed"]
+[connection signal="mouse_entered" from="UI/Main Menu/TitleScreen/VBoxContainer/Play" to="UI/Main Menu/TitleScreen/VBoxContainer/Play" method="_on_mouse_entered" flags=18]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
-[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]
-[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/GridContainer/WindowMode/WindowModeButton" to="UI/Main Menu" method="_on_window_mode_button_item_selected"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2/WindowModeButton" to="UI/Main Menu" method="_on_window_mode_button_item_selected"]
 [connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Apply" to="UI/Main Menu" method="_on_apply_pressed"]
 [connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Return" to="UI/Main Menu" method="_on_return_pressed"]

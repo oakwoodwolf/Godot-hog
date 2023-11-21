@@ -1,11 +1,50 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://ce1n4i1uednhs"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ce1n4i1uednhs"]
 
+[ext_resource type="StyleBox" uid="uid://tfs82ocjdg2" path="res://UI/Sprites/buttonMenu_hover.tres" id="1_4wnpn"]
+[ext_resource type="FontFile" uid="uid://x8eixbno6qd" path="res://UI/Fonts/Prototype.ttf" id="1_c0his"]
 [ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="1_s630d"]
+[ext_resource type="StyleBox" uid="uid://buvdpgfwi8rpm" path="res://UI/Sprites/buttonMenu_normal.tres" id="2_1vhov"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tsaa"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wv82j"]
 content_margin_left = 24.0
-bg_color = Color(0.721569, 0.223529, 0.580392, 1)
-skew = Vector2(1, 0)
+bg_color = Color(0.576471, 0.454902, 0.560784, 1)
+skew = Vector2(0.5, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.815686, 0.815686, 0.815686, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 16.0
+expand_margin_right = 16.0
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xl6c5"]
+content_margin_left = 24.0
+bg_color = Color(1, 0.431373, 0.815686, 1)
+skew = Vector2(0.5, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 16.0
+expand_margin_right = 16.0
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pms8j"]
+content_margin_left = 24.0
+bg_color = Color(0.972549, 0.317647, 0.411765, 1)
+skew = Vector2(0.5, 0)
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -22,12 +61,15 @@ shadow_offset = Vector2(0, 10)
 
 [resource]
 default_font = ExtResource("1_s630d")
-Button/font_sizes/font_size = 42
-Button/styles/disabled = null
-Button/styles/focus = null
-Button/styles/hover = null
-Button/styles/normal = SubResource("StyleBoxFlat_1tsaa")
-Button/styles/pressed = null
+Button/font_sizes/font_size = 32
+Button/styles/disabled = SubResource("StyleBoxFlat_wv82j")
+Button/styles/focus = SubResource("StyleBoxFlat_xl6c5")
+Button/styles/hover = ExtResource("1_4wnpn")
+Button/styles/normal = ExtResource("2_1vhov")
+Button/styles/pressed = SubResource("StyleBoxFlat_pms8j")
 GridContainer/constants/h_separation = 128
 GridContainer/constants/v_separation = 64
+TabContainer/font_sizes/font_size = 32
+TextEdit/font_sizes/font_size = 32
+TextEdit/fonts/font = ExtResource("1_c0his")
 VBoxContainer/constants/separation = 32
