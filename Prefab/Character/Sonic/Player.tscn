@@ -281,55 +281,71 @@ script = ExtResource("10_yj34d")
 
 [node name="Land" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("10_pufcf")
+bus = &"Sound"
 
 [node name="Jump" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("11_133cc")
+bus = &"Sound"
 
 [node name="SpindashCharge" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("12_67enl")
+bus = &"Sound"
 
 [node name="SpindashRelease" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("12_ocv1v")
+bus = &"Sound"
 
 [node name="Brake" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("13_4gthu")
+bus = &"Sound"
 
 [node name="Bounce" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("15_1ylgl")
+bus = &"Sound"
 
 [node name="HomingAttack" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("13_i2k5y")
+bus = &"Sound"
 
 [node name="AirKick" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("18_hsxuj")
+bus = &"Sound"
 
 [node name="VoiceGrunt" type="Node3D" parent="Sound"]
 
 [node name="SonicGrunt01" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
 stream = ExtResource("14_vy53q")
+bus = &"Voice"
 
 [node name="SonicGrunt02" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
 stream = ExtResource("15_706uf")
+bus = &"Voice"
 
 [node name="SonicGrunt03" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
 stream = ExtResource("16_n2drm")
+bus = &"Voice"
 
 [node name="SonicGrunt04" type="AudioStreamPlayer" parent="Sound/VoiceGrunt"]
 stream = ExtResource("17_vwbr0")
+bus = &"Voice"
 
 [node name="VoiceCelebrate" type="Node3D" parent="Sound"]
 
 [node name="SonicCelebrate01" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
 stream = ExtResource("19_3rgiw")
+bus = &"Voice"
 
 [node name="SonicCelebrate02" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
 stream = ExtResource("20_ekni4")
+bus = &"Voice"
 
 [node name="SonicCelebrate03" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
 stream = ExtResource("21_b67ax")
+bus = &"Voice"
 
 [node name="SonicCelebrate04" type="AudioStreamPlayer" parent="Sound/VoiceCelebrate"]
 stream = ExtResource("22_nrt6u")
+bus = &"Voice"
 
 [node name="Footstep" type="Node3D" parent="Sound"]
 
@@ -351,30 +367,37 @@ stream = ExtResource("30_jfp5h")
 [node name="FootstepConcrete" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("26_4qbgy")
 volume_db = -38.42
+bus = &"Sound"
 
 [node name="VoiceSpecial" type="Node3D" parent="Sound"]
 
 [node name="SonicSpecial01" type="AudioStreamPlayer" parent="Sound/VoiceSpecial"]
 stream = ExtResource("34_invfp")
+bus = &"Voice"
 
 [node name="Damage" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("35_q77ci")
+bus = &"Sound"
 
 [node name="DamageLand" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("36_5hx7k")
+bus = &"Sound"
 
 [node name="VoiceHurt" type="Node3D" parent="Sound"]
 
 [node name="SonicHurt01" type="AudioStreamPlayer" parent="Sound/VoiceHurt"]
 stream = ExtResource("37_cqtbj")
+bus = &"Voice"
 
 [node name="VoiceDead" type="Node3D" parent="Sound"]
 
 [node name="SonicDead01" type="AudioStreamPlayer" parent="Sound/VoiceDead"]
 stream = ExtResource("38_w2a6m")
+bus = &"Voice"
 
 [node name="Ring" type="AudioStreamPlayer3D" parent="Sound"]
 stream = ExtResource("39_ibs8m")
+bus = &"Sound"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_bs7vw")

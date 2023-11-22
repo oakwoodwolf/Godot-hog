@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ce1n4i1uednhs"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://ce1n4i1uednhs"]
 
 [ext_resource type="StyleBox" uid="uid://tfs82ocjdg2" path="res://UI/Sprites/buttonMenu_hover.tres" id="1_4wnpn"]
 [ext_resource type="FontFile" uid="uid://x8eixbno6qd" path="res://UI/Fonts/Prototype.ttf" id="1_c0his"]
@@ -57,6 +57,35 @@ expand_margin_right = 16.0
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(0, 10)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blctu"]
+bg_color = Color(0, 0, 0, 0.501961)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0.152941, 0.6)
+shadow_size = 1
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pj36b"]
+content_margin_left = 64.0
+content_margin_top = 64.0
+content_margin_right = 64.0
+content_margin_bottom = 64.0
+bg_color = Color(0, 0, 0, 0.537255)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [resource]
 default_font = ExtResource("1_s630d")
 Button/colors/font_outline_color = Color(0, 0, 0, 1)
@@ -69,7 +98,9 @@ Button/styles/normal = ExtResource("2_1vhov")
 Button/styles/pressed = SubResource("StyleBoxFlat_pms8j")
 GridContainer/constants/h_separation = 128
 GridContainer/constants/v_separation = 64
+HSlider/styles/slider = SubResource("StyleBoxFlat_blctu")
 TabContainer/font_sizes/font_size = 32
+TabContainer/styles/panel = SubResource("StyleBoxFlat_pj36b")
 TextEdit/font_sizes/font_size = 32
 TextEdit/fonts/font = ExtResource("1_c0his")
 VBoxContainer/constants/separation = 32

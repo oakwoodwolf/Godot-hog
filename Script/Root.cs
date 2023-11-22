@@ -35,7 +35,6 @@ namespace SonicOnset
 
 		// Global clock
 		private ulong m_clock = 0;
-
 		// Scene loader
 		[Godot.Export]
 		private Godot.PackedScene m_load_scene;
@@ -234,32 +233,56 @@ namespace SonicOnset
 			}
 			else 
 			{
-				DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
+				AudioServer.SetBusVolumeDb(0, LinearToDecibel(settingsFile.GetValue("AUDIO", "Master").AsSingle()));
+                AudioServer.SetBusVolumeDb(1, LinearToDecibel(settingsFile.GetValue("AUDIO", "Music").AsSingle()));
+                AudioServer.SetBusVolumeDb(2, LinearToDecibel(settingsFile.GetValue("AUDIO", "Sound").AsSingle()));
+                AudioServer.SetBusVolumeDb(3, LinearToDecibel(settingsFile.GetValue("AUDIO", "Voice").AsSingle()));
+                DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
 				DisplayServer.WindowSetMode((DisplayServer.WindowMode)(settingsFile.GetValue("VIDEO", "WindowMode").AsUInt16()));
 			};
 
+
+        }
+        public static float LinearToDecibel(double v)
+		{
+			return (float)Math.Log10(v) * 10;
+		}
+		public static double DecibelToLinear(float v)
+		{
+			return Math.Pow(10, v/10);
 		}
 		public void SetupSettings()
-		{
-			//Auto-detect Window size
-			DisplayServer.WindowSetSize(DisplayServer.ScreenGetSize());
-			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
-			DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Enabled);
-			//Write to config file
-			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize().X.ToString() + "x" + DisplayServer.WindowGetSize().Y.ToString());
-			settingsFile.SetValue("VIDEO", "Vsync", 1);
-			settingsFile.SetValue("VIDEO", "WindowMode", 2);
-			settingsFile.SetValue("VIDEO", "Graphics", 0);
-			settingsFile.SetValue("VIDEO", "ColourBlind", 0);
+        {
+            //Auto-detect Window size
+            DisplayServer.WindowSetSize(DisplayServer.ScreenGetSize());
+            DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
+            DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Enabled);
+            //Write to config file
+            settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize().X.ToString() + "x" + DisplayServer.WindowGetSize().Y.ToString());
+            settingsFile.SetValue("VIDEO", "Vsync", 1);
+            settingsFile.SetValue("VIDEO", "WindowMode", 2);
+            settingsFile.SetValue("VIDEO", "Graphics", 0);
+            settingsFile.SetValue("VIDEO", "ColourBlind", 0);
+            SaveAudioSettings();
 
-			settingsFile.Save("res://settings.cfg");
+            settingsFile.Save("res://settings.cfg");
 
-		}
-		public static void SaveSetting()
+        }
+
+        private static void SaveAudioSettings()
+        {
+            settingsFile.SetValue("AUDIO", "Master", DecibelToLinear(AudioServer.GetBusVolumeDb(0)) );
+            settingsFile.SetValue("AUDIO", "Music", DecibelToLinear(AudioServer.GetBusVolumeDb(1)));
+            settingsFile.SetValue("AUDIO", "Sound", DecibelToLinear(AudioServer.GetBusVolumeDb(2)));
+            settingsFile.SetValue("AUDIO", "Voice", DecibelToLinear(AudioServer.GetBusVolumeDb(3)));
+        }
+
+        public static void SaveSetting()
 		{
 			settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize());
 			settingsFile.SetValue("VIDEO", "WindowMode", (int)DisplayServer.WindowGetMode());
-			settingsFile.Save("res://settings.cfg");
+            SaveAudioSettings();
+            settingsFile.Save("res://settings.cfg");
 		}
 		// Get clock
 		public static ulong GetClock()

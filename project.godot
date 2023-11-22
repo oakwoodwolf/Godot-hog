@@ -33,7 +33,6 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 window/vsync/vsync_mode=2
-window/size/always_on_top.editor=true
 
 [dotnet]
 
