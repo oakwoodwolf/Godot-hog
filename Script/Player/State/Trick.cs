@@ -23,68 +23,68 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Trick : State
-		{
-			// Jump timer
-			private uint m_jump_timer;
+    public partial class Player
+    {
+        public partial class Trick : State
+        {
+            // Jump timer
+            private uint m_jump_timer;
 
-			// Trick animation
-			private string m_trick_anim;
+            // Trick animation
+            private string m_trick_anim;
 
-			// Jump state
-			public Trick(Player parent, string trick_anim)
-			{
-				// Set parent
-				m_parent = parent;
+            // Jump state
+            public Trick(Player parent, string trick_anim)
+            {
+                // Set parent
+                m_parent = parent;
 
-				// Set jump timer
-				m_jump_timer = m_parent.m_param.m_jump_hang;
+                // Set jump timer
+                m_jump_timer = m_parent.m_param.m_jump_hang;
 
-				// Set trick animation
-				m_trick_anim = trick_anim;
-			}
+                // Set trick animation
+                m_trick_anim = trick_anim;
+            }
 
-			internal override void AbilityProcess()
-			{
-				// Check for jump ability
-				if (m_parent.m_ability.CheckJumpAbility())
-					return;
-			}
+            internal override void AbilityProcess()
+            {
+                // Check for jump ability
+                if (m_parent.m_ability.CheckJumpAbility())
+                    return;
+            }
 
-			internal override void Process()
-			{
-				// Lift up when jump is held
-				if (m_parent.m_input_jump.m_down && m_jump_timer != 0)
-				{
-					m_parent.Velocity += m_parent.FromSpeed(Vector3.Up * m_parent.m_param.m_jump_addit * 0.8f);
-					m_jump_timer--;
-				}
+            internal override void Process()
+            {
+                // Lift up when jump is held
+                if (m_parent.m_input_jump.m_down && m_jump_timer != 0)
+                {
+                    m_parent.Velocity += m_parent.FromSpeed(Vector3.Up * m_parent.m_param.m_jump_addit * 0.8f);
+                    m_jump_timer--;
+                }
 
-				// Movement
-				m_parent.RotateToGravity();
-				m_parent.AirMovement();
+                // Movement
+                m_parent.RotateToGravity();
+                m_parent.AirMovement();
 
-				// Physics
-				float y_speed = m_parent.GetSpeedY();
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                float y_speed = m_parent.GetSpeedY();
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				if (m_parent.m_status.m_grounded)
-					m_parent.SetStateLand(y_speed);
+                if (m_parent.m_status.m_grounded)
+                    m_parent.SetStateLand(y_speed);
 
-				// Set animation
-				m_parent.PlayAnimation(m_trick_anim);
-			}
+                // Set animation
+                m_parent.PlayAnimation(m_trick_anim);
+            }
 
-			// State overrides
-			internal override bool CanDynamicPose()
-			{
-				return false;
-			}
-		}
-	}
+            // State overrides
+            internal override bool CanDynamicPose()
+            {
+                return false;
+            }
+        }
+    }
 }

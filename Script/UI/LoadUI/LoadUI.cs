@@ -23,28 +23,28 @@
 
 using Godot;
 
-namespace SonicOnset.UI.LoadUI
+namespace SonicGodot.UI.LoadUI
 {
-	public partial class LoadUI : Node
-	{
-		// Load UI nodes
-		private Label m_load_label;
+    public partial class LoadUI : Node
+    {
+        // Load UI nodes
+        private Label m_load_label;
 
-		// Load UI node
-		public override void _Ready()
-		{
-			// Get nodes
-			m_load_label = GetNode<Label>("UI/LoadUI/LoadRoot/LoadLabel");
+        // Load UI node
+        public override void _Ready()
+        {
+            // Get nodes
+            m_load_label = GetNode<Label>("UI/LoadUI/LoadRoot/LoadLabel");
 
-			// Setup base
-			base._Ready();
-		}
+            // Setup base
+            base._Ready();
+        }
 
-		// Update progress
-		public void SetProgress(float progress)
-		{
-			// Update progress
-			m_load_label.Text = string.Format("Loading... {0:0}%", progress * 100.0f);
-		}
-	}
+        // Update progress
+        public void SetProgress(float progress)
+        {
+            // Update progress
+            m_load_label.Text = string.Format("Loading... {0:0}%", progress * 100.0f);
+        }
+    }
 }

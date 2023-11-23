@@ -26,132 +26,132 @@
 
 using Godot;
 
-namespace SonicOnset.Character
+namespace SonicGodot.Character
 {
-	public partial class ModelRoot : SonicOnset.ModelRoot
-	{
-		// Tilt bone class
-		internal class TiltBone
-		{
-			// Skeleton and bone
-			private Skeleton3D m_skeleton_node;
-			
-			internal int m_bone_idx;
+    public partial class ModelRoot : SonicGodot.ModelRoot
+    {
+        // Tilt bone class
+        internal class TiltBone
+        {
+            // Skeleton and bone
+            private Skeleton3D m_skeleton_node;
 
-			// Constructor
-			public TiltBone(Skeleton3D skeleton_node, string bone_name)
-			{
-				// Get bone
-				m_skeleton_node = skeleton_node;
-				m_bone_idx = m_skeleton_node.FindBone(bone_name);
-			}
+            internal int m_bone_idx;
 
-			// Tilt bone
-			public void Tilt(Quaternion quat)
-			{
-				// Tilt bone pose
-				Quaternion pose = m_skeleton_node.GetBonePoseRotation(m_bone_idx);
-				pose = pose * quat;
-				m_skeleton_node.SetBonePoseRotation(m_bone_idx, pose);
-			}
-		}
+            // Constructor
+            public TiltBone(Skeleton3D skeleton_node, string bone_name)
+            {
+                // Get bone
+                m_skeleton_node = skeleton_node;
+                m_bone_idx = m_skeleton_node.FindBone(bone_name);
+            }
 
-		// Root bone class
-		internal class RootBone
-		{
-			// Skeleton and bone
-			private Skeleton3D m_skeleton_node;
-			internal int m_bone_idx;
+            // Tilt bone
+            public void Tilt(Quaternion quat)
+            {
+                // Tilt bone pose
+                Quaternion pose = m_skeleton_node.GetBonePoseRotation(m_bone_idx);
+                pose = pose * quat;
+                m_skeleton_node.SetBonePoseRotation(m_bone_idx, pose);
+            }
+        }
 
-			private Transform3D m_offset;
+        // Root bone class
+        internal class RootBone
+        {
+            // Skeleton and bone
+            private Skeleton3D m_skeleton_node;
+            internal int m_bone_idx;
 
-			// Constructor
-			public RootBone(Skeleton3D skeleton_node, string bone_name)
-			{
-				// Get bone
-				m_skeleton_node = skeleton_node;
-				m_bone_idx = m_skeleton_node.FindBone(bone_name);
+            private Transform3D m_offset;
 
-				// Get offset
-				m_offset = m_skeleton_node.GetBoneRest(m_bone_idx);
-			}
+            // Constructor
+            public RootBone(Skeleton3D skeleton_node, string bone_name)
+            {
+                // Get bone
+                m_skeleton_node = skeleton_node;
+                m_bone_idx = m_skeleton_node.FindBone(bone_name);
 
-			// Set root bone
-			public void Shear(Transform3D transform)
-			{
-				// Set bone pose
-				Transform3D pose = m_offset * transform;
-				m_skeleton_node.SetBoneEnabled(m_bone_idx, false);
-				m_skeleton_node.SetBoneRest(m_bone_idx, pose);
-			}
-		}
+                // Get offset
+                m_offset = m_skeleton_node.GetBoneRest(m_bone_idx);
+            }
 
-		// Model nodes
-		internal Animator m_animation_player;
-		internal Skeleton3D m_skeleton_node;
+            // Set root bone
+            public void Shear(Transform3D transform)
+            {
+                // Set bone pose
+                Transform3D pose = m_offset * transform;
+                m_skeleton_node.SetBoneEnabled(m_bone_idx, false);
+                m_skeleton_node.SetBoneRest(m_bone_idx, pose);
+            }
+        }
+
+        // Model nodes
+        internal Animator m_animation_player;
+        internal Skeleton3D m_skeleton_node;
         public string m_current_anim;
         internal Util.Animation.SkeletonPose m_rest_pose;
 
-		internal System.Collections.Generic.Dictionary<string, Util.Animation.AnimationTrack> m_animation_tracks = new System.Collections.Generic.Dictionary<string, Util.Animation.AnimationTrack>();
+        internal System.Collections.Generic.Dictionary<string, Util.Animation.AnimationTrack> m_animation_tracks = new System.Collections.Generic.Dictionary<string, Util.Animation.AnimationTrack>();
 
-		// Animation functions
-		internal const double c_anim_blend_slow = 0.4;
-		internal const double c_anim_blend_fast = 0.12;
+        // Animation functions
+        internal const double c_anim_blend_slow = 0.4;
+        internal const double c_anim_blend_fast = 0.12;
 
-		public virtual void ClearAnimation() => m_animation_player.ClearAnimation();
-		public virtual void PlayAnimation(string name, double speed = 1.0f) 
-		{
-			m_current_anim = name;
-			m_animation_player.PlayAnimation(name, speed); 
-		}
+        public virtual void ClearAnimation() => m_animation_player.ClearAnimation();
+        public virtual void PlayAnimation(string name, double speed = 1.0f)
+        {
+            m_current_anim = name;
+            m_animation_player.PlayAnimation(name, speed);
+        }
 
-		// Tilt state
-		internal Util.Spring m_tilt = new Util.Spring(3.0f, 0.0f);
-		
-		internal Transform3D m_shear = Transform3D.Identity;
-		internal const float m_shear_lerp = 0.4f;
+        // Tilt state
+        internal Util.Spring m_tilt = new Util.Spring(3.0f, 0.0f);
 
-		internal Vector3? m_point_of_interest = null;
+        internal Transform3D m_shear = Transform3D.Identity;
+        internal const float m_shear_lerp = 0.4f;
 
-		public virtual void SetTilt(float tilt)
-		{
-			// Set jumpball tilt target
-			m_tilt.m_goal = tilt;
-		}
+        internal Vector3? m_point_of_interest = null;
 
-		public virtual void SetShear(Transform3D transform)
-		{
-			// Lerp shear
-			Basis basis = new Basis(
-				m_shear.Basis.Column0.Lerp(transform.Basis.Column0, m_shear_lerp),
-				m_shear.Basis.Column1.Lerp(transform.Basis.Column1, m_shear_lerp),
-				m_shear.Basis.Column2.Lerp(transform.Basis.Column2, m_shear_lerp)
-			);
-			Vector3 origin = m_shear.Origin.Lerp(transform.Origin, m_shear_lerp);
-			m_shear = new Transform3D(basis, origin);
-		}
+        public virtual void SetTilt(float tilt)
+        {
+            // Set jumpball tilt target
+            m_tilt.m_goal = tilt;
+        }
 
-		public virtual void SetPointOfInterest(Vector3? point_of_interest)
-		{
-			// Set point of interest
-			m_point_of_interest = point_of_interest;
-		}
+        public virtual void SetShear(Transform3D transform)
+        {
+            // Lerp shear
+            Basis basis = new Basis(
+                m_shear.Basis.Column0.Lerp(transform.Basis.Column0, m_shear_lerp),
+                m_shear.Basis.Column1.Lerp(transform.Basis.Column1, m_shear_lerp),
+                m_shear.Basis.Column2.Lerp(transform.Basis.Column2, m_shear_lerp)
+            );
+            Vector3 origin = m_shear.Origin.Lerp(transform.Origin, m_shear_lerp);
+            m_shear = new Transform3D(basis, origin);
+        }
 
-		// Model root
-		public override void _Ready()
-		{
-			// Setup base
-			base._Ready();
+        public virtual void SetPointOfInterest(Vector3? point_of_interest)
+        {
+            // Set point of interest
+            m_point_of_interest = point_of_interest;
+        }
+
+        // Model root
+        public override void _Ready()
+        {
+            // Setup base
+            base._Ready();
             m_animation_player = GetNode<Animator>("Model/AnimationPlayer");
         }
 
         public override void _Process(double delta)
-		{
-			// Update base
-			base._Process(delta);
+        {
+            // Update base
+            base._Process(delta);
 
             // Update tilt
             m_tilt.Step((float)delta);
-		}
-	}
+        }
+    }
 }

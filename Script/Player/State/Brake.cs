@@ -23,65 +23,65 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Brake : State
-		{
-			// Brake state
-			public Brake(Player parent) 
-			{
-				// Set parent
-				m_parent = parent;
+    public partial class Player
+    {
+        public partial class Brake : State
+        {
+            // Brake state
+            public Brake(Player parent)
+            {
+                // Set parent
+                m_parent = parent;
 
-				// Play brake sound
-				m_parent.PlaySound("Brake");
-			}
+                // Play brake sound
+                m_parent.PlaySound("Brake");
+            }
 
-			internal override void AbilityProcess()
-			{
-				// Check if jumped
-				if (m_parent.m_ability.CheckJump())
-					return;
+            internal override void AbilityProcess()
+            {
+                // Check if jumped
+                if (m_parent.m_ability.CheckJump())
+                    return;
 
-				// Check abilities
-				if (m_parent.m_ability.CheckSpinAbility())
-					return;
+                // Check abilities
+                if (m_parent.m_ability.CheckSpinAbility())
+                    return;
 
-				// Check if we're holding forward
-				if (m_parent.m_input_stick.m_length > 0.0f && Mathf.Abs(m_parent.m_input_stick.m_turn) <= Mathf.DegToRad(135.0f))
-				{
-					m_parent.SetState(new Run(m_parent));
-					return;
-				}
+                // Check if we're holding forward
+                if (m_parent.m_input_stick.m_length > 0.0f && Mathf.Abs(m_parent.m_input_stick.m_turn) <= Mathf.DegToRad(135.0f))
+                {
+                    m_parent.SetState(new Run(m_parent));
+                    return;
+                }
 
-				// Check if we've stopped moving
-				if (m_parent.GetAbsSpeedX() < m_parent.m_param.m_run_accel)
-				{
-					m_parent.SetState(new Idle(m_parent));
-					return;
-				}
-			}
+                // Check if we've stopped moving
+                if (m_parent.GetAbsSpeedX() < m_parent.m_param.m_run_accel)
+                {
+                    m_parent.SetState(new Idle(m_parent));
+                    return;
+                }
+            }
 
-			internal override void Process()
-			{
-				// Movement
-				m_parent.BrakeMovement();
+            internal override void Process()
+            {
+                // Movement
+                m_parent.BrakeMovement();
 
-				// Physics
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				if (!m_parent.m_status.m_grounded)
-					m_parent.SetState(new Fall(m_parent));
+                if (!m_parent.m_status.m_grounded)
+                    m_parent.SetState(new Fall(m_parent));
 
-				// Set animation
-				m_parent.PlayAnimation("Brake");
-			}
+                // Set animation
+                m_parent.PlayAnimation("Brake");
+            }
 
-			// State overrides
-			internal override float GetTilt() { return 0.0f; }
-		}
-	}
+            // State overrides
+            internal override float GetTilt() { return 0.0f; }
+        }
+    }
 }

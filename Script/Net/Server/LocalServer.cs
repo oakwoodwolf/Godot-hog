@@ -23,59 +23,59 @@
 
 using Godot;
 
-namespace SonicOnset.Net
+namespace SonicGodot.Net
 {
-	public class LocalServer : IHostServer
-	{
-		// Local server
-		public LocalServer()
-		{
-			
-		}
+    public class LocalServer : IHostServer
+    {
+        // Local server
+        public LocalServer()
+        {
 
-		// Returns your own peer ID
-		public int GetPeerId()
-		{
-			// 1 is the default peer ID for the server, so we'll tell the client that we're the server
-			return 1;
-		}
+        }
 
-		// Returns all peer IDs
-		public int[] GetPeerIds()
-		{
-			// Return an array with only your own peer ID
-			return new int[] { GetPeerId() };
-		}
+        // Returns your own peer ID
+        public int GetPeerId()
+        {
+            // 1 is the default peer ID for the server, so we'll tell the client that we're the server
+            return 1;
+        }
 
-		// Returns the peer ID coming from the server
-		public int GetRemotePeerId()
-		{
-			// 1 is the default peer ID for the server, so we'll tell the client that it came from ourselves
-			return 1;
-		}
+        // Returns all peer IDs
+        public int[] GetPeerIds()
+        {
+            // Return an array with only your own peer ID
+            return new int[] { GetPeerId() };
+        }
 
-		// Send RPC to the server
-		public void Rpc(Node node, string name, params Variant[] args)
-		{
-			// Send RPC to the server
-			node.Call(name, args);
-		}
+        // Returns the peer ID coming from the server
+        public int GetRemotePeerId()
+        {
+            // 1 is the default peer ID for the server, so we'll tell the client that it came from ourselves
+            return 1;
+        }
 
-		// Send RPC to all peers
-		public void RpcAll(Node node, string name, params Variant[] args)
-		{
-			// Directly call node
-			node.Call(name, args);
-		}
+        // Send RPC to the server
+        public void Rpc(Node node, string name, params Variant[] args)
+        {
+            // Send RPC to the server
+            node.Call(name, args);
+        }
 
-		// Send RPC to a specific peer
-		public void RpcId(int peer_id, Node node, string name, params Variant[] args)
-		{
-			// Directly call node
-			node.Call(name, args);
-		}
+        // Send RPC to all peers
+        public void RpcAll(Node node, string name, params Variant[] args)
+        {
+            // Directly call node
+            node.Call(name, args);
+        }
 
-		// Disconnect from the server
-		public void Disconnect() { }
-	}
+        // Send RPC to a specific peer
+        public void RpcId(int peer_id, Node node, string name, params Variant[] args)
+        {
+            // Directly call node
+            node.Call(name, args);
+        }
+
+        // Disconnect from the server
+        public void Disconnect() { }
+    }
 }

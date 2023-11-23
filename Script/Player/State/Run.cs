@@ -23,66 +23,66 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Run : State
-		{
-			// Animation speed
-			double m_anim_speed;
+    public partial class Player
+    {
+        public partial class Run : State
+        {
+            // Animation speed
+            double m_anim_speed;
 
-			// Run state
-			public Run(Player parent) 
-			{
-				// Set parent
-				m_parent = parent;
+            // Run state
+            public Run(Player parent)
+            {
+                // Set parent
+                m_parent = parent;
 
-				// Set animation speed
-				m_anim_speed = m_parent.GetAbsSpeedX();
-			}
+                // Set animation speed
+                m_anim_speed = m_parent.GetAbsSpeedX();
+            }
 
-			internal override void AbilityProcess()
-			{
-				// Check if jumped
-				if (m_parent.m_ability.CheckJump())
-					return;
+            internal override void AbilityProcess()
+            {
+                // Check if jumped
+                if (m_parent.m_ability.CheckJump())
+                    return;
 
-				// Check abilities
-				if (m_parent.m_ability.CheckSpinAbility())
-					return;
+                // Check abilities
+                if (m_parent.m_ability.CheckSpinAbility())
+                    return;
 
-				// Check if we're holding backward
-				if (m_parent.m_input_stick.m_length > 0.0f && Mathf.Abs(m_parent.m_input_stick.m_turn) > Mathf.DegToRad(135.0f))
-				{
-					m_parent.SetState(new Brake(m_parent));
-					return;
-				}
+                // Check if we're holding backward
+                if (m_parent.m_input_stick.m_length > 0.0f && Mathf.Abs(m_parent.m_input_stick.m_turn) > Mathf.DegToRad(135.0f))
+                {
+                    m_parent.SetState(new Brake(m_parent));
+                    return;
+                }
 
-				// Check if we've stopped running
-				if (m_parent.GetAbsSpeedX() < m_parent.m_param.m_jog_speed && m_parent.m_input_stick.m_length == 0)
-				{
-					m_parent.SetState(new Idle(m_parent));
-					return;
-				}
-			}
+                // Check if we've stopped running
+                if (m_parent.GetAbsSpeedX() < m_parent.m_param.m_jog_speed && m_parent.m_input_stick.m_length == 0)
+                {
+                    m_parent.SetState(new Idle(m_parent));
+                    return;
+                }
+            }
 
-			internal override void Process()
-			{
-				// Movement
-				m_parent.Movement();
+            internal override void Process()
+            {
+                // Movement
+                m_parent.Movement();
 
-				// Physics
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				if (!m_parent.m_status.m_grounded)
-					m_parent.SetState(new Fall(m_parent));
+                if (!m_parent.m_status.m_grounded)
+                    m_parent.SetState(new Fall(m_parent));
 
-				// Set animation
-				m_anim_speed += (m_parent.GetAbsSpeedX() - m_anim_speed) * 0.2f;
-				m_parent.PlayAnimation("Run", m_anim_speed);
-			}
-		}
-	}
+                // Set animation
+                m_anim_speed += (m_parent.GetAbsSpeedX() - m_anim_speed) * 0.2f;
+                m_parent.PlayAnimation("Run", m_anim_speed);
+            }
+        }
+    }
 }

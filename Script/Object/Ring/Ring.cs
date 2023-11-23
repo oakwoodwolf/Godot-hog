@@ -23,48 +23,48 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Ring : ObjectTriggerInterest, IObject
-	{
-		// Node setup
-		[Export]
-		public PackedScene m_ring_particle;
+    public partial class Ring : ObjectTriggerInterest, IObject
+    {
+        // Node setup
+        [Export]
+        public PackedScene m_ring_particle;
 
 
-		public override void _Ready()
-		{
-			// Play ring spinning animation
-			GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
-			m_shape_node = GetNode<CollisionShape3D>("ColShape");
-			m_listener_node = GetNode<StaticBody3D>(".");
-			// Setup base
-			base._Ready();
-		}
+        public override void _Ready()
+        {
+            // Play ring spinning animation
+            GetNode<AnimationPlayer>("Ring/AnimationPlayer").Play("RingSpin");
+            m_shape_node = GetNode<CollisionShape3D>("ColShape");
+            m_listener_node = GetNode<StaticBody3D>(".");
+            // Setup base
+            base._Ready();
+        }
 
-		// Trigger listener
-		public void Touch(Node3D other)
-		{
-			// Check if player
-			Player player = other as Player;
-			if (player != null)
-			{
-				if (player.m_state.HitObject(this))
-				{
-					// Add ring to player
-					player.AddRings(1);
-					GpuParticles3D sparkles = ResourceLoader.Load<PackedScene>("res://Particles/RingParticle.res").Instantiate() as GpuParticles3D;
-					// Add the node as a child of the node the script is attached to.
-					GetParent().AddChild(sparkles);
-					sparkles.GlobalTransform = GlobalTransform;
-					player.AddScore(10);
+        // Trigger listener
+        public void Touch(Node3D other)
+        {
+            // Check if player
+            Player player = other as Player;
+            if (player != null)
+            {
+                if (player.m_state.HitObject(this))
+                {
+                    // Add ring to player
+                    player.AddRings(1);
+                    GpuParticles3D sparkles = ResourceLoader.Load<PackedScene>("res://Particles/RingParticle.res").Instantiate() as GpuParticles3D;
+                    // Add the node as a child of the node the script is attached to.
+                    GetParent().AddChild(sparkles);
+                    sparkles.GlobalTransform = GlobalTransform;
+                    player.AddScore(10);
 
-					// Delete self
-					QueueFree();
-				}
-			}
-		}
-		public bool CanLightDash() { return true; }
+                    // Delete self
+                    QueueFree();
+                }
+            }
+        }
+        public bool CanLightDash() { return true; }
 
-	}
+    }
 }

@@ -21,82 +21,80 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Idle : State
-		{
-			// Idle landed
-			bool m_landed;
+    public partial class Player
+    {
+        public partial class Idle : State
+        {
+            // Idle landed
+            bool m_landed;
 
-			// Idle state
-			public Idle(Player parent, bool landed = false)
-			{
-				// Set parent
-				m_parent = parent;
+            // Idle state
+            public Idle(Player parent, bool landed = false)
+            {
+                // Set parent
+                m_parent = parent;
 
-				// Set landed
-				m_landed = landed;
-			}
+                // Set landed
+                m_landed = landed;
+            }
 
-			internal override void AbilityProcess()
-			{
-				// Check if jumped
-				if (m_parent.m_ability.CheckJump())
-					return;
+            internal override void AbilityProcess()
+            {
+                // Check if jumped
+                if (m_parent.m_ability.CheckJump())
+                    return;
 
-				// Check abilities
-				if (m_parent.m_ability.CheckSpinAbility())
-					return;
+                // Check abilities
+                if (m_parent.m_ability.CheckSpinAbility())
+                    return;
 
-				// Check if we've started running
-				if (m_parent.m_input_stick.m_length != 0)
-				{
-					m_parent.SetState(new Run(m_parent));
-					return;
-				}
-			}
+                // Check if we've started running
+                if (m_parent.m_input_stick.m_length != 0)
+                {
+                    m_parent.SetState(new Run(m_parent));
+                    return;
+                }
+            }
 
-			internal override void Process()
-			{
-				// Movement
-				m_parent.Movement();
+            internal override void Process()
+            {
+                // Movement
+                m_parent.Movement();
 
-				// Physics
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				if (!m_parent.m_status.m_grounded)
-					m_parent.SetState(new Fall(m_parent));
+                if (!m_parent.m_status.m_grounded)
+                    m_parent.SetState(new Fall(m_parent));
 
-				// Set animation
-				float speed_x = m_parent.GetSpeedX();
-				if (speed_x > m_parent.m_param.m_jog_speed)
-				{
-					// Sliding forward
-					m_parent.PlayAnimation("Spin");
-					m_landed = false;
-				}
-				else if (speed_x < -m_parent.m_param.m_jog_speed)
-				{
-					// Sliding backward
-					m_parent.PlayAnimation("Spin");
-					m_landed = false;
-				}
-				else if (m_landed)
-				{
-					// Landed from a jump
-					m_parent.PlayAnimation("Land");
-				}
-				else
-				{
-					// Idle
-					m_parent.PlayAnimation("Idle", 0.5);
-				}
-			}
-		}
-	}
+                // Set animation
+                float speed_x = m_parent.GetSpeedX();
+                if (speed_x > m_parent.m_param.m_jog_speed)
+                {
+                    // Sliding forward
+                    m_parent.PlayAnimation("Spin");
+                    m_landed = false;
+                }
+                else if (speed_x < -m_parent.m_param.m_jog_speed)
+                {
+                    // Sliding backward
+                    m_parent.PlayAnimation("Spin");
+                    m_landed = false;
+                }
+                else if (m_landed)
+                {
+                    // Landed from a jump
+                    m_parent.PlayAnimation("Land");
+                }
+                else
+                {
+                    // Idle
+                    m_parent.PlayAnimation("Idle", 0.5);
+                }
+            }
+        }
+    }
 }

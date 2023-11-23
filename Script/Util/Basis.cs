@@ -23,23 +23,23 @@
 
 using Godot;
 
-namespace SonicOnset.Util
+namespace SonicGodot.Util
 {
-	public static class Basis
-	{
-		public static Godot.Basis FromTo(Godot.Vector3 from, Godot.Vector3 to, float percent = 1.0f)
-		{
-			// Get rotation axis angle
-			Godot.Vector3 axis = from.Cross(to);
-			float dot = from.Dot(to);
+    public static class Basis
+    {
+        public static Godot.Basis FromTo(Godot.Vector3 from, Godot.Vector3 to, float percent = 1.0f)
+        {
+            // Get rotation axis angle
+            Godot.Vector3 axis = from.Cross(to);
+            float dot = from.Dot(to);
 
-			// Return rotation around axis angle
-			if (dot < -1.0f + Mathf.Epsilon)
-				return new Godot.Basis(Godot.Vector3.Right, Mathf.Pi * percent);
-			if (dot > 1.0f - Mathf.Epsilon)
-				return Godot.Basis.Identity;
-			else
-				return new Godot.Basis(axis.Normalized(), Mathf.Acos(dot) * percent);
-		}
-	}
+            // Return rotation around axis angle
+            if (dot < -1.0f + Mathf.Epsilon)
+                return new Godot.Basis(Godot.Vector3.Right, Mathf.Pi * percent);
+            if (dot > 1.0f - Mathf.Epsilon)
+                return Godot.Basis.Identity;
+            else
+                return new Godot.Basis(axis.Normalized(), Mathf.Acos(dot) * percent);
+        }
+    }
 }

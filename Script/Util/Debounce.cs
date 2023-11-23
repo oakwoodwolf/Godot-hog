@@ -21,24 +21,22 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public class Debounce
-	{
-		// Debounce clock
-		private ulong m_clock = ulong.MinValue;
+    public class Debounce
+    {
+        // Debounce clock
+        private ulong m_clock = ulong.MinValue;
 
-		// Debounce functions
-		public void Set(ulong length)
-		{
-			m_clock = Root.GetClock() + length;
-		}
+        // Debounce functions
+        public void Set(ulong length)
+        {
+            m_clock = Root.GetClock() + length;
+        }
 
-		public bool Check()
-		{
-			return Root.GetClock() >= m_clock;
-		}
-	}
+        public bool Check()
+        {
+            return Root.GetClock() >= m_clock;
+        }
+    }
 }

@@ -23,32 +23,32 @@
 
 using Godot;
 
-namespace SonicOnset.Util
+namespace SonicGodot.Util
 {
-	// Fixed quaternion slerp class
-	public class FixedSlerp
-	{
-		// From to slerp
-		private Quaternion m_from;
-		private Quaternion m_to;
+    // Fixed quaternion slerp class
+    public class FixedSlerp
+    {
+        // From to slerp
+        private Quaternion m_from;
+        private Quaternion m_to;
 
-		// Slerp step
-		public FixedSlerp(Quaternion quaternion)
-		{
-			// Set quaternion
-			m_from = quaternion;
-			m_to = quaternion;
-		}
+        // Slerp step
+        public FixedSlerp(Quaternion quaternion)
+        {
+            // Set quaternion
+            m_from = quaternion;
+            m_to = quaternion;
+        }
 
-		public void Step(Quaternion quaternion, float alpha)
-		{
-			m_from = m_to;
-			m_to = m_from.Slerp(quaternion, alpha);
-		}
+        public void Step(Quaternion quaternion, float alpha)
+        {
+            m_from = m_to;
+            m_to = m_from.Slerp(quaternion, alpha);
+        }
 
-		public Quaternion Get(float fraction)
-		{
-			return m_from.Slerp(m_to, fraction);
-		}
-	}
+        public Quaternion Get(float fraction)
+        {
+            return m_from.Slerp(m_to, fraction);
+        }
+    }
 }

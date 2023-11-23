@@ -21,66 +21,64 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Spring : State
-		{
-			// Spring state
-			int m_nocon = 0;
+    public partial class Player
+    {
+        public partial class Spring : State
+        {
+            // Spring state
+            int m_nocon = 0;
 
-			// Fall state
-			internal Spring(Player parent, int nocon)
-			{
-				// Set parent
-				m_parent = parent;
+            // Fall state
+            internal Spring(Player parent, int nocon)
+            {
+                // Set parent
+                m_parent = parent;
 
-				// Set spring state
-				m_nocon = nocon;
-				m_parent.hasHomed = false;
-				// Set animation
-				m_parent.ClearAnimation();
-				m_parent.PlayAnimation("Up");
-			}
+                // Set spring state
+                m_nocon = nocon;
+                m_parent.hasHomed = false;
+                // Set animation
+                m_parent.ClearAnimation();
+                m_parent.PlayAnimation("Up");
+            }
 
-			internal override void Process()
-			{
-				// Movement
-				if (m_nocon >= 0)
-				{
-					// Fall to gravity
-					m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
-				}
+            internal override void Process()
+            {
+                // Movement
+                if (m_nocon >= 0)
+                {
+                    // Fall to gravity
+                    m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
+                }
 
-				// Physics
-				float y_speed = m_parent.GetSpeedY();
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                float y_speed = m_parent.GetSpeedY();
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				if (m_parent.m_status.m_grounded)
-					m_parent.SetStateLand(y_speed);
+                if (m_parent.m_status.m_grounded)
+                    m_parent.SetStateLand(y_speed);
 
-				// Check if nocon expired
-				if (m_nocon < 0)
-					m_nocon++;
-				else
-					m_nocon--;
+                // Check if nocon expired
+                if (m_nocon < 0)
+                    m_nocon++;
+                else
+                    m_nocon--;
 
-				if (m_nocon == 0)
-				{
-					m_parent.SetState(new Fall(m_parent));
-					return;
-				}
-			}
+                if (m_nocon == 0)
+                {
+                    m_parent.SetState(new Fall(m_parent));
+                    return;
+                }
+            }
 
-			// State overrides
-			internal override bool CanDynamicPose()
-			{
-				return false;
-			}
-		}
-	}
+            // State overrides
+            internal override bool CanDynamicPose()
+            {
+                return false;
+            }
+        }
+    }
 }

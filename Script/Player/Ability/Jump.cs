@@ -23,41 +23,41 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Ability
-		{
-			public partial class Jump : Ability
-			{
-				// Jump ability
-				public Jump(Player player)
-				{
-					// Set parent player
-					m_parent = player;
-				}
+    public partial class Player
+    {
+        public partial class Ability
+        {
+            public partial class Jump : Ability
+            {
+                // Jump ability
+                public Jump(Player player)
+                {
+                    // Set parent player
+                    m_parent = player;
+                }
 
-				internal override bool CheckJump()
-				{
-					// Check jump button
-					if (m_parent.m_input_jump.m_pressed)
-					{
-						// Switch to jump state
-						m_parent.SetState(new Player.Jump(m_parent));
-						m_parent.m_status.m_grounded = false;
+                internal override bool CheckJump()
+                {
+                    // Check jump button
+                    if (m_parent.m_input_jump.m_pressed)
+                    {
+                        // Switch to jump state
+                        m_parent.SetState(new Player.Jump(m_parent));
+                        m_parent.m_status.m_grounded = false;
 
-						// Play jump sound
-						m_parent.PlaySound("Jump");
+                        // Play jump sound
+                        m_parent.PlaySound("Jump");
 
-						// Jump off floor
-						m_parent.Velocity = Util.Vector3.PlaneProject(m_parent.Velocity, m_parent.GetUp());
-						m_parent.Velocity += m_parent.FromSpeed(Vector3.Up * m_parent.m_param.m_jump_speed);
-						return true;
-					}
-					return false;
-				}
-			}
-		}
-	}
+                        // Jump off floor
+                        m_parent.Velocity = Util.Vector3.PlaneProject(m_parent.Velocity, m_parent.GetUp());
+                        m_parent.Velocity += m_parent.FromSpeed(Vector3.Up * m_parent.m_param.m_jump_speed);
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+    }
 }

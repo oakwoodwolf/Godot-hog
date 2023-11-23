@@ -23,35 +23,35 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class ModelRoot : Node3D
-	{
-		// ModelRoot state
-		private Transform3D m_from, m_to;
+    public partial class ModelRoot : Node3D
+    {
+        // ModelRoot state
+        private Transform3D m_from, m_to;
 
-		// ModelRoot functions
-		public override void _Ready()
-		{
-			// Initial state
-			m_from = GlobalTransform;
-			m_to = GlobalTransform;
+        // ModelRoot functions
+        public override void _Ready()
+        {
+            // Initial state
+            m_from = GlobalTransform;
+            m_to = GlobalTransform;
 
-			// Setup base
-			base._Ready();
-		}
+            // Setup base
+            base._Ready();
+        }
 
-		public override void _Process(double delta)
-		{
-			float fraction = (float)Engine.GetPhysicsInterpolationFraction();
-			GlobalTransform = m_from.InterpolateWith(m_to, fraction);
-		}
+        public override void _Process(double delta)
+        {
+            float fraction = (float)Engine.GetPhysicsInterpolationFraction();
+            GlobalTransform = m_from.InterpolateWith(m_to, fraction);
+        }
 
-		public void SetTransform(Transform3D transform)
-		{
-			m_from = m_to;
-			m_to = m_to.InterpolateWith(transform, 0.4f);
-			m_to.Origin = transform.Origin;
-		}
-	}
+        public void SetTransform(Transform3D transform)
+        {
+            m_from = m_to;
+            m_to = m_to.InterpolateWith(transform, 0.4f);
+            m_to.Origin = transform.Origin;
+        }
+    }
 }

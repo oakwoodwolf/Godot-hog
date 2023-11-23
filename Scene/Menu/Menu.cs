@@ -1,12 +1,12 @@
 using Godot;
 using Godot.Collections;
-using SonicOnset;
 using System;
 
-namespace SonicOnset
+namespace SonicGodot
 {
 	public partial class Menu : Control
-	{	public AudioStreamPlayer soundPlayer;
+	{
+		public AudioStreamPlayer soundPlayer;
 		[Export]
 		Dictionary<string, AudioStream> menuSounds = new Dictionary<string, AudioStream>();
 		OptionButton resolutionButton;
@@ -76,7 +76,8 @@ namespace SonicOnset
 		private int CheckWindowMode(UInt16 res)
 		{
 			int i = 0;
-			switch (res) {
+			switch (res)
+			{
 				case (UInt16)DisplayServer.WindowMode.Fullscreen:
 					i = 1;
 					break;
@@ -145,6 +146,3 @@ namespace SonicOnset
 		}
 	}
 }
-
-
-

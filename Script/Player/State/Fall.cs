@@ -21,56 +21,60 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Fall : State
-		{
-			// Fall state
-			internal Fall(Player parent)
-			{
-				// Set parent
-				m_parent = parent;
-			}
+    public partial class Player
+    {
+        public partial class Fall : State
+        {
+            // Fall state
+            internal Fall(Player parent)
+            {
+                // Set parent
+                m_parent = parent;
+            }
 
-			internal override void AbilityProcess()
-			{
-				// Check fall abilities
-				if (m_parent.m_ability.CheckFallAbility())
-					return;
-			}
+            internal override void AbilityProcess()
+            {
+                // Check fall abilities
+                if (m_parent.m_ability.CheckFallAbility())
+                    return;
+            }
 
-			internal override void Process()
-			{
-				// Movement
-				m_parent.RotateToGravity();
-				m_parent.AirMovement();
+            internal override void Process()
+            {
+                // Movement
+                m_parent.RotateToGravity();
+                m_parent.AirMovement();
 
-				// Physics
-				float y_speed = m_parent.GetSpeedY();
-				float x_speed = m_parent.GetSpeedX();
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                float y_speed = m_parent.GetSpeedY();
+                float x_speed = m_parent.GetSpeedX();
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				if (m_parent.m_status.m_grounded)
-					m_parent.SetStateLand(y_speed);
+                if (m_parent.m_status.m_grounded)
+                    m_parent.SetStateLand(y_speed);
 
-				// Set animation
-				if (x_speed < 4) {
-					if (y_speed <= 1) {
-									m_parent.PlayAnimation("Fall");
-				} else {
-									m_parent.PlayAnimation("Up");
-				}
-				} else {
-					m_parent.PlayAnimation("FallFast");
-				}
-				
+                // Set animation
+                if (x_speed < 4)
+                {
+                    if (y_speed <= 1)
+                    {
+                        m_parent.PlayAnimation("Fall");
+                    }
+                    else
+                    {
+                        m_parent.PlayAnimation("Up");
+                    }
+                }
+                else
+                {
+                    m_parent.PlayAnimation("FallFast");
+                }
 
-			}
-		}
-	}
+
+            }
+        }
+    }
 }

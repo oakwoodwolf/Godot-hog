@@ -21,55 +21,53 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Ability
-		{
-			public partial class Spindash : Ability
-			{
-				// Spindash ability
-				public Spindash(Player player)
-				{
-					// Set parent player
-					m_parent = player;
-				}
+    public partial class Player
+    {
+        public partial class Ability
+        {
+            public partial class Spindash : Ability
+            {
+                // Spindash ability
+                public Spindash(Player player)
+                {
+                    // Set parent player
+                    m_parent = player;
+                }
 
-				internal override bool CheckSpinAbility()
-				{
-					// Check spin button
-					if (m_parent.m_input_spin.m_pressed)
-					{
-						// Begin spindash
-						m_parent.SetState(new Player.Spindash(m_parent));
-						return true;
-					}
+                internal override bool CheckSpinAbility()
+                {
+                    // Check spin button
+                    if (m_parent.m_input_spin.m_pressed)
+                    {
+                        // Begin spindash
+                        m_parent.SetState(new Player.Spindash(m_parent));
+                        return true;
+                    }
 
-					// Check roll button
-					if (m_parent.m_input_quaternary.m_pressed && m_parent.GetAbsSpeedX() > m_parent.m_param.m_jog_speed)
-					{
-						// Begin rolling
-						m_parent.SetState(new Player.Roll(m_parent));
-						return true;
-					}
-					return false;
-				}
+                    // Check roll button
+                    if (m_parent.m_input_quaternary.m_pressed && m_parent.GetAbsSpeedX() > m_parent.m_param.m_jog_speed)
+                    {
+                        // Begin rolling
+                        m_parent.SetState(new Player.Roll(m_parent));
+                        return true;
+                    }
+                    return false;
+                }
 
-				internal override bool CheckLandAbility()
-				{
-					// Check roll button
-					if (m_parent.m_input_quaternary.m_down && m_parent.GetAbsSpeedX() > m_parent.m_param.m_jog_speed)
-					{
-						// Begin rolling
-						m_parent.SetState(new Player.Roll(m_parent));
-						return true;
-					}
-					return false;
-				}
-			}
-		}
-	}
+                internal override bool CheckLandAbility()
+                {
+                    // Check roll button
+                    if (m_parent.m_input_quaternary.m_down && m_parent.GetAbsSpeedX() > m_parent.m_param.m_jog_speed)
+                    {
+                        // Begin rolling
+                        m_parent.SetState(new Player.Roll(m_parent));
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+    }
 }

@@ -80,8 +80,8 @@ m_roll = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_5ckot")
-volume_db = -7.06
 autoplay = true
+bus = &"Music"
 
 [node name="Players" type="Node3D" parent="."]
 

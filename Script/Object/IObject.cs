@@ -21,14 +21,12 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public interface IObject : IObjectTriggerListener
-	{
-		// Object properties
-		public bool CanHomingAttack() { return false; }
-		public bool CanLightDash() { return false; }
-	}
+    public interface IObject : IObjectTriggerListener
+    {
+        // Object properties
+        public bool CanHomingAttack() { return false; }
+        public bool CanLightDash() { return false; }
+    }
 }

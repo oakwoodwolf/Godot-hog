@@ -23,53 +23,53 @@
 
 using Godot;
 
-namespace SonicOnset.Net
+namespace SonicGodot.Net
 {
-	public class RemoteServer : IServer
-	{
-		// Multiplayer API
-		private MultiplayerApi m_multiplayer_api;
+    public class RemoteServer : IServer
+    {
+        // Multiplayer API
+        private MultiplayerApi m_multiplayer_api;
 
-		// Remote server
-		public RemoteServer(MultiplayerApi multiplayer_api, string ip, int port)
-		{
-			// Connect multiplayer peer
-			ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
-			peer.CreateClient(ip, port);
+        // Remote server
+        public RemoteServer(MultiplayerApi multiplayer_api, string ip, int port)
+        {
+            // Connect multiplayer peer
+            ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
+            peer.CreateClient(ip, port);
 
-			// Setup multiplayer API
-			peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
-			m_multiplayer_api = multiplayer_api;
-			m_multiplayer_api.MultiplayerPeer = peer;
-			GD.Print("Joining Remote Server: " + ip + ":" + port);
-		}
+            // Setup multiplayer API
+            peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+            m_multiplayer_api = multiplayer_api;
+            m_multiplayer_api.MultiplayerPeer = peer;
+            GD.Print("Joining Remote Server: " + ip + ":" + port);
+        }
 
-		// Returns your own peer ID
-		public int GetPeerId() => m_multiplayer_api.GetUniqueId();
+        // Returns your own peer ID
+        public int GetPeerId() => m_multiplayer_api.GetUniqueId();
 
-		// Returns all peer IDs
-		public int[] GetPeerIds() => m_multiplayer_api.GetPeers();
+        // Returns all peer IDs
+        public int[] GetPeerIds() => m_multiplayer_api.GetPeers();
 
-		// Returns the peer ID coming from the server
-		public int GetRemotePeerId() => m_multiplayer_api.GetRemoteSenderId();
+        // Returns the peer ID coming from the server
+        public int GetRemotePeerId() => m_multiplayer_api.GetRemoteSenderId();
 
-		// Send RPC to the server
-		public void Rpc(Node node, string name, params Variant[] args)
-		{
-			// Forward RPC to the server root
-			Variant[] forward = { Root.Singleton().GetPathTo(node), name, new Godot.Collections.Array(args) };
-			m_multiplayer_api.Rpc(1, Root.Singleton(), "Rpc_ServerForward", new Godot.Collections.Array(forward));
-		}
+        // Send RPC to the server
+        public void Rpc(Node node, string name, params Variant[] args)
+        {
+            // Forward RPC to the server root
+            Variant[] forward = { Root.Singleton().GetPathTo(node), name, new Godot.Collections.Array(args) };
+            m_multiplayer_api.Rpc(1, Root.Singleton(), "Rpc_ServerForward", new Godot.Collections.Array(forward));
+        }
 
-		// Disconnect
-		public void Disconnect()
-		{
-			// Disconnect from the server
-			m_multiplayer_api.MultiplayerPeer.Close();
+        // Disconnect
+        public void Disconnect()
+        {
+            // Disconnect from the server
+            m_multiplayer_api.MultiplayerPeer.Close();
 
-			// Remove multiplayer peer
-			m_multiplayer_api.MultiplayerPeer = null;
-			m_multiplayer_api = null;
-		}
-	}
+            // Remove multiplayer peer
+            m_multiplayer_api.MultiplayerPeer = null;
+            m_multiplayer_api = null;
+        }
+    }
 }

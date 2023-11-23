@@ -21,39 +21,37 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Ability
-		{
-			public partial class Bounce : Ability
-			{
-				// Bounce ability
-				public Bounce(Player player)
-				{
-					// Set parent player
-					m_parent = player;
-				}
+    public partial class Player
+    {
+        public partial class Ability
+        {
+            public partial class Bounce : Ability
+            {
+                // Bounce ability
+                public Bounce(Player player)
+                {
+                    // Set parent player
+                    m_parent = player;
+                }
 
-				internal override bool CheckJumpAbility()
-				{
-					// Check if we're already bouncing
-					if (m_parent.m_state is Player.Bounce)
-						return false;
+                internal override bool CheckJumpAbility()
+                {
+                    // Check if we're already bouncing
+                    if (m_parent.m_state is Player.Bounce)
+                        return false;
 
-					// Check spin button
-					if (m_parent.m_input_spin.m_pressed)
-					{
-						// Begin bounce attack
-						m_parent.SetState(new Player.Bounce(m_parent));
-						return true;
-					}
-					return false;
-				}
-			}
-		}
-	}
+                    // Check spin button
+                    if (m_parent.m_input_spin.m_pressed)
+                    {
+                        // Begin bounce attack
+                        m_parent.SetState(new Player.Bounce(m_parent));
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+    }
 }

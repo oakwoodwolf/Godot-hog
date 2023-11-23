@@ -24,129 +24,129 @@
 using Godot;
 using System.Collections.Generic;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Spindash : State
-		{
-			// Spindash charged speed
-			private float m_speed;
-			private float m_init_speed;
+    public partial class Player
+    {
+        public partial class Spindash : State
+        {
+            // Spindash charged speed
+            private float m_speed;
+            private float m_init_speed;
 
-			// Spindash state
-			public Spindash(Player parent) 
-			{
-				// Set parent
-				m_parent = parent;
+            // Spindash state
+            public Spindash(Player parent)
+            {
+                // Set parent
+                m_parent = parent;
 
-				// Get spin speed
-				m_init_speed = m_parent.GetSpeedX();
-				m_speed = Mathf.Max(m_init_speed, 2.0f);
+                // Get spin speed
+                m_init_speed = m_parent.GetSpeedX();
+                m_speed = Mathf.Max(m_init_speed, 2.0f);
 
-				// Play spindash charge sound
-				m_parent.PlaySound("SpindashCharge");
-			}
+                // Play spindash charge sound
+                m_parent.PlaySound("SpindashCharge");
+            }
 
-			internal override void Stop()
-			{
-				// Stop spindash charge sound
-				m_parent.StopSound("SpindashCharge");
-			}
+            internal override void Stop()
+            {
+                // Stop spindash charge sound
+                m_parent.StopSound("SpindashCharge");
+            }
 
-			internal override void AbilityProcess()
-			{
-				// Check jump button
-				if (m_parent.m_input_jump.m_pressed)
-				{
-					// Jump off floor
-					Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-					if (m_parent.m_status.m_grounded)
-						speed.X = m_init_speed * 1.25f;
-					else
-						speed.X *= 1.5f;
-					speed.Y = m_parent.m_param.m_jump_speed * 0.8f;
-					m_parent.Velocity = m_parent.FromSpeed(speed);
+            internal override void AbilityProcess()
+            {
+                // Check jump button
+                if (m_parent.m_input_jump.m_pressed)
+                {
+                    // Jump off floor
+                    Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
+                    if (m_parent.m_status.m_grounded)
+                        speed.X = m_init_speed * 1.25f;
+                    else
+                        speed.X *= 1.5f;
+                    speed.Y = m_parent.m_param.m_jump_speed * 0.8f;
+                    m_parent.Velocity = m_parent.FromSpeed(speed);
 
-					// Play jump sound
-					m_parent.PlaySound("Jump");
+                    // Play jump sound
+                    m_parent.PlaySound("Jump");
 
-					// Switch to jump state
-					m_parent.SetState(new Trick(m_parent, "HomingTrick"));
-					m_parent.m_status.m_grounded = false;
-					return;
-				}
+                    // Switch to jump state
+                    m_parent.SetState(new Trick(m_parent, "HomingTrick"));
+                    m_parent.m_status.m_grounded = false;
+                    return;
+                }
 
-				// Check if we've released spin
-				if (!m_parent.m_input_spin.m_down)
-				{
-					// Release speed
-					Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-					if (m_parent.m_status.m_grounded)
-						speed.X = m_speed;
-					else
-						speed.X = (speed.X + m_speed) * 0.5f;
-					m_parent.Velocity = m_parent.FromSpeed(speed);
+                // Check if we've released spin
+                if (!m_parent.m_input_spin.m_down)
+                {
+                    // Release speed
+                    Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
+                    if (m_parent.m_status.m_grounded)
+                        speed.X = m_speed;
+                    else
+                        speed.X = (speed.X + m_speed) * 0.5f;
+                    m_parent.Velocity = m_parent.FromSpeed(speed);
 
-					// Switch to roll state
-					m_parent.SetState(new Roll(m_parent));
-					return;
-				}
-			}
+                    // Switch to roll state
+                    m_parent.SetState(new Roll(m_parent));
+                    return;
+                }
+            }
 
-			internal override void Process()
-			{
-				// Charge speed
-				if (m_speed < 7.0f)
-					m_speed += 0.15f;
-				else
-					m_init_speed *= 0.95f;
+            internal override void Process()
+            {
+                // Charge speed
+                if (m_speed < 7.0f)
+                    m_speed += 0.15f;
+                else
+                    m_init_speed *= 0.95f;
 
-				// Movement
-				m_parent.ControlTurnY(m_parent.m_input_stick.m_turn);
-				if (m_parent.m_status.m_grounded)
-				{
-					// Brake to a stop
-					m_parent.BrakeMovement();
-				}
-				else
-				{
-					// Limited air movement
-					m_parent.AlwaysRotateToGravity();
-					m_parent.RollMovement();
-				}
+                // Movement
+                m_parent.ControlTurnY(m_parent.m_input_stick.m_turn);
+                if (m_parent.m_status.m_grounded)
+                {
+                    // Brake to a stop
+                    m_parent.BrakeMovement();
+                }
+                else
+                {
+                    // Limited air movement
+                    m_parent.AlwaysRotateToGravity();
+                    m_parent.RollMovement();
+                }
 
-				// Physics
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+                // Physics
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
 
-				// Set animation
-				m_parent.PlayAnimation("Spin", m_speed);
-			}
+                // Set animation
+                m_parent.PlayAnimation("Spin", m_speed);
+            }
 
-			internal override void Debug(List<string> debugs)
-			{
-				debugs.Add("Speed: " + m_speed);
-				debugs.Add("Init Speed: " + m_init_speed);
-			}
+            internal override void Debug(List<string> debugs)
+            {
+                debugs.Add("Speed: " + m_speed);
+                debugs.Add("Init Speed: " + m_init_speed);
+            }
 
-			// State overrides
-			internal override bool CanDynamicPose()
-			{
-				return false;
-			}
+            // State overrides
+            internal override bool CanDynamicPose()
+            {
+                return false;
+            }
 
-			internal override Transform3D GetShear()
-			{
-				// Get shear
-				Basis shear = new Basis(
-					1.0f, 0.0f, 0.0f,
-					0.0f, 1.0f, 0.0f,
-					0.0f, 0.5f, 1.0f
-				);
+            internal override Transform3D GetShear()
+            {
+                // Get shear
+                Basis shear = new Basis(
+                    1.0f, 0.0f, 0.0f,
+                    0.0f, 1.0f, 0.0f,
+                    0.0f, 0.5f, 1.0f
+                );
 
-				return new Transform3D(shear, new Vector3(0.0f, 0.0f, -0.7f));
-			}
-		}
-	}
+                return new Transform3D(shear, new Vector3(0.0f, 0.0f, -0.7f));
+            }
+        }
+    }
 }

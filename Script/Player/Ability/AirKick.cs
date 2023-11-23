@@ -21,67 +21,65 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Ability
-		{
-			public partial class AirKick : Ability
-			{
-				// Air kick flag
-				bool m_bounce_flag = false;
+    public partial class Player
+    {
+        public partial class Ability
+        {
+            public partial class AirKick : Ability
+            {
+                // Air kick flag
+                bool m_bounce_flag = false;
 
-				// Air kick ability
-				public AirKick(Player player)
-				{
-					// Set parent player
-					m_parent = player;
-				}
+                // Air kick ability
+                public AirKick(Player player)
+                {
+                    // Set parent player
+                    m_parent = player;
+                }
 
-				internal override bool CheckJumpAbility()
-				{
-					// Check if bounce flag is set
-					if (!m_bounce_flag)
-						return false;
+                internal override bool CheckJumpAbility()
+                {
+                    // Check if bounce flag is set
+                    if (!m_bounce_flag)
+                        return false;
 
-					// Check kick button
-					if (m_parent.m_input_tertiary.m_pressed)
-					{
-						// Begin air kick
-						m_bounce_flag = false;
-						m_parent.SetState(new Player.AirKick(m_parent, m_parent.m_input_stick.m_length != 0.0f));
-						return true;
-					}
-					return false;
-				}
+                    // Check kick button
+                    if (m_parent.m_input_tertiary.m_pressed)
+                    {
+                        // Begin air kick
+                        m_bounce_flag = false;
+                        m_parent.SetState(new Player.AirKick(m_parent, m_parent.m_input_stick.m_length != 0.0f));
+                        return true;
+                    }
+                    return false;
+                }
 
-				internal override bool CheckFallAbility()
-				{
-					return CheckJumpAbility();
-				}
+                internal override bool CheckFallAbility()
+                {
+                    return CheckJumpAbility();
+                }
 
-				internal override bool CheckLandAbility()
-				{
-					// Clear bounce flag
-					m_bounce_flag = false;
-					return false;
-				}
+                internal override bool CheckLandAbility()
+                {
+                    // Clear bounce flag
+                    m_bounce_flag = false;
+                    return false;
+                }
 
-				internal override void FlagHitBounce()
-				{
-					// Set bounce flag
-					m_bounce_flag = true;
-				}
+                internal override void FlagHitBounce()
+                {
+                    // Set bounce flag
+                    m_bounce_flag = true;
+                }
 
-				internal override void ClearHitBounce()
-				{
-					// Clear bounce flag
-					m_bounce_flag = false;
-				}
-			}
-		}
-	}
+                internal override void ClearHitBounce()
+                {
+                    // Clear bounce flag
+                    m_bounce_flag = false;
+                }
+            }
+        }
+    }
 }

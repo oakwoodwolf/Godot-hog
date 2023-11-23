@@ -23,54 +23,54 @@
 
 using Godot;
 
-namespace SonicOnset.UI.MainUI
+namespace SonicGodot.UI.MainUI
 {
-	public partial class MainUI : Control
-	{
-		// MainUI nodes
-		[Export]
-		private Player m_player { get; set; }
+    public partial class MainUI : Control
+    {
+        // MainUI nodes
+        [Export]
+        private Player m_player { get; set; }
 
-		private Label m_score_label;
-		private Label m_time_label;
-		private Label m_rings_label;
+        private Label m_score_label;
+        private Label m_time_label;
+        private Label m_rings_label;
 
-		// MainUI node
-		public override void _Ready()
-		{
-			// Get nodes
-			m_score_label = GetNode<Label>("ScoreLabel");
-			m_time_label = GetNode<Label>("TimeLabel");
-			m_rings_label = GetNode<Label>("RingsLabel");
+        // MainUI node
+        public override void _Ready()
+        {
+            // Get nodes
+            m_score_label = GetNode<Label>("ScoreLabel");
+            m_time_label = GetNode<Label>("TimeLabel");
+            m_rings_label = GetNode<Label>("RingsLabel");
 
-			// Process after game
-			ProcessPriority = (int)Enum.Priority.PostProcess;
+            // Process after game
+            ProcessPriority = (int)Enum.Priority.PostProcess;
 
-			// Setup base
-			base._Ready();
-		}
+            // Setup base
+            base._Ready();
+        }
 
-		public override void _Process(double delta)
-		{
-			// Update labels
-			m_score_label.Text = string.Format("{0:000000000}", m_player.m_score);
-			m_rings_label.Text = string.Format("{0:000}", m_player.m_rings);
+        public override void _Process(double delta)
+        {
+            // Update labels
+            m_score_label.Text = string.Format("{0:000000000}", m_player.m_score);
+            m_rings_label.Text = string.Format("{0:000}", m_player.m_rings);
 
-			// Format time as MM:SS:FF
-			ulong time = m_player.m_time;
+            // Format time as MM:SS:FF
+            ulong time = m_player.m_time;
 
-			ulong frames = time % Root.c_tick_rate;
+            ulong frames = time % Root.c_tick_rate;
 
-			ulong centi = frames * 100 / Root.c_tick_rate;
+            ulong centi = frames * 100 / Root.c_tick_rate;
 
-			ulong seconds = time / 60;
-			ulong minutes = seconds / 60;
-			seconds %= 60;
+            ulong seconds = time / 60;
+            ulong minutes = seconds / 60;
+            seconds %= 60;
 
-			m_time_label.Text = string.Format("{0:00}:{1:00}\"{2:00}", minutes, seconds, centi);
+            m_time_label.Text = string.Format("{0:00}:{1:00}\"{2:00}", minutes, seconds, centi);
 
-			// Process base
-			base._Process(delta);
-		}
-	}
+            // Process base
+            base._Process(delta);
+        }
+    }
 }

@@ -23,35 +23,35 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class CloneBenchmark : Node
-	{
-		// Node to clone
-		[Export]
-		public PackedScene m_node_to_clone = null;
-		[Export]
-		public int m_clone_count = 1000;
-		[Export]
-		public float m_range = 1000.0f;
+    public partial class CloneBenchmark : Node
+    {
+        // Node to clone
+        [Export]
+        public PackedScene m_node_to_clone = null;
+        [Export]
+        public int m_clone_count = 1000;
+        [Export]
+        public float m_range = 1000.0f;
 
-		// Node setup
-		public override void _Ready()
-		{
-			for (int i = 0; i < m_clone_count; i++)
-			{
-				// Clone ring
-				Node3D clone = (Node3D)m_node_to_clone.Instantiate();
+        // Node setup
+        public override void _Ready()
+        {
+            for (int i = 0; i < m_clone_count; i++)
+            {
+                // Clone ring
+                Node3D clone = (Node3D)m_node_to_clone.Instantiate();
 
-				// Give random position
-				clone.Translate(new Vector3(GD.Randf() * m_range - m_range * 0.5f, GD.Randf() * m_range, GD.Randf() * m_range - m_range * 0.5f));
+                // Give random position
+                clone.Translate(new Vector3(GD.Randf() * m_range - m_range * 0.5f, GD.Randf() * m_range, GD.Randf() * m_range - m_range * 0.5f));
 
-				// Add clone to scene
-				AddChild(clone);
-			}
+                // Add clone to scene
+                AddChild(clone);
+            }
 
-			// Setup base
-			base._Ready();
-		}
-	}
+            // Setup base
+            base._Ready();
+        }
+    }
 }

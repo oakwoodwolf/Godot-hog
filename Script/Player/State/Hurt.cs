@@ -23,83 +23,86 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Hurt : State
-		{
-			// Hurt state
-			int m_nocon = 60;
-			bool animPlayed = false;
-			// Fall state
-			internal Hurt(Player parent)
-			{
-				// Set parent
-				m_parent = parent;
+    public partial class Player
+    {
+        public partial class Hurt : State
+        {
+            // Hurt state
+            int m_nocon = 60;
+            bool animPlayed = false;
+            // Fall state
+            internal Hurt(Player parent)
+            {
+                // Set parent
+                m_parent = parent;
                 // Set animation
                 m_parent.PlaySound("Damage");
 
                 if (!m_parent.m_status.m_dead)
-				{
-					m_parent.m_input_stop.Set((ulong)Mathf.Abs(m_nocon));
+                {
+                    m_parent.m_input_stop.Set((ulong)Mathf.Abs(m_nocon));
                     m_parent.ClearAnimation();
                     m_parent.PlayAnimation("Hurt");
                     m_parent.PlaySound("VoiceHurt");
-                } else
-				{
+                }
+                else
+                {
                     m_parent.PlaySound("VoiceDead");
 
                 }
 
 
 ;
-			}
-			
-			internal override void Process()
-			{
-		
-					// Fall to gravity
-					m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
-				// Physics
-				float y_speed = m_parent.GetSpeedY();
-				m_parent.PhysicsMove();
-				m_parent.CheckGrip();
+            }
 
-				if (m_parent.m_status.m_grounded)
-				{
-					if (!m_parent.m_status.m_dead) { m_parent.m_status.m_hurt = true; m_parent.SetStateLand(y_speed);
+            internal override void Process()
+            {
+
+                // Fall to gravity
+                m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
+                // Physics
+                float y_speed = m_parent.GetSpeedY();
+                m_parent.PhysicsMove();
+                m_parent.CheckGrip();
+
+                if (m_parent.m_status.m_grounded)
+                {
+                    if (!m_parent.m_status.m_dead)
+                    {
+                        m_parent.m_status.m_hurt = true; m_parent.SetStateLand(y_speed);
                     }
 
                     m_parent.m_modelroot.Visible = true;
                 }
-                
 
-				// Check if nocon expired
-				if (m_nocon < 0)
-					m_nocon++;
-				else
-					m_nocon--;
-				if (m_parent.m_status.m_dead)
-				{
 
-					if (m_parent.m_status.m_grounded)
-					{
+                // Check if nocon expired
+                if (m_nocon < 0)
+                    m_nocon++;
+                else
+                    m_nocon--;
+                if (m_parent.m_status.m_dead)
+                {
+
+                    if (m_parent.m_status.m_grounded)
+                    {
                         m_parent.BrakeMovement();
-						if (!animPlayed)
-						{
-							animPlayed = true;
-                            m_parent.PlayAnimation("Dead");				
+                        if (!animPlayed)
+                        {
+                            animPlayed = true;
+                            m_parent.PlayAnimation("Dead");
                         }
                     }
                 }
-			}
-			// State overrides
-			internal override bool CanDynamicPose()
-			{
-				return false;
-			}
+            }
+            // State overrides
+            internal override bool CanDynamicPose()
+            {
+                return false;
+            }
 
         }
-	}
+    }
 }

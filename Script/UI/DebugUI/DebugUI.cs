@@ -24,100 +24,100 @@
 using Godot;
 using System.Collections.Generic;
 
-namespace SonicOnset.UI.DebugUI
+namespace SonicGodot.UI.DebugUI
 {
-	public partial class DebugUI : CanvasLayer
-	{
-		// DebugUI nodes
-		internal Tree m_tree;
-		private TreeItem m_tree_root;
+    public partial class DebugUI : CanvasLayer
+    {
+        // DebugUI nodes
+        internal Tree m_tree;
+        private TreeItem m_tree_root;
 
-		private CheckButton m_check;
+        private CheckButton m_check;
 
-		// DebugUI node
-		public override void _Ready()
-		{
+        // DebugUI node
+        public override void _Ready()
+        {
 #if !DEBUG
 			// Hide self
 			this.Visible = false;
 #else
-			// Create tree root
-			m_tree = GetNode<Tree>("DebugUIRoot/DebugUITree");
-			m_tree.Visible = false;
+            // Create tree root
+            m_tree = GetNode<Tree>("DebugUIRoot/DebugUITree");
+            m_tree.Visible = false;
 
-			m_tree_root = m_tree.CreateItem(null);
-			m_tree_root.SetText(0, "Debug");
+            m_tree_root = m_tree.CreateItem(null);
+            m_tree_root.SetText(0, "Debug");
 
-			m_check = GetNode<CheckButton>("DebugUIRoot/DebugCheck");
-			m_check.Connect("toggled", new Callable(this, "CheckBox"));
+            m_check = GetNode<CheckButton>("DebugUIRoot/DebugCheck");
+            m_check.Connect("toggled", new Callable(this, "CheckBox"));
 #endif
-			// Register singleton
-			ProcessPriority = (int)Enum.Priority.PostProcess;
-			Engine.RegisterSingleton("DebugUI", this);
-		}
+            // Register singleton
+            ProcessPriority = (int)Enum.Priority.PostProcess;
+            Engine.RegisterSingleton("DebugUI", this);
+        }
 
-		internal static DebugUI Singleton()
-		{
-			// Get singleton
-			return (DebugUI)Engine.GetSingleton("DebugUI");
-		}
+        internal static DebugUI Singleton()
+        {
+            // Get singleton
+            return (DebugUI)Engine.GetSingleton("DebugUI");
+        }
 
-		public static DebugUIContext AcquireContext(string name)
-		{
-			return new DebugUIContext(Singleton(), name);
-		}
+        public static DebugUIContext AcquireContext(string name)
+        {
+            return new DebugUIContext(Singleton(), name);
+        }
 
-		// Connections
-		private void CheckBox(bool toggled)
-		{
-			// Toggle tree visiblity
-			m_tree.Visible = toggled;
-		}
+        // Connections
+        private void CheckBox(bool toggled)
+        {
+            // Toggle tree visiblity
+            m_tree.Visible = toggled;
+        }
 
-		// DebugUI context class
-		public class DebugUIContext
-		{
-			// Parent DebugUI
-			private DebugUI m_debug_ui;
-			private TreeItem m_tree_item;
+        // DebugUI context class
+        public class DebugUIContext
+        {
+            // Parent DebugUI
+            private DebugUI m_debug_ui;
+            private TreeItem m_tree_item;
 
-			// Debug UI context class
-			public DebugUIContext(DebugUI debug_ui, string name)
-			{
+            // Debug UI context class
+            public DebugUIContext(DebugUI debug_ui, string name)
+            {
 #if DEBUG
-				// Create item in tree
-				m_debug_ui = debug_ui;
+                // Create item in tree
+                m_debug_ui = debug_ui;
 
-				m_tree_item = m_debug_ui.m_tree.CreateItem(m_debug_ui.m_tree_root);
-				m_tree_item.SetText(0, name);
+                m_tree_item = m_debug_ui.m_tree.CreateItem(m_debug_ui.m_tree_root);
+                m_tree_item.SetText(0, name);
 #endif
-			}
+            }
 
-			~DebugUIContext()
-			{
+            ~DebugUIContext()
+            {
 #if DEBUG
-				// Remove item from tree
-				m_tree_item.Free();
-				m_tree_item = null;
+                // Remove item from tree
+                m_tree_item.Free();
+                m_tree_item = null;
 #endif
-			}
+            }
 
-			// Context control
-			public void SetItems(List<string> items)
-			{
+            // Context control
+            public void SetItems(List<string> items)
+            {
 #if DEBUG
-				// Update children
-				int children_to_update = Mathf.Min(m_tree_item.GetChildCount(), items.Count);
-				int children_to_add = items.Count - children_to_update;
+                // Update children
+                int children_to_update = Mathf.Min(m_tree_item.GetChildCount(), items.Count);
+                int children_to_add = items.Count - children_to_update;
 
-				for (int i = 0; i < children_to_add; i++)
-					m_debug_ui.m_tree.CreateItem(m_tree_item);
-				for (int i = 0; i < items.Count; i++)
-					m_tree_item.GetChild(i).SetText(0, items[i]);
-				for (int j = m_tree_item.GetChildCount() - 1; j >= items.Count; j--)
-					m_tree_item.GetChild(j).Free();
+                for (int i = 0; i < children_to_add; i++)
+                    m_debug_ui.m_tree.CreateItem(m_tree_item);
+                for (int i = 0; i < items.Count; i++)
+                    m_tree_item.GetChild(i).SetText(0, items[i]);
+                for (int j = m_tree_item.GetChildCount() - 1; j >= items.Count; j--)
+                    m_tree_item.GetChild(j).Free();
 #endif
-			}
-		}
-	}
+            }
+        }
+    }
 }

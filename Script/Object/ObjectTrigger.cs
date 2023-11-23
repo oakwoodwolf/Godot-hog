@@ -23,23 +23,23 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	// Object trigger class
-	public partial class ObjectTrigger : ObjectTriggerInterest
-	{
-		// Process
-		public override void _PhysicsProcess(double delta)
-		{
-			// Query intersections
-			Godot.Collections.Array<Node3D> nodes = QueryIntersections();
-			foreach (Node3D node in nodes)
-			{
-				// Trigger touch
-				IObjectTriggerListener listener = node as IObjectTriggerListener;
-				if (listener != null)
-					listener.Touch(m_listener_node);
-			}
-		}
-	}
+    // Object trigger class
+    public partial class ObjectTrigger : ObjectTriggerInterest
+    {
+        // Process
+        public override void _PhysicsProcess(double delta)
+        {
+            // Query intersections
+            Godot.Collections.Array<Node3D> nodes = QueryIntersections();
+            foreach (Node3D node in nodes)
+            {
+                // Trigger touch
+                IObjectTriggerListener listener = node as IObjectTriggerListener;
+                if (listener != null)
+                    listener.Touch(m_listener_node);
+            }
+        }
+    }
 }

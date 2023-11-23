@@ -23,7 +23,7 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
     public partial class Player
     {
@@ -108,8 +108,8 @@ namespace SonicOnset
 
                     if (m_target_node == null)
                     {
-                            m_parent.SetState(new Fall(m_parent));
-                            return;
+                        m_parent.SetState(new Fall(m_parent));
+                        return;
 
                     }
                 }
@@ -135,17 +135,18 @@ namespace SonicOnset
 
                         // Rotate to target
                         Transform3D center_transform = m_parent.GetCenterTransform();
-                    Transform3D transform = center_transform.LookingAt(m_target_node.GlobalTransform.Origin, -m_parent.m_gravity);
-                    m_parent.CenterBasis(transform.Basis * m_parent.GlobalTransform.Basis.Inverse(), 1);
+                        Transform3D transform = center_transform.LookingAt(m_target_node.GlobalTransform.Origin, -m_parent.m_gravity);
+                        m_parent.CenterBasis(transform.Basis * m_parent.GlobalTransform.Basis.Inverse(), 1);
 
-                    // Launch towards target
-                    
+                        // Launch towards target
+
                         float distance = (m_target_node.GlobalTransform.Origin - m_parent.GlobalTransform.Origin).Length();
                         float speed = Mathf.Min(c_speed, distance);
 
                         Vector3 velocity = m_parent.FromSpeed(new Vector3(speed, 0.0f, 0.0f));
                         m_parent.Velocity = velocity;
-                    } else
+                    }
+                    else
                     {
                         m_target_node = GetRingTarget();
                     }

@@ -21,24 +21,22 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset.Util
+namespace SonicGodot.Util
 {
-	public static class Vector3
-	{
-		public static Godot.Vector3 PlaneProject(Godot.Vector3 vector, Godot.Vector3 plane)
-		{
-			float dot = vector.Dot(plane);
-			return vector - plane * dot;
-		}
+    public static class Vector3
+    {
+        public static Godot.Vector3 PlaneProject(Godot.Vector3 vector, Godot.Vector3 plane)
+        {
+            float dot = vector.Dot(plane);
+            return vector - plane * dot;
+        }
 
-		public static Godot.Vector3 NormalProject(Godot.Vector3 vector, Godot.Vector3 plane)
-		{
-			float dot = vector.Dot(plane);
-			if (dot >= 0.0f)
-				return vector;
-			return vector - plane * dot;
-		}
-	}
+        public static Godot.Vector3 NormalProject(Godot.Vector3 vector, Godot.Vector3 plane)
+        {
+            float dot = vector.Dot(plane);
+            if (dot >= 0.0f)
+                return vector;
+            return vector - plane * dot;
+        }
+    }
 }

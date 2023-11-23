@@ -23,52 +23,52 @@
 
 using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Ability
-		{
-			public partial class HomingAttack : Ability
-			{
-				// Homing attack ability
-				public HomingAttack(Player player)
-				{
-					// Set parent player
-					m_parent = player;
-				}
+    public partial class Player
+    {
+        public partial class Ability
+        {
+            public partial class HomingAttack : Ability
+            {
+                // Homing attack ability
+                public HomingAttack(Player player)
+                {
+                    // Set parent player
+                    m_parent = player;
+                }
 
-				internal override bool CheckJumpAbility()
-				{
-					// Check if we're already homing
-					if (m_parent.m_state is Player.Homing || m_parent.hasHomed)
-						return false;
+                internal override bool CheckJumpAbility()
+                {
+                    // Check if we're already homing
+                    if (m_parent.m_state is Player.Homing || m_parent.hasHomed)
+                        return false;
 
-					// Check jump button
-					if (m_parent.m_input_jump.m_pressed)
-					{
-						// Switch to homing state
-						m_parent.hasHomed = true;
-						m_parent.SetState(new Player.Homing(m_parent));
+                    // Check jump button
+                    if (m_parent.m_input_jump.m_pressed)
+                    {
+                        // Switch to homing state
+                        m_parent.hasHomed = true;
+                        m_parent.SetState(new Player.Homing(m_parent));
 
-						// Give homing speed
-						Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-						speed.X = Player.Homing.c_speed;
-						m_parent.Velocity = m_parent.FromSpeed(speed);
-						return true;
-					}
-					return false;
-				}
+                        // Give homing speed
+                        Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
+                        speed.X = Player.Homing.c_speed;
+                        m_parent.Velocity = m_parent.FromSpeed(speed);
+                        return true;
+                    }
+                    return false;
+                }
                 internal override bool CheckFallAbility()
                 {
                     return CheckJumpAbility();
                 }
-				internal override bool CheckLandAbility()
-				{
-					m_parent.hasHomed = false;
-					return base.CheckLandAbility();
-				}
-			}
-		}
-	}
+                internal override bool CheckLandAbility()
+                {
+                    m_parent.hasHomed = false;
+                    return base.CheckLandAbility();
+                }
+            }
+        }
+    }
 }

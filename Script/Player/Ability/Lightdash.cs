@@ -22,22 +22,21 @@
 */
 
 using Godot;
-using System.Diagnostics;
 
-namespace SonicOnset
+namespace SonicGodot
 {
-	public partial class Player
-	{
-		public partial class Ability
-		{
-			public partial class Lightdash : Ability
-			{
-				// Homing attack ability
-				public Lightdash(Player player)
-				{
-					// Set parent player
-					m_parent = player;
-				}
+    public partial class Player
+    {
+        public partial class Ability
+        {
+            public partial class Lightdash : Ability
+            {
+                // Homing attack ability
+                public Lightdash(Player player)
+                {
+                    // Set parent player
+                    m_parent = player;
+                }
                 private bool GetRingTarget()
                 {
                     // Query in radial area
@@ -78,16 +77,16 @@ namespace SonicOnset
                 }
 
                 internal override bool CheckJumpAbility()
-				{
-					// Check if we're already dashing
-					if (m_parent.m_state is Player.Lightdash)
-						return false;
+                {
+                    // Check if we're already dashing
+                    if (m_parent.m_state is Player.Lightdash)
+                        return false;
 
-					// Check jump button
-					if (m_parent.m_input_tertiary.m_pressed)
-					{
+                    // Check jump button
+                    if (m_parent.m_input_tertiary.m_pressed)
+                    {
                         bool i = GetRingTarget();
-						// Switch to ringdash state
+                        // Switch to ringdash state
                         if (i == true)
                         {
                             m_parent.SetState(new Player.Lightdash(m_parent));
@@ -95,8 +94,8 @@ namespace SonicOnset
                         }
 
                     }
-					return false;
-				}
+                    return false;
+                }
                 internal override bool CheckSpinAbility()
                 {
                     // Check if we're already dashing
@@ -117,6 +116,6 @@ namespace SonicOnset
                     return false;
                 }
             }
-		}
-	}
+        }
+    }
 }

@@ -23,27 +23,27 @@
 
 using Godot;
 
-namespace SonicOnset.Net
+namespace SonicGodot.Net
 {
-	public interface IServer
-	{
-		// Get RPC peers
-		public int GetPeerId(); // Returns your own peer ID
-		public int[] GetPeerIds(); // Returns all peer IDs
+    public interface IServer
+    {
+        // Get RPC peers
+        public int GetPeerId(); // Returns your own peer ID
+        public int[] GetPeerIds(); // Returns all peer IDs
 
-		public int GetRemotePeerId(); // Returns the peer ID coming from the server
+        public int GetRemotePeerId(); // Returns the peer ID coming from the server
 
-		// Send RPC functions
-		public void Rpc(Node node, string name, params Variant[] args); // Send RPC to the server
+        // Send RPC functions
+        public void Rpc(Node node, string name, params Variant[] args); // Send RPC to the server
 
-		// Disconnect
-		public void Disconnect(); // Disconnect from the server
-	}
+        // Disconnect
+        public void Disconnect(); // Disconnect from the server
+    }
 
-	public interface IHostServer : IServer
-	{
-		// Send RPC functions
-		public void RpcAll(Node node, string name, params Variant[] args); // Send RPC to all peers
-		public void RpcId(int peer_id, Node node, string name, params Variant[] args); // Send RPC to a specific peer
-	}
+    public interface IHostServer : IServer
+    {
+        // Send RPC functions
+        public void RpcAll(Node node, string name, params Variant[] args); // Send RPC to all peers
+        public void RpcId(int peer_id, Node node, string name, params Variant[] args); // Send RPC to a specific peer
+    }
 }

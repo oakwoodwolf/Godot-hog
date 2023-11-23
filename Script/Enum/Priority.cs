@@ -21,19 +21,17 @@
  * SOFTWARE.
 */
 
-using Godot;
-
-namespace SonicOnset.Enum
+namespace SonicGodot.Enum
 {
-	// Process priorities
-	public enum Priority
-	{
-		Root = -20000,
+    // Process priorities
+    public enum Priority
+    {
+        Root = -20000,
 
-		PreProcess = -10000,
+        PreProcess = -10000,
 
-		Shadow = 9000,
+        Shadow = 9000,
 
-		PostProcess = 10000,
-	}
+        PostProcess = 10000,
+    }
 }

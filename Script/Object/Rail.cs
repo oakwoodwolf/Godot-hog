@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace SonicOnset
+namespace SonicGodot
 {
     public partial class Rail : Path3D
     {
