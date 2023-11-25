@@ -233,34 +233,29 @@ namespace SonicGodot
             }
             else
             {
-                AudioServer.SetBusVolumeDb(0, LinearToDecibel(settingsFile.GetValue("AUDIO", "Master").AsSingle()));
-                AudioServer.SetBusVolumeDb(1, LinearToDecibel(settingsFile.GetValue("AUDIO", "Music").AsSingle()));
-                AudioServer.SetBusVolumeDb(2, LinearToDecibel(settingsFile.GetValue("AUDIO", "Sound").AsSingle()));
-                AudioServer.SetBusVolumeDb(3, LinearToDecibel(settingsFile.GetValue("AUDIO", "Voice").AsSingle()));
+                AudioServer.SetBusVolumeDb(0, Mathf.LinearToDb(settingsFile.GetValue("AUDIO", "Master").AsSingle()));
+                AudioServer.SetBusVolumeDb(1, Mathf.LinearToDb(settingsFile.GetValue("AUDIO", "Music").AsSingle()));
+                AudioServer.SetBusVolumeDb(2, Mathf.LinearToDb(settingsFile.GetValue("AUDIO", "Sound").AsSingle()));
+                AudioServer.SetBusVolumeDb(3, Mathf.LinearToDb(settingsFile.GetValue("AUDIO", "Voice").AsSingle()));
                 DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
                 DisplayServer.WindowSetMode((DisplayServer.WindowMode)(settingsFile.GetValue("VIDEO", "WindowMode").AsUInt16()));
+                CenterWindow();
             };
 
 
         }
-        public static float LinearToDecibel(double v)
-        {
-            return (float)Math.Log10(v) * 10;
-        }
-        public static double DecibelToLinear(float v)
-        {
-            return Math.Pow(10, v / 10);
-        }
+
         public void SetupSettings()
         {
             //Auto-detect Window size
             DisplayServer.WindowSetSize(DisplayServer.ScreenGetSize());
             DisplayServer.WindowSetMode(DisplayServer.WindowMode.Maximized);
             DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Enabled);
+            CenterWindow();
             //Write to config file
             settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize().X.ToString() + "x" + DisplayServer.WindowGetSize().Y.ToString());
             settingsFile.SetValue("VIDEO", "Vsync", 1);
-            settingsFile.SetValue("VIDEO", "WindowMode", 2);
+            settingsFile.SetValue("VIDEO", "WindowMode", 3);
             settingsFile.SetValue("VIDEO", "Graphics", 0);
             settingsFile.SetValue("VIDEO", "ColourBlind", 0);
             SaveAudioSettings();
@@ -271,10 +266,10 @@ namespace SonicGodot
 
         private static void SaveAudioSettings()
         {
-            settingsFile.SetValue("AUDIO", "Master", DecibelToLinear(AudioServer.GetBusVolumeDb(0)));
-            settingsFile.SetValue("AUDIO", "Music", DecibelToLinear(AudioServer.GetBusVolumeDb(1)));
-            settingsFile.SetValue("AUDIO", "Sound", DecibelToLinear(AudioServer.GetBusVolumeDb(2)));
-            settingsFile.SetValue("AUDIO", "Voice", DecibelToLinear(AudioServer.GetBusVolumeDb(3)));
+            settingsFile.SetValue("AUDIO", "Master", Mathf.DbToLinear(AudioServer.GetBusVolumeDb(0)));
+            settingsFile.SetValue("AUDIO", "Music", Mathf.DbToLinear(AudioServer.GetBusVolumeDb(1)));
+            settingsFile.SetValue("AUDIO", "Sound", Mathf.DbToLinear(AudioServer.GetBusVolumeDb(2)));
+            settingsFile.SetValue("AUDIO", "Voice", Mathf.DbToLinear(AudioServer.GetBusVolumeDb(3)));
         }
 
         public static void SaveSetting()
@@ -283,6 +278,13 @@ namespace SonicGodot
             settingsFile.SetValue("VIDEO", "WindowMode", (int)DisplayServer.WindowGetMode());
             SaveAudioSettings();
             settingsFile.Save("res://settings.cfg");
+        }
+
+        public static void CenterWindow()
+        {
+            Vector2I center = DisplayServer.ScreenGetPosition() + (DisplayServer.ScreenGetSize() / 2);
+            Vector2I windowSize = DisplayServer.WindowGetSizeWithDecorations();
+            DisplayServer.WindowSetPosition(center - windowSize / 2);
         }
         // Get clock
         public static ulong GetClock()

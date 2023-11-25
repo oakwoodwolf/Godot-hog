@@ -25,47 +25,47 @@ using Godot;
 
 namespace SonicGodot
 {
-    public partial class DroppedRing : RigidBody3D, IObject
-    {
-        private float flickerCounter;
-        private Node3D m_modelroot;
-        public override void _Ready()
-        {
-            m_modelroot = GetNode<Node3D>("Ring");
-            base._Ready();
-        }
-        public override void _Process(double delta)
-        {
-            SkinFlicker();
-        }
-        void SkinFlicker()
-        {
-            flickerCounter += 1;
-            if (flickerCounter > 0)
-            {
-                m_modelroot.Visible = true;
-            }
-            else
-            {
-                m_modelroot.Visible = false;
-            }
-            if (flickerCounter > 10)
-            {
-                flickerCounter = -10;
-            }
+	public partial class DroppedRing : RigidBody3D, IObject
+	{
+		private float flickerCounter;
+		private Node3D m_modelroot;
+		public override void _Ready()
+		{
+			m_modelroot = GetNode<Node3D>("Ring");
+			base._Ready();
+		}
+		public override void _Process(double delta)
+		{
+			SkinFlicker();
+		}
+		void SkinFlicker()
+		{
+			flickerCounter += 1;
+			if (flickerCounter > 0)
+			{
+				m_modelroot.Visible = true;
+			}
+			else
+			{
+				m_modelroot.Visible = false;
+			}
+			if (flickerCounter > 10)
+			{
+				flickerCounter = -10;
+			}
 
-        }
-        public bool CanLightDash() { return false; }
+		}
+		public bool CanLightDash() { return false; }
 
-        private void _on_body_entered(Node body)
-        {
+		private void _on_body_entered(Node body)
+		{
 
-        }
-        private void _on_timer_timeout()
-        {
-            QueueFree();
-        }
-    }
+		}
+		private void _on_timer_timeout()
+		{
+			QueueFree();
+		}
+	}
 }
 
 

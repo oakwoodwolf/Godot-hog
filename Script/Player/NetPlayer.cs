@@ -25,51 +25,51 @@ using Godot;
 
 namespace SonicGodot
 {
-    public partial class NetPlayer : Node3D
-    {
-        // Model root node
-        private Character.ModelRoot m_modelroot;
-        private Transform3D m_modelroot_offset;
+	public partial class NetPlayer : Node3D
+	{
+		// Model root node
+		private Character.ModelRoot m_modelroot;
+		private Transform3D m_modelroot_offset;
 
-        // Net player state
-        private Transform3D m_transform;
-        public Label3D m_nametag;
-        private string m_current_anim = "Idle";
+		// Net player state
+		private Transform3D m_transform;
+		public Label3D m_nametag;
+		private string m_current_anim = "Idle";
 
-        // RPC methods
-        private void HostRpc_Update(Transform3D transform, string anim)
-        {
-            // Forward the RPC to all clients
-            Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
-        }
-        private void Rpc_Update(Transform3D transform, string anim)
-        {
-            // Set model root state
-            m_transform = transform * m_modelroot_offset;
-            m_current_anim = anim;
-        }
-        // Animation functions
-        internal void ClearAnimation() => m_modelroot.ClearAnimation();
-        internal void PlayAnimation(string name, double speed = 1.0f) => m_modelroot.PlayAnimation(name, speed);
-        // Net player node
-        public override void _Ready()
-        {
-            // Get model root
-            m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
-            m_nametag = GetNode<Label3D>("ModelRoot/Nametag");
-            m_modelroot_offset = GlobalTransform.Inverse() * m_modelroot.GlobalTransform;
-            m_transform = GlobalTransform * m_modelroot_offset;
+		// RPC methods
+		private void HostRpc_Update(Transform3D transform, string anim)
+		{
+			// Forward the RPC to all clients
+			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
+		}
+		private void Rpc_Update(Transform3D transform, string anim)
+		{
+			// Set model root state
+			m_transform = transform * m_modelroot_offset;
+			m_current_anim = anim;
+		}
+		// Animation functions
+		internal void ClearAnimation() => m_modelroot.ClearAnimation();
+		internal void PlayAnimation(string name, double speed = 1.0f) => m_modelroot.PlayAnimation(name, speed);
+		// Net player node
+		public override void _Ready()
+		{
+			// Get model root
+			m_modelroot = GetNode<Character.ModelRoot>("ModelRoot");
+			m_nametag = GetNode<Label3D>("ModelRoot/Nametag");
+			m_modelroot_offset = GlobalTransform.Inverse() * m_modelroot.GlobalTransform;
+			m_transform = GlobalTransform * m_modelroot_offset;
 
-            // Ready base
-            base._Ready();
-        }
+			// Ready base
+			base._Ready();
+		}
 
-        public override void _PhysicsProcess(double delta)
-        {
-            // Update model root
-            m_modelroot.SetTransform(m_transform);
+		public override void _PhysicsProcess(double delta)
+		{
+			// Update model root
+			m_modelroot.SetTransform(m_transform);
 
-            PlayAnimation(m_current_anim);
-        }
-    }
+			PlayAnimation(m_current_anim);
+		}
+	}
 }

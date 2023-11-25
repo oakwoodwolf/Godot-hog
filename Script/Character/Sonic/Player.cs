@@ -23,35 +23,35 @@
 
 namespace SonicGodot.Character.Sonic
 {
-    public partial class Player : SonicGodot.Player
-    {
-        // Player abilities
-        public partial class AbilityList : Ability.AbilityList
-        {
-            // Ability list
-            internal AbilityList(Player player)
-            {
-                // Set parent player
-                m_parent = player;
+	public partial class Player : SonicGodot.Player
+	{
+		// Player abilities
+		public partial class AbilityList : Ability.AbilityList
+		{
+			// Ability list
+			internal AbilityList(Player player)
+			{
+				// Set parent player
+				m_parent = player;
 
-                // Create abilities
-                m_abilities.Add(new Jump(player));
-                m_abilities.Add(new Lightdash(player));
-                m_abilities.Add(new Spindash(player));
-                m_abilities.Add(new HomingAttack(player));
-                m_abilities.Add(new Bounce(player));
-                m_abilities.Add(new AirKick(player));
-            }
-        }
+				// Create abilities
+				m_abilities.Add(new Jump(player));
+				m_abilities.Add(new Lightdash(player));
+				m_abilities.Add(new Spindash(player));
+				m_abilities.Add(new HomingAttack(player));
+				m_abilities.Add(new Bounce(player));
+				m_abilities.Add(new AirKick(player));
+			}
+		}
 
-        // Player node
-        public override void _Ready()
-        {
-            // Set ability
-            m_ability = new AbilityList(this);
+		// Player node
+		public override void _Ready()
+		{
+			// Set ability
+			m_ability = new AbilityList(this);
 
-            // Ready base
-            base._Ready();
-        }
-    }
+			// Ready base
+			base._Ready();
+		}
+	}
 }

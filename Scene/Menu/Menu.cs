@@ -6,32 +6,55 @@ namespace SonicGodot
 {
 	public partial class Menu : Control
 	{
-		public AudioStreamPlayer soundPlayer;
+		public AudioStreamPlayer SoundPlayer;
 		[Export]
-		Dictionary<string, AudioStream> menuSounds = new Dictionary<string, AudioStream>();
-		OptionButton resolutionButton;
+		Dictionary<string, Vector2I> _resolutionOptions = new Dictionary<string, Vector2I> {
+			{"3840x2160", new Vector2I(3840, 2160)},
+			{"2560x1440", new Vector2I(2560,1080)},
+			{"1920x1080", new Vector2I(1920,1080)},
+			{"1366x768", new Vector2I(1366,768)},
+			{"1536x864", new Vector2I(1536,864)},
+			{"1280x720", new Vector2I(1280,720)},
+			{"1440x900", new Vector2I(1440,900)},
+			{"1600x900", new Vector2I(1600,900)},
+			{"1024x600", new Vector2I(1024,600)},
+			{"800x600", new Vector2I(800,600)}};
+		[Export]
+		Dictionary<string, AudioStream> _menuSounds = new Dictionary<string, AudioStream>();
+		OptionButton _resolutionButton;
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			soundPlayer = GetNode<AudioStreamPlayer>("Sounds");
+			int index = 0;
+
+			SoundPlayer = GetNode<AudioStreamPlayer>("Sounds");
 			GetNode<Label>("%VersionTagTitle").Text = ProjectSettings.GetSetting("application/config/name").AsString();
 			GetNode<Button>("%PlayButton").GrabFocus();
-			resolutionButton = GetNode<OptionButton>("%ResolutionButton");
+			_resolutionButton = GetNode<OptionButton>("%ResolutionButton");
+			foreach (var (resolution, vec2) in _resolutionOptions)
+			{
+				_resolutionButton.AddItem(resolution, index);
+				index++;
+			}
+			SetResolutionText();
 			OptionButton windowModeButton = GetNode<OptionButton>("%WindowModeButton");
 			windowModeButton.Select(CheckWindowMode((UInt16)DisplayServer.WindowGetMode()));
-			GD.Print(DisplayServer.WindowGetMode());
-			resolutionButton.Select(CheckResolution(DisplayServer.WindowGetSize()));
-			GetNode<Slider>("%MasterSlider").Value = Root.DecibelToLinear(AudioServer.GetBusVolumeDb(0));
-			GetNode<Slider>("%MusicSlider").Value = Root.DecibelToLinear(AudioServer.GetBusVolumeDb(1));
-			GetNode<Slider>("%SoundSlider").Value = Root.DecibelToLinear(AudioServer.GetBusVolumeDb(2));
-			GetNode<Slider>("%VoiceSlider").Value = Root.DecibelToLinear(AudioServer.GetBusVolumeDb(3));
+			GetNode<Slider>("%MasterSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(0));
+			GetNode<Slider>("%MusicSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(1));
+			GetNode<Slider>("%SoundSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(2));
+			GetNode<Slider>("%VoiceSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(3));
 
+		}
+
+		private void SetResolutionText()
+		{
+			_resolutionButton.Text = DisplayServer.WindowGetSize().X + "x" + DisplayServer.WindowGetSize().Y;
 		}
 
 		public void PlaySound(string name)
 		{
-			soundPlayer.Stream = menuSounds[name];
-			soundPlayer.Play();
+			SoundPlayer.Stream = _menuSounds[name];
+			SoundPlayer.Play();
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,40 +62,27 @@ namespace SonicGodot
 		{
 		}
 		// Main Menu
-		private void _on_play_pressed()
+		private void OnPlayPressed()
 		{
 			PlaySound("accept");
 			GetNode<Control>("PlayMenu").Visible = true;
 			GetNode<Button>("PlayMenu/Bar/StartButton").GrabFocus();
 			GetNode<Control>("TitleScreen").Visible = false;
 		}
-		private void _on_options_pressed()
+		private void OnOptionsPressed()
 		{
 			PlaySound("accept");
 			GetNode<Control>("OptionsMenu").Visible = true;
-			resolutionButton.GrabFocus();
+			_resolutionButton.GrabFocus();
 			GetNode<Control>("TitleScreen").Visible = false;
 		}
-		private void _on_quit_pressed()
+		private void OnQuitPressed()
 		{
 			PlaySound("accept");
 			GetTree().Quit();
 		}
-		//Resolution management
-		private Vector2I GetResolution(int index)
-		{
-			var resolutionArray = resolutionButton.GetItemText(index).Split("x");
-			return new Vector2I(Int16.Parse(resolutionArray[0]), Int16.Parse(resolutionArray[1]));
-		}
-		private int CheckResolution(Vector2I res)
-		{
-			for (int i = 0; i < resolutionButton.ItemCount; i++)
-			{
-				if (GetResolution(i) == res) return i;
 
-			}
-			return -1;
-		}
+
 		private int CheckWindowMode(UInt16 res)
 		{
 			int i = 0;
@@ -91,41 +101,44 @@ namespace SonicGodot
 			}
 			return i;
 		}
-		private void _on_resolution_button_item_selected(Int16 index)
-		{
+		private void OnResolutionButtonItemSelected(Int16 index)
+		{	
+			string res = _resolutionButton.GetItemText(index);
+			DisplayServer.WindowSetSize(_resolutionOptions[res]);
+			Root.CenterWindow();
 			PlaySound("choose");
-			DisplayServer.WindowSetSize(GetResolution(index));
 		}
-		private void _on_window_mode_button_item_selected(Int16 index)
+		private void OnWindowModeButtonItemSelected(Int16 index)
 		{
 			PlaySound("choose");
 			DisplayServer.WindowSetMode((DisplayServer.WindowMode)Root.windowModes[index]);
+			SetResolutionText();
 		}
-		private void _on_master_slider_value_changed(double value)
+		private void OnMasterSliderValueChanged(double value)
 		{
-			AudioServer.SetBusVolumeDb(0, Root.LinearToDecibel(value));
+			AudioServer.SetBusVolumeDb(0, (float)Mathf.LinearToDb(value)/2);
 		}
-		private void _on_music_slider_value_changed(double value)
+		private void OnMusicSliderValueChanged(double value)
 		{
-			AudioServer.SetBusVolumeDb(1, Root.LinearToDecibel(value));
+			AudioServer.SetBusVolumeDb(1, (float)Mathf.LinearToDb(value));
 		}
-		private void _on_sound_slider_value_changed(double value)
+		private void OnSoundSliderValueChanged(double value)
 		{
-			AudioServer.SetBusVolumeDb(2, Root.LinearToDecibel(value));
+			AudioServer.SetBusVolumeDb(2, (float)Mathf.LinearToDb(value));
 		}
-		private void _on_voice_slider_value_changed(double value)
+		private void OnVoiceSliderValueChanged(double value)
 		{
-			AudioServer.SetBusVolumeDb(3, Root.LinearToDecibel(value));
+			AudioServer.SetBusVolumeDb(3, (float)Mathf.LinearToDb(value));
 		}
-		private void _on_slider_drag_ended(bool value_changed)
+		private void OnSliderDragEnded(bool value_changed)
 		{
 			PlaySound("accept");
 		}
-		private void _on_voice_slider_drag_ended(bool value_changed)
+		private void OnVoiceSliderDragEnded(bool value_changed)
 		{
 			GetNode<AudioStreamPlayer>("Voice").Play();
 		}
-		private void _on_apply_pressed()
+		private void OnApplyPressed()
 		{
 			PlaySound("accept");
 			GetNode<Control>("OptionsMenu").Visible = false;
@@ -133,7 +146,7 @@ namespace SonicGodot
 			GetNode<Button>("%PlayButton").GrabFocus();
 			Root.SaveSetting();
 		}
-		private void _on_return_pressed()
+		private void OnReturnPressed()
 		{
 			PlaySound("accept");
 			GetNode<Control>("OptionsMenu").Visible = false;

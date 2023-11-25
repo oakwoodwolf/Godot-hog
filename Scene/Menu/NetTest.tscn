@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scene/Menu/NetTest.cs" id="1_y5sr7"]
 [ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="2_f73dx"]
 [ext_resource type="LabelSettings" uid="uid://criity30xluq4" path="res://UI/Theme/MenuLabel.tres" id="2_yypjk"]
-[ext_resource type="AudioStream" uid="uid://bc4k006ah3hck" path="res://Sounds/Object/Ring.ogg" id="3_k4gh1"]
+[ext_resource type="AudioStream" uid="uid://c66hktvlyxxtv" path="res://Sounds/System/menu_select.ogg" id="3_ovrh2"]
 [ext_resource type="Script" path="res://Scene/Menu/Menu.cs" id="4_gw5yb"]
 [ext_resource type="AudioStream" uid="uid://bo00hfbicw3qi" path="res://Sounds/System/menu_choose.ogg" id="4_xovui"]
 [ext_resource type="FontFile" uid="uid://x8eixbno6qd" path="res://UI/Fonts/Prototype.ttf" id="5_1t25e"]
@@ -36,8 +36,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_f73dx")
 script = ExtResource("4_gw5yb")
-menuSounds = {
-"accept": ExtResource("3_k4gh1"),
+_menuSounds = {
+"accept": ExtResource("3_ovrh2"),
 "choose": ExtResource("4_xovui")
 }
 
@@ -344,9 +344,6 @@ shape = SubResource("SphereShape3D_t2y7b")
 [node name="Ring" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring" instance=ExtResource("8_gprpk")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
-[node name="Skeleton3D" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring/Ring/Armature" index="0"]
-bones/1/rotation = Quaternion(-0.0595991, 0.704591, 0.704591, 0.0595991)
-
 [node name="Ring2" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring/Ring/Armature/Skeleton3D" index="0"]
 cast_shadow = 0
 gi_mode = 2
@@ -393,18 +390,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 42
-item_count = 5
-selected = 0
-popup/item_0/text = "620x480"
-popup/item_0/id = 0
-popup/item_1/text = "800x600"
-popup/item_1/id = 1
-popup/item_2/text = "1024x768"
-popup/item_2/id = 2
-popup/item_3/text = "1280x720"
-popup/item_3/id = 3
-popup/item_4/text = "1920x1080"
-popup/item_4/id = 4
 
 [node name="Resolution2" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
 layout_mode = 2
@@ -477,9 +462,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-max_value = 5.0
+max_value = 4.0
 step = 0.1
-value = 5.0
+value = 4.0
 tick_count = 1
 
 [node name="MusicLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer"]
@@ -494,9 +479,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-max_value = 5.0
+max_value = 4.0
 step = 0.1
-value = 5.0
+value = 4.0
 tick_count = 1
 
 [node name="SoundLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer"]
@@ -511,9 +496,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-max_value = 5.0
+max_value = 4.0
 step = 0.1
-value = 5.0
+value = 4.0
 tick_count = 1
 
 [node name="VoiceLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer"]
@@ -528,9 +513,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-max_value = 5.0
+max_value = 4.0
 step = 0.1
-value = 5.0
+value = 4.0
 tick_count = 1
 
 [node name="Apply" type="Button" parent="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer"]
@@ -561,25 +546,27 @@ bus = &"Voice"
 [node name="Sounds" type="AudioStreamPlayer" parent="UI/Main Menu"]
 bus = &"Sound"
 
-[connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="_on_check_box_toggled"]
+[connection signal="focus_entered" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu" method="OnFocusExit"]
+[connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="OnCheckboxToggled"]
 [connection signal="focus_exited" from="UI/Main Menu/TitleScreen/VBoxContainer/PlayButton" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/PlayButton" to="UI/Main Menu" method="_on_play_pressed"]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/PlayButton" to="UI/Main Menu" method="OnPlayPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="_on_options_pressed"]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="OnOptionsPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="_on_quit_pressed"]
+[connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="OnQuitPressed"]
 [connection signal="focus_entered" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="_on_resolution_button_item_selected"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="OnResolutionButtonItemSelected"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="PlaySound" binds= ["accept"]]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2/WindowModeButton" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2/WindowModeButton" to="UI/Main Menu" method="_on_window_mode_button_item_selected"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2/WindowModeButton" to="UI/Main Menu" method="OnWindowModeButtonItemSelected"]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Apply" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Apply" to="UI/Main Menu" method="_on_apply_pressed"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Apply" to="UI/Main Menu" method="OnApplyPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Return" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Return" to="UI/Main Menu" method="_on_return_pressed"]
-[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MasterSlider" to="UI/Main Menu" method="_on_slider_drag_ended"]
-[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MasterSlider" to="UI/Main Menu" method="_on_master_slider_value_changed"]
-[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MusicSlider" to="UI/Main Menu" method="_on_slider_drag_ended"]
-[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MusicSlider" to="UI/Main Menu" method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Return" to="UI/Main Menu" method="OnReturnPressed"]
+[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MasterSlider" to="UI/Main Menu" method="OnSliderDragEnded"]
+[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MasterSlider" to="UI/Main Menu" method="OnMasterSliderValueChanged"]
+[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MusicSlider" to="UI/Main Menu" method="OnSliderDragEnded"]
+[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MusicSlider" to="UI/Main Menu" method="OnMusicSliderValueChanged"]
 [connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/SoundSlider" to="UI/Main Menu" method="_on_slider_drag_ended"]
 [connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/SoundSlider" to="UI/Main Menu" method="_on_sound_slider_value_changed"]
 [connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/VoiceSlider" to="UI/Main Menu" method="_on_voice_slider_drag_ended"]

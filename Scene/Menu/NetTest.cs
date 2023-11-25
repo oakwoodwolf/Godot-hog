@@ -4,95 +4,95 @@ using System.Reflection;
 
 namespace SonicGodot.Scene
 {
-    partial class NetTest : Control
-    {
-        private TextEdit m_ip_edit;
+	partial class NetTest : Control
+	{
+		private TextEdit _ipEdit;
 
-        private TextEdit m_port_edit;
+		private TextEdit _portEdit;
 
-        private TextEdit m_max_edit;
-        private TextEdit m_stage_edit;
-        private Control m_load_drop;
-        private Label m_load_label;
+		private TextEdit _maxEdit;
+		private TextEdit _stageEdit;
+		private Control _loadDrop;
+		private Label _loadLabel;
 
-        private Button m_play_button;
+		private Button _playButton;
 
-        private Button m_host_button;
+		private Button _hostButton;
 
-        private Button m_join_button;
-        private CheckBox m_upnp_checkbox;
-        private bool upnp;
+		private Button _joinButton;
+		private CheckBox _upnpCheckbox;
+		private bool _upnp;
 
-        public override void _Ready()
-        {
-            m_ip_edit = GetNode<TextEdit>("Bar/IpEdit");
-            m_port_edit = GetNode<TextEdit>("Bar/PortEdit");
-            m_max_edit = GetNode<TextEdit>("Bar/MaxEdit");
-            m_stage_edit = GetNode<TextEdit>("Bar/StageEdit");
-            m_load_drop = GetNode<Control>("Loading");
-            m_upnp_checkbox = GetNode<CheckBox>("Bar/CheckBox");
-
-
-            m_play_button = GetNode<Button>("Bar/StartButton");
-            m_host_button = GetNode<Button>("Bar/HostButton");
-            m_join_button = GetNode<Button>("Bar/JoinButton");
-            m_play_button.Connect("pressed", new Callable(this, "OnPlayButtonPressed"));
-            m_host_button.Connect("pressed", new Callable(this, "OnHostButtonPressed"));
-            m_join_button.Connect("pressed", new Callable(this, "OnJoinButtonPressed"));
-            base._Ready();
-        }
-
-        private void OnPlayButtonPressed()
-        {
-            Root.StartLocalServer();
-            LoadStagePack(m_stage_edit.Text);
-
-        }
+		public override void _Ready()
+		{
+			_ipEdit = GetNode<TextEdit>("Bar/IpEdit");
+			_portEdit = GetNode<TextEdit>("Bar/PortEdit");
+			_maxEdit = GetNode<TextEdit>("Bar/MaxEdit");
+			_stageEdit = GetNode<TextEdit>("Bar/StageEdit");
+			_loadDrop = GetNode<Control>("Loading");
+			_upnpCheckbox = GetNode<CheckBox>("Bar/CheckBox");
 
 
+			_playButton = GetNode<Button>("Bar/StartButton");
+			_hostButton = GetNode<Button>("Bar/HostButton");
+			_joinButton = GetNode<Button>("Bar/JoinButton");
+			_playButton.Connect("pressed", new Callable(this, "OnPlayButtonPressed"));
+			_hostButton.Connect("pressed", new Callable(this, "OnHostButtonPressed"));
+			_joinButton.Connect("pressed", new Callable(this, "OnJoinButtonPressed"));
+			base._Ready();
+		}
 
-        private void OnHostButtonPressed()
-        {
-            m_load_drop.Visible = true;
-            int port = int.Parse(m_port_edit.Text);
-            int max_players = int.Parse(m_max_edit.Text);
-            Root.StartHostServer(port, max_players, upnp);
-            var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
-            LoadStagePack(m_stage_edit.Text);
-        }
+		private void OnPlayButtonPressed()
+		{
+			Root.StartLocalServer();
+			LoadStagePack(_stageEdit.Text);
 
-        private void OnJoinButtonPressed()
-        {
-            m_load_drop.Visible = true;
-            int port = int.Parse(m_port_edit.Text);
-            var success = ProjectSettings.LoadResourcePack("res://" + m_stage_edit.Text + ".pck");
-            if (success)
-            {
-                Root.JoinServer(m_ip_edit.Text, port);
-            }
+		}
 
 
 
-        }
+		private void OnHostButtonPressed()
+		{
+			_loadDrop.Visible = true;
+			int port = int.Parse(_portEdit.Text);
+			int max_players = int.Parse(_maxEdit.Text);
+			Root.StartHostServer(port, max_players, _upnp);
+			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
+			LoadStagePack(_stageEdit.Text);
+		}
 
-        private static void LoadStagePack(string name)
-        {
-            var success = ProjectSettings.LoadResourcePack("res://" + name + ".pck");
-            if (success)
-            {
-                if (FileAccess.FileExists("res://" + name + "/"))
-                { Assembly.LoadFile(name + ".dll"); }
+		private void OnJoinButtonPressed()
+		{
+			_loadDrop.Visible = true;
+			int port = int.Parse(_portEdit.Text);
+			var success = ProjectSettings.LoadResourcePack("res://" + _stageEdit.Text + ".pck");
+			if (success)
+			{
+				Root.JoinServer(_ipEdit.Text, port);
+			}
 
-                Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
-            }
-        }
-        private void _on_check_box_toggled(bool button_pressed)
-        {
-            GD.Print("toggled " + button_pressed);
-            upnp = button_pressed;
-        }
 
-    }
+
+		}
+
+		private static void LoadStagePack(string name)
+		{
+			var success = ProjectSettings.LoadResourcePack("res://" + name + ".pck");
+			if (success)
+			{
+				if (FileAccess.FileExists("res://" + name + "/"))
+				{ Assembly.LoadFile(name + ".dll"); }
+
+				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
+			}
+		}
+		private void OnCheckboxToggled(bool button_pressed)
+		{
+			GD.Print("toggled " + button_pressed);
+			_upnp = button_pressed;
+		}
+
+	}
 }
 
 
