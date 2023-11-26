@@ -24,6 +24,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Reflection;
 
 namespace SonicGodot
 {
@@ -239,6 +240,7 @@ namespace SonicGodot
                 AudioServer.SetBusVolumeDb(3, Mathf.LinearToDb(settingsFile.GetValue("AUDIO", "Voice").AsSingle()));
                 DisplayServer.WindowSetSize(settingsFile.GetValue("VIDEO", "Resolution").AsVector2I());
                 DisplayServer.WindowSetMode((DisplayServer.WindowMode)(settingsFile.GetValue("VIDEO", "WindowMode").AsUInt16()));
+                ProjectSettings.SetSetting("rendering/scaling_3d/scale", settingsFile.GetValue("VIDEO", "Scaling"));
                 CenterWindow();
             };
 
@@ -255,7 +257,8 @@ namespace SonicGodot
             //Write to config file
             settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize().X.ToString() + "x" + DisplayServer.WindowGetSize().Y.ToString());
             settingsFile.SetValue("VIDEO", "Vsync", 1);
-            settingsFile.SetValue("VIDEO", "WindowMode", 3);
+            settingsFile.SetValue("VIDEO", "Scaling", ProjectSettings.GetSetting("rendering/scaling_3d/scale"));
+            settingsFile.SetValue("VIDEO", "WindowMode", 0);
             settingsFile.SetValue("VIDEO", "Graphics", 0);
             settingsFile.SetValue("VIDEO", "ColourBlind", 0);
             SaveAudioSettings();
@@ -275,6 +278,7 @@ namespace SonicGodot
         public static void SaveSetting()
         {
             settingsFile.SetValue("VIDEO", "Resolution", DisplayServer.WindowGetSize());
+            settingsFile.SetValue("VIDEO", "Scaling", ProjectSettings.GetSetting("rendering/scaling_3d/scale"));
             settingsFile.SetValue("VIDEO", "WindowMode", (int)DisplayServer.WindowGetMode());
             SaveAudioSettings();
             settingsFile.Save("res://settings.cfg");

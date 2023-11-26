@@ -6,8 +6,8 @@ namespace SonicGodot
 {
 	public partial class Menu : Control
 	{
-		public AudioStreamPlayer SoundPlayer;
-		[Export]
+        [ExportGroup("Options")]
+        [Export]
 		Dictionary<string, Vector2I> _resolutionOptions = new Dictionary<string, Vector2I> {
 			{"3840x2160", new Vector2I(3840, 2160)},
 			{"2560x1440", new Vector2I(2560,1080)},
@@ -19,9 +19,21 @@ namespace SonicGodot
 			{"1600x900", new Vector2I(1600,900)},
 			{"1024x600", new Vector2I(1024,600)},
 			{"800x600", new Vector2I(800,600)}};
-		[Export]
+        [Export]
+        OptionButton _resolutionButton;
+        [Export]
+		Dictionary<string, float> _fsrScaling = new Dictionary<string, float> {
+			{"Performance: 50%", 0.5f},
+			{"Balanced: 59%", 0.59f},
+			{"Quality: 67%", 0.67f},
+			{"Ultra: 77%", 0.77f},
+			{"Off: 100%", 1f},
+		};
+        [Export]
+        OptionButton _fsrButton;
+        public AudioStreamPlayer SoundPlayer;
+        [Export]
 		Dictionary<string, AudioStream> _menuSounds = new Dictionary<string, AudioStream>();
-		OptionButton _resolutionButton;
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
@@ -30,12 +42,15 @@ namespace SonicGodot
 			SoundPlayer = GetNode<AudioStreamPlayer>("Sounds");
 			GetNode<Label>("%VersionTagTitle").Text = ProjectSettings.GetSetting("application/config/name").AsString();
 			GetNode<Button>("%PlayButton").GrabFocus();
-			_resolutionButton = GetNode<OptionButton>("%ResolutionButton");
 			foreach (var (resolution, vec2) in _resolutionOptions)
 			{
 				_resolutionButton.AddItem(resolution, index);
 				index++;
 			}
+            foreach (var fsrPreset in _fsrScaling)
+            {
+                _fsrButton.AddItem(fsrPreset.Key);
+            }
 			SetResolutionText();
 			OptionButton windowModeButton = GetNode<OptionButton>("%WindowModeButton");
 			windowModeButton.Select(CheckWindowMode((UInt16)DisplayServer.WindowGetMode()));
@@ -108,7 +123,17 @@ namespace SonicGodot
 			Root.CenterWindow();
 			PlaySound("choose");
 		}
-		private void OnWindowModeButtonItemSelected(Int16 index)
+		
+		private void OnFSRButtonItemSelected(int index)
+		{
+
+            ProjectSettings.SetSetting("rendering/scaling_3d/scale", _fsrScaling[_fsrButton.GetItemText(index)]);
+            GD.Print(ProjectSettings.GetSetting("rendering/scaling_3d/scale"));
+            PlaySound("choose");
+
+        }
+
+        private void OnWindowModeButtonItemSelected(Int16 index)
 		{
 			PlaySound("choose");
 			DisplayServer.WindowSetMode((DisplayServer.WindowMode)Root.windowModes[index]);
@@ -159,3 +184,4 @@ namespace SonicGodot
 		}
 	}
 }
+

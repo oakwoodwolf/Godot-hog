@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dh1od21n3h5ol"]
+[gd_scene load_steps=11 format=3 uid="uid://dh1od21n3h5ol"]
 
 [ext_resource type="Script" path="res://Scene/Menu/NetTest.cs" id="1_y5sr7"]
 [ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="2_f73dx"]
@@ -8,17 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://bo00hfbicw3qi" path="res://Sounds/System/menu_choose.ogg" id="4_xovui"]
 [ext_resource type="FontFile" uid="uid://x8eixbno6qd" path="res://UI/Fonts/Prototype.ttf" id="5_1t25e"]
 [ext_resource type="AudioStream" uid="uid://crmv5aa75uvcm" path="res://Sounds/Shop.ogg" id="6_h8uk5"]
-[ext_resource type="Script" path="res://Script/Object/Ring/Ring.cs" id="8_a104h"]
-[ext_resource type="PackedScene" uid="uid://c86ai1dvf8wdx" path="res://Prefab/Objects/Ring/Ring.gltf" id="8_gprpk"]
-[ext_resource type="PackedScene" uid="uid://5qa064xs38rl" path="res://Particles/RingParticle.res" id="9_3ydun"]
 [ext_resource type="AudioStream" uid="uid://kmqkevic6o3a" path="res://Sounds/Player/Voice/css.ogg" id="9_ovw6y"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_t2y7b"]
-radius = 3.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_by74t"]
-shading_mode = 0
-albedo_color = Color(0.631373, 0, 0.631373, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iiied"]
 content_margin_right = 128.0
@@ -27,7 +17,7 @@ content_margin_right = 128.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Main Menu" type="Control" parent="UI"]
+[node name="Main Menu" type="Control" parent="UI" node_paths=PackedStringArray("_resolutionButton", "_fsrButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,6 +26,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_f73dx")
 script = ExtResource("4_gw5yb")
+_resolutionButton = NodePath("OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton")
+_fsrButton = NodePath("OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR/FSRButton")
 _menuSounds = {
 "accept": ExtResource("3_ovrh2"),
 "choose": ExtResource("4_xovui")
@@ -310,45 +302,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.356863, 0, 0.356863, 1)
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="UI/Main Menu/OptionsMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SubViewport" type="SubViewport" parent="UI/Main Menu/OptionsMenu/SubViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-canvas_item_default_texture_filter = 0
-gui_disable_input = true
-size = Vector2i(1920, 1080)
-render_target_update_mode = 0
-
-[node name="Camera3D" type="Camera3D" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport"]
-transform = Transform3D(-0.883883, -0.353553, 0.306186, -0.433013, 0.866025, -0.25, -0.176777, -0.353553, -0.918559, 3.5, 1.70096, -3.25)
-fov = 81.3
-
-[node name="Ring" type="StaticBody3D" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport" node_paths=PackedStringArray("m_listener_node", "m_shape_node")]
-collision_layer = 1073741824
-collision_mask = 0
-script = ExtResource("8_a104h")
-m_ring_particle = ExtResource("9_3ydun")
-m_listener_node = NodePath(".")
-m_shape_node = NodePath("ColShape")
-
-[node name="ColShape" type="CollisionShape3D" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring"]
-shape = SubResource("SphereShape3D_t2y7b")
-
-[node name="Ring" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring" instance=ExtResource("8_gprpk")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-
-[node name="Ring2" parent="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring/Ring/Armature/Skeleton3D" index="0"]
-cast_shadow = 0
-gi_mode = 2
-surface_material_override/0 = SubResource("StandardMaterial3D_by74t")
-
 [node name="TabContainer" type="TabContainer" parent="UI/Main Menu/OptionsMenu"]
 layout_mode = 1
 anchors_preset = 15
@@ -387,8 +340,31 @@ text = "Resolution
 
 [node name="ResolutionButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 42
+
+[node name="AmdFSR" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="FSRLabel" type="Label" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Resolution Scaling
+"
+
+[node name="FSRButton" type="OptionButton" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+focus_neighbor_top = NodePath("../../Resolution/ResolutionButton")
+focus_neighbor_bottom = NodePath("../../Resolution2/WindowModeButton")
+focus_next = NodePath("../../Resolution/ResolutionButton")
+focus_previous = NodePath("../../Resolution2/WindowModeButton")
 theme_override_font_sizes/font_size = 42
 
 [node name="Resolution2" type="HBoxContainer" parent="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer"]
@@ -557,6 +533,9 @@ bus = &"Sound"
 [connection signal="focus_entered" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="OnResolutionButtonItemSelected"]
 [connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="PlaySound" binds= ["accept"]]
+[connection signal="focus_entered" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR/FSRButton" to="UI/Main Menu" method="OnFocusExit"]
+[connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR/FSRButton" to="UI/Main Menu" method="OnFSRButtonItemSelected"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR/FSRButton" to="UI/Main Menu" method="PlaySound"]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2/WindowModeButton" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution2/WindowModeButton" to="UI/Main Menu" method="OnWindowModeButtonItemSelected"]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/HBoxContainer/Apply" to="UI/Main Menu" method="OnFocusExit"]
@@ -567,13 +546,11 @@ bus = &"Sound"
 [connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MasterSlider" to="UI/Main Menu" method="OnMasterSliderValueChanged"]
 [connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MusicSlider" to="UI/Main Menu" method="OnSliderDragEnded"]
 [connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/MusicSlider" to="UI/Main Menu" method="OnMusicSliderValueChanged"]
-[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/SoundSlider" to="UI/Main Menu" method="_on_slider_drag_ended"]
-[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/SoundSlider" to="UI/Main Menu" method="_on_sound_slider_value_changed"]
-[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/VoiceSlider" to="UI/Main Menu" method="_on_voice_slider_drag_ended"]
-[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/VoiceSlider" to="UI/Main Menu" method="_on_voice_slider_value_changed"]
+[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/SoundSlider" to="UI/Main Menu" method="OnSliderDragEnded"]
+[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/SoundSlider" to="UI/Main Menu" method="OnSoundSliderValueChanged"]
+[connection signal="drag_ended" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/VoiceSlider" to="UI/Main Menu" method="OnVoiceSliderDragEnded"]
+[connection signal="value_changed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/VoiceSlider" to="UI/Main Menu" method="OnVoiceSliderValueChanged"]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/Apply" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/Apply" to="UI/Main Menu" method="_on_apply_pressed"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/Apply" to="UI/Main Menu" method="OnApplyPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/Return" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/Return" to="UI/Main Menu" method="_on_return_pressed"]
-
-[editable path="UI/Main Menu/OptionsMenu/SubViewportContainer/SubViewport/Ring/Ring"]
+[connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Audio/GridContainer/Return" to="UI/Main Menu" method="OnReturnPressed"]
