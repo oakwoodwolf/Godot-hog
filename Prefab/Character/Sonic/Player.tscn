@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=54 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -36,13 +36,14 @@
 [ext_resource type="Script" path="res://Script/UI/MainUI/MainUI.cs" id="32_rrae7"]
 [ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="33_dxw6o"]
 [ext_resource type="AudioStream" uid="uid://bsokchdjd4w6c" path="res://Sounds/Player/Voice/attackX.ogg" id="34_invfp"]
-[ext_resource type="Script" path="res://Script/UI/DebugUI/DebugUI.cs" id="34_vvyab"]
 [ext_resource type="AudioStream" uid="uid://b7rb37v1ddjbr" path="res://Sounds/Player/Damage.ogg" id="35_q77ci"]
 [ext_resource type="AudioStream" uid="uid://dq3tl2rxf78lq" path="res://Sounds/Player/DamageLand.ogg" id="36_5hx7k"]
 [ext_resource type="AudioStream" uid="uid://mbo1fncgnnux" path="res://Sounds/Player/Voice/hurt.ogg" id="37_cqtbj"]
 [ext_resource type="AudioStream" uid="uid://bkt1is82a7axu" path="res://Sounds/Player/Voice/die.ogg" id="38_w2a6m"]
 [ext_resource type="AudioStream" uid="uid://bc4k006ah3hck" path="res://Sounds/Object/Ring.ogg" id="39_ibs8m"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="41_gb37d"]
+[ext_resource type="Shader" path="res://UI/Shaders/SpeedLines.gdshader" id="43_h2muj"]
+[ext_resource type="Texture2D" uid="uid://bvtmnpardufcn" path="res://Shaders/Noise.png" id="44_5ast1"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
 auto_exposure_enabled = true
@@ -94,7 +95,18 @@ shadow_size = 20
 shadow_color = Color(0.164706, 0, 0.180392, 1)
 shadow_offset = Vector2(1, 3)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("m_camera_node")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l640j"]
+shader = ExtResource("43_h2muj")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_count = 2.0
+shader_parameter/line_density = 0.165
+shader_parameter/line_faloff = 0.315
+shader_parameter/mask_size = 0.055
+shader_parameter/mask_edge = 0.236
+shader_parameter/animation_speed = 20.0
+shader_parameter/noise = ExtResource("44_5ast1")
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("m_camera_node", "SpeedLines")]
 top_level = true
 collision_layer = 0
 wall_min_slide_angle = 0.0
@@ -104,6 +116,7 @@ floor_max_angle = 1.0472
 floor_snap_length = 2.0
 script = ExtResource("1_4cy5j")
 m_camera_node = NodePath("Camera3D")
+SpeedLines = NodePath("UI/SpeedEffect")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
 top_level = true
@@ -278,7 +291,7 @@ script = ExtResource("5_3kayp")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(-3.59328e-05, -1.94807e-06, 0.000154381, 3.97664e-05, 0.000153043, 1.1187e-05, -0.000149185, 4.12641e-05, -3.42026e-05, 0.155226, 2.35947, -0.240104)
+transform = Transform3D(0.000226674, 1.2289e-05, -0.00097388, 0.000250857, 0.000965435, 7.05704e-05, 0.000941097, -0.000260305, 0.000215759, -0.979208, 14.9555, 1.51464)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -308,9 +321,9 @@ m_air_brake = -0.17
 m_run_dragstart = 3.0
 m_jog_speed = 0.46
 m_run_speed = 1.39
-m_rush_speed = 2.3
-m_crash_speed = 3.7
-m_dash_speed = 5.09
+m_rush_speed = 2.5
+m_crash_speed = 5.0
+m_dash_speed = 7.0
 m_run_accel = 0.05
 m_run_decel = -0.06
 m_run_brake = -0.18
@@ -533,31 +546,16 @@ offset_bottom = 277.0
 text = "Test"
 label_settings = SubResource("LabelSettings_gtix8")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="UI"]
-script = ExtResource("34_vvyab")
-
-[node name="DebugUIRoot" type="Control" parent="UI/CanvasLayer"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = 405.0
-offset_top = 2.0
-offset_right = 445.0
-offset_bottom = 42.0
-
-[node name="DebugUITree" type="Tree" parent="UI/CanvasLayer/DebugUIRoot"]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="DebugCheck" type="CheckButton" parent="UI/CanvasLayer/DebugUIRoot"]
-visible = false
-layout_mode = 0
-offset_left = 467.0
-offset_top = 19.0
-offset_right = 511.0
-offset_bottom = 43.0
+[node name="SpeedEffect" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_l640j")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
 [node name="Debug" parent="UI" instance=ExtResource("41_gb37d")]
 

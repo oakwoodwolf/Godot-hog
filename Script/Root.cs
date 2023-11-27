@@ -105,11 +105,11 @@ namespace SonicGodot
         private void SpawnPeer(int peer_id, string name = "Player")
         {
             // Instantiate player
-            Godot.PackedScene player_scene = (Godot.PackedScene)Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/NetPlayer.tscn");
-            Godot.Node player = player_scene.Instantiate();
+            var player_scene = (Godot.PackedScene)Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/NetPlayer.tscn");
+            var player = (NetPlayer)player_scene.Instantiate();
             player.Name = peer_id.ToString();
             Label3D label = player.GetNode<Label3D>("ModelRoot/Nametag");
-            label.Text = name;
+            label.Text = peer_id.ToString();
             // Add player to scene
             m_players.AddChild(player);
         }

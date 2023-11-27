@@ -34,7 +34,11 @@ namespace SonicGodot
 		// Player nodes
 		[Export]
 		private Camera m_camera_node;
-		private string currentAnim;
+        [Export]
+        public ColorRect SpeedLines;
+        public Tween SpeedTween;
+
+        private string currentAnim;
 		private CollisionShape3D m_main_colshape_node;
 		private CollisionShape3D m_roll_colshape_node;
 
@@ -43,8 +47,13 @@ namespace SonicGodot
 		private ObjectTriggerInterest m_radial_trigger;
 		private ObjectTriggerInterest m_attack_trigger;
 
+        [Signal]
+        public delegate void onPlayerHurtSignalEventHandler();
+        [Signal]
+        public delegate void onPlayerDeathEventHandler();
 
-		internal Character.ModelRoot m_modelroot;
+
+        internal Character.ModelRoot m_modelroot;
 		private Transform3D m_modelroot_offset;
 		private float m_hurt_counter, m_flicker_counter, m_dead_counter, m_rings_to_release;
 		private bool m_releasing_rings = false;

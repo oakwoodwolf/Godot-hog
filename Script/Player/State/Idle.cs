@@ -38,6 +38,8 @@ namespace SonicGodot
 
                 // Set landed
                 m_landed = landed;
+                m_parent.SpeedLines.Hide();
+
             }
 
             internal override void AbilityProcess()

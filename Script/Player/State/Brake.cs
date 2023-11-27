@@ -59,6 +59,7 @@ namespace SonicGodot
                 // Check if we've stopped moving
                 if (m_parent.GetAbsSpeedX() < m_parent.m_param.m_run_accel)
                 {
+                    m_parent.SpeedLines.Hide();
                     m_parent.SetState(new Idle(m_parent));
                     return;
                 }

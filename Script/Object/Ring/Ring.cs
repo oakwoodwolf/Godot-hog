@@ -53,16 +53,21 @@ namespace SonicGodot
 				{
 					// Add ring to player
 					player.AddRings(1);
-					GpuParticles3D sparkles = ResourceLoader.Load<PackedScene>("res://Particles/RingParticle.res").Instantiate() as GpuParticles3D;
-					// Add the node as a child of the node the script is attached to.
-					GetParent().AddChild(sparkles);
-					sparkles.GlobalTransform = GlobalTransform;
 					player.AddScore(10);
-
-					// Delete self
-					QueueFree();
+					Root.Rpc(this, "DeleteRing");
+					Root.GetHostServer().RpcAll(this, "DeleteRing");
+					DeleteRing();
 				}
 			}
+		}
+		private void DeleteRing()
+		{
+			var sparkles = ResourceLoader.Load<PackedScene>("res://Particles/RingParticle.res").Instantiate() as GpuParticles3D;
+			// Add the node as a child of the node the script is attached to.
+			GetParent().AddChild(sparkles);
+			sparkles.GlobalTransform = GlobalTransform;
+			// Delete self
+			QueueFree();
 		}
 		public bool CanLightDash() { return true; }
 

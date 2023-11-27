@@ -25,117 +25,117 @@ using Godot;
 
 namespace SonicGodot
 {
-    public partial class Player
-    {
-        public struct Param
-        {
-            public uint m_jump_hang = 60;
-            public float m_jump_speed = 1.66f;
-            public float m_jump_addit = 0.076f;
+	public partial class Player
+	{
+		public struct Param
+		{
+			public uint m_jump_hang = 60;
+			public float m_jump_speed = 1.66f;
+			public float m_jump_addit = 0.076f;
 
-            public float m_gravity = 0.08f;
+			public float m_gravity = 0.08f;
 
-            public float m_air_accel = 0.031f;
-            public float m_air_decel = -0.06f;
-            public float m_air_brake = -0.17f;
+			public float m_air_accel = 0.031f;
+			public float m_air_decel = -0.06f;
+			public float m_air_brake = -0.17f;
 
-            public float m_run_dragstart = 3.0f;
-            public float m_jog_speed = 0.46f;
-            public float m_run_speed = 1.39f;
-            public float m_rush_speed = 2.3f;
-            public float m_crash_speed = 3.7f;
-            public float m_dash_speed = 5.09f;
+			public float m_run_dragstart = 3.0f;
+			public float m_jog_speed = 0.46f;
+			public float m_run_speed = 1.39f;
+			public float m_rush_speed = 2.3f;
+			public float m_crash_speed = 3.7f;
+			public float m_dash_speed = 5.09f;
 
-            public float m_run_accel = 0.05f;
-            public float m_run_decel = -0.06f;
-            public float m_run_brake = -0.18f;
+			public float m_run_accel = 0.05f;
+			public float m_run_decel = -0.06f;
+			public float m_run_brake = -0.18f;
 
-            public Vector3 m_air_drag = new Vector3(-0.028f, -0.01f, -0.4f);
-            public Vector3 m_run_drag = new Vector3(-0.008f, -0.01f, -0.4f);
-            public Vector3 m_roll_drag = new Vector3(-0.008f, -0.01f, -0.4f);
+			public Vector3 m_air_drag = new Vector3(-0.028f, -0.01f, -0.4f);
+			public Vector3 m_run_drag = new Vector3(-0.008f, -0.01f, -0.4f);
+			public Vector3 m_roll_drag = new Vector3(-0.008f, -0.01f, -0.4f);
 
-            public float m_eye_height = 7.0f;
-            public float m_center_height = 5.4f;
+			public float m_eye_height = 7.0f;
+			public float m_center_height = 5.4f;
 
-            public float m_floor_clip = 2.0f;
-            public int m_rings_to_release = 30;
-            public float m_invincibility_timer = 120f;
-            public float m_flicker_timer = 2f;
-            public bool m_reset_speed_on_hit = true;
-            public float m_dead_timer = 120f;
-
-
+			public float m_floor_clip = 2.0f;
+			public int m_rings_to_release = 30;
+			public float m_invincibility_timer = 120f;
+			public float m_flicker_timer = 2f;
+			public bool m_reset_speed_on_hit = true;
+			public float m_dead_timer = 120f;
 
 
-            public Param() { }
-        }
-    }
 
-    // Node wrapper so the parameters can be exported to the scene
-    public partial class PlayerParam : Node
-    {
-        public Player.Param m_param;
-        [ExportGroup("Jump")]
-        /* The amount in frames that the jump stays at its peak. */
-        [Export]
-        public uint m_jump_hang { get { return m_param.m_jump_hang; } set { m_param.m_jump_hang = value; } }
-        [Export]
-        public float m_jump_speed { get { return m_param.m_jump_speed; } set { m_param.m_jump_speed = value; } }
-        [Export]
-        public float m_jump_addit { get { return m_param.m_jump_addit; } set { m_param.m_jump_addit = value; } }
-        [ExportGroup("Air")]
-        [Export]
-        public float m_gravity { get { return m_param.m_gravity; } set { m_param.m_gravity = value; } }
-        [Export]
-        public float m_air_accel { get { return m_param.m_air_accel; } set { m_param.m_air_accel = value; } }
-        [Export]
-        public float m_air_decel { get { return m_param.m_air_decel; } set { m_param.m_air_decel = value; } }
-        [Export]
-        public float m_air_brake { get { return m_param.m_air_brake; } set { m_param.m_air_brake = value; } }
-        [ExportGroup("Ground")]
-        [Export]
-        public float m_run_dragstart { get { return m_param.m_run_dragstart; } set { m_param.m_run_dragstart = value; } }
-        [Export]
-        public float m_jog_speed { get { return m_param.m_jog_speed; } set { m_param.m_jog_speed = value; } }
-        [Export]
-        public float m_run_speed { get { return m_param.m_run_speed; } set { m_param.m_run_speed = value; } }
-        [Export]
-        public float m_rush_speed { get { return m_param.m_rush_speed; } set { m_param.m_rush_speed = value; } }
-        [Export]
-        public float m_crash_speed { get { return m_param.m_crash_speed; } set { m_param.m_crash_speed = value; } }
-        [Export]
-        public float m_dash_speed { get { return m_param.m_dash_speed; } set { m_param.m_dash_speed = value; } }
-        [Export]
-        public float m_run_accel { get { return m_param.m_run_accel; } set { m_param.m_run_accel = value; } }
-        [Export]
-        public float m_run_decel { get { return m_param.m_run_decel; } set { m_param.m_run_decel = value; } }
-        [Export]
-        public float m_run_brake { get { return m_param.m_run_brake; } set { m_param.m_run_brake = value; } }
-        [ExportGroup("Drag")]
-        [Export]
-        public Vector3 m_air_drag { get { return m_param.m_air_drag; } set { m_param.m_air_drag = value; } }
-        [Export]
-        public Vector3 m_run_drag { get { return m_param.m_run_drag; } set { m_param.m_run_drag = value; } }
-        [Export]
-        public Vector3 m_roll_drag { get { return m_param.m_roll_drag; } set { m_param.m_roll_drag = value; } }
-        [ExportGroup("Ability")]
-        [ExportSubgroup("Hurt")]
-        [Export]
-        public int m_rings_to_release { get { return m_param.m_rings_to_release; } set { m_param.m_rings_to_release = value; } }
-        [Export]
-        public float m_invincibility_timer { get { return m_param.m_invincibility_timer; } set { m_param.m_invincibility_timer = value; } }
-        [Export]
-        public float m_flicker_timer { get { return m_param.m_flicker_timer; } set { m_param.m_flicker_timer = value; } }
-        [Export]
-        public bool m_reset_speed_on_hit { get { return m_param.m_reset_speed_on_hit; } set { m_param.m_reset_speed_on_hit = value; } }
-        [Export]
-        public float m_dead_timer { get { return m_param.m_dead_timer; } set { m_param.m_dead_timer = value; } }
-        [ExportGroup("Heights")]
-        [Export]
-        public float m_eye_height { get { return m_param.m_eye_height; } set { m_param.m_eye_height = value; } }
-        [Export]
-        public float m_center_height { get { return m_param.m_center_height; } set { m_param.m_center_height = value; } }
-        [Export]
-        public float m_floor_clip { get { return m_param.m_floor_clip; } set { m_param.m_floor_clip = value; } }
-    }
+
+			public Param() { }
+		}
+	}
+
+	// Node wrapper so the parameters can be exported to the scene
+	public partial class PlayerParam : Node
+	{
+		public Player.Param m_param;
+		[ExportGroup("Jump")]
+		/* The amount in frames that the jump stays at its peak. */
+		[Export]
+		public uint m_jump_hang { get { return m_param.m_jump_hang; } set { m_param.m_jump_hang = value; } }
+		[Export]
+		public float m_jump_speed { get { return m_param.m_jump_speed; } set { m_param.m_jump_speed = value; } }
+		[Export]
+		public float m_jump_addit { get { return m_param.m_jump_addit; } set { m_param.m_jump_addit = value; } }
+		[ExportGroup("Air")]
+		[Export]
+		public float m_gravity { get { return m_param.m_gravity; } set { m_param.m_gravity = value; } }
+		[Export]
+		public float m_air_accel { get { return m_param.m_air_accel; } set { m_param.m_air_accel = value; } }
+		[Export]
+		public float m_air_decel { get { return m_param.m_air_decel; } set { m_param.m_air_decel = value; } }
+		[Export]
+		public float m_air_brake { get { return m_param.m_air_brake; } set { m_param.m_air_brake = value; } }
+		[ExportGroup("Ground")]
+		[Export]
+		public float m_run_dragstart { get { return m_param.m_run_dragstart; } set { m_param.m_run_dragstart = value; } }
+		[Export]
+		public float m_jog_speed { get { return m_param.m_jog_speed; } set { m_param.m_jog_speed = value; } }
+		[Export]
+		public float m_run_speed { get { return m_param.m_run_speed; } set { m_param.m_run_speed = value; } }
+		[Export]
+		public float m_rush_speed { get { return m_param.m_rush_speed; } set { m_param.m_rush_speed = value; } }
+		[Export]
+		public float m_crash_speed { get { return m_param.m_crash_speed; } set { m_param.m_crash_speed = value; } }
+		[Export]
+		public float m_dash_speed { get { return m_param.m_dash_speed; } set { m_param.m_dash_speed = value; } }
+		[Export]
+		public float m_run_accel { get { return m_param.m_run_accel; } set { m_param.m_run_accel = value; } }
+		[Export]
+		public float m_run_decel { get { return m_param.m_run_decel; } set { m_param.m_run_decel = value; } }
+		[Export]
+		public float m_run_brake { get { return m_param.m_run_brake; } set { m_param.m_run_brake = value; } }
+		[ExportGroup("Drag")]
+		[Export]
+		public Vector3 m_air_drag { get { return m_param.m_air_drag; } set { m_param.m_air_drag = value; } }
+		[Export]
+		public Vector3 m_run_drag { get { return m_param.m_run_drag; } set { m_param.m_run_drag = value; } }
+		[Export]
+		public Vector3 m_roll_drag { get { return m_param.m_roll_drag; } set { m_param.m_roll_drag = value; } }
+		[ExportGroup("Ability")]
+		[ExportSubgroup("Hurt")]
+		[Export]
+		public int m_rings_to_release { get { return m_param.m_rings_to_release; } set { m_param.m_rings_to_release = value; } }
+		[Export]
+		public float m_invincibility_timer { get { return m_param.m_invincibility_timer; } set { m_param.m_invincibility_timer = value; } }
+		[Export]
+		public float m_flicker_timer { get { return m_param.m_flicker_timer; } set { m_param.m_flicker_timer = value; } }
+		[Export]
+		public bool m_reset_speed_on_hit { get { return m_param.m_reset_speed_on_hit; } set { m_param.m_reset_speed_on_hit = value; } }
+		[Export]
+		public float m_dead_timer { get { return m_param.m_dead_timer; } set { m_param.m_dead_timer = value; } }
+		[ExportGroup("Heights")]
+		[Export]
+		public float m_eye_height { get { return m_param.m_eye_height; } set { m_param.m_eye_height = value; } }
+		[Export]
+		public float m_center_height { get { return m_param.m_center_height; } set { m_param.m_center_height = value; } }
+		[Export]
+		public float m_floor_clip { get { return m_param.m_floor_clip; } set { m_param.m_floor_clip = value; } }
+	}
 }
