@@ -54,13 +54,14 @@ namespace SonicGodot
 					// Add ring to player
 					player.AddRings(1);
 					player.AddScore(10);
-					Root.Rpc(this, "DeleteRing");
-					Root.GetHostServer().RpcAll(this, "DeleteRing");
+					Root.Rpc(this, nameof(SendDeleteCall));
+					
 					DeleteRing();
 				}
 			}
 		}
-		private void DeleteRing()
+        private void SendDeleteCall() => Root.GetHostServer().RpcAll(this, nameof(DeleteRing));
+        private void DeleteRing()
 		{
 			var sparkles = ResourceLoader.Load<PackedScene>("res://Particles/RingParticle.res").Instantiate() as GpuParticles3D;
 			// Add the node as a child of the node the script is attached to.

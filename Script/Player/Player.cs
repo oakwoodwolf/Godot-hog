@@ -231,13 +231,19 @@ namespace SonicGodot
 			// State interface
 			virtual internal void Ready() { }
 			virtual internal void Stop() { }
-
+            /// <summary>
+            /// Called every frame the state is active.
+            /// </summary>
 			virtual internal void AbilityProcess() { }
 			virtual internal void Process() { }
 
 			virtual internal void Debug(List<string> debugs) { }
 
 			// State overrides
+            /// <summary>
+            /// Allows Dynamic bones to be usable while in this state.
+            /// </summary>
+            /// <returns></returns>
 			virtual internal bool CanDynamicPose()
 			{
 				return true;
@@ -558,7 +564,12 @@ namespace SonicGodot
 			{
 				Respawn();
 			}
-
+            if (GetAbsSpeedX() > m_param.m_crash_speed)
+            { m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 90, 0.1f); } else
+            {
+                m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 75, 0.1f);
+            }
+            
 			// Update player parameters
 			m_param = m_param_node.m_param;
 			currentAnim = m_modelroot.m_current_anim;
@@ -620,7 +631,7 @@ namespace SonicGodot
 			m_modelroot.SetShear(m_state.GetShear());
 
 			// Send RPC update
-			Root.Rpc(this, "HostRpc_Update", GlobalTransform, currentAnim);
+			Root.Rpc(this, nameof(HostRpc_Update), GlobalTransform, currentAnim);
 			// Increment time
 			m_time++;
 

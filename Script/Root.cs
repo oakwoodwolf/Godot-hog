@@ -302,6 +302,10 @@ namespace SonicGodot
             return Singleton().m_server;
         }
 
+        /// <summary>
+        /// Gets the Host of the Multiplayer Game
+        /// </summary>
+        /// <returns>The HostServer Singleton</returns>
         public static Net.IHostServer GetHostServer()
         {
             return Singleton().m_server as Net.IHostServer;

@@ -91,6 +91,7 @@ namespace SonicGodot
                 { m_parent.SpeedLines.Hide(); }
                 m_parent.PlayAnimation("Run", _anim_speed);
             }
+            internal override void Stop() { m_parent.SpeedLines.Hide(); }
         }
     }
 }

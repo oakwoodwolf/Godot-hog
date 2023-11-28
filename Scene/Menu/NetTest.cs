@@ -74,7 +74,10 @@ namespace SonicGodot.Scene
 
 
 		}
-
+        /// <summary>
+        /// Loads a Stage.pck file. Its name must match the name of both the pck and the folder packed inside.
+        /// </summary>
+        /// <param name="name">The name of the stage's pck file, excluding the file extension.</param>
 		private static void LoadStagePack(string name)
 		{
 			var success = ProjectSettings.LoadResourcePack("res://" + name + ".pck");

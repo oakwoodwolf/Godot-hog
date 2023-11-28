@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -43,7 +43,13 @@ namespace SonicGodot.Net
     public interface IHostServer : IServer
     {
         // Send RPC functions
-        public void RpcAll(Node node, string name, params Variant[] args); // Send RPC to all peers
+        /// <summary>
+        /// Sends an RPC to all Peers
+        /// </summary>
+        /// <param name="node">The node that the function is residing in</param>
+        /// <param name="name">The name of the function to call</param>
+        /// <param name="args">arguments to pass into the named function</param>
+        public void RpcAll(Node node, string name, params Variant[] args);
         public void RpcId(int peer_id, Node node, string name, params Variant[] args); // Send RPC to a specific peer
     }
 }
