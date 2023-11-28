@@ -34,6 +34,22 @@ namespace SonicGodot
 		public AudioStreamPlayer SoundPlayer;
 		[Export]
 		Dictionary<string, AudioStream> _menuSounds = new Dictionary<string, AudioStream>();
+        public enum MenuPage
+        {
+            Title,
+            Options,
+            Mode,
+            Stage,
+            Online,
+            Host,
+            Join,
+            Credits,
+
+        }
+
+        [Export]
+        public Dictionary<MenuPage, NodePath> MenuValuePairs = new Dictionary<MenuPage, NodePath>();
+   
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
@@ -79,17 +95,31 @@ namespace SonicGodot
 		// Main Menu
 		private void OnPlayPressed()
 		{
-			PlaySound("accept");
-			GetNode<Control>("%ModeMenu").Visible = true;
+            SwitchMenu(MenuPage.Mode);
 			GetNode<Button>("ModeMenu/VBoxContainer/SoloButton").GrabFocus();
-			GetNode<Control>("TitleScreen").Visible = false;
 		}
+        public void SwitchMenu(MenuPage page)
+        {
+            PlaySound("accept");
+            foreach (var menu in MenuValuePairs)
+            {
+                GD.Print(menu);
+                if (menu.Key == page)
+                { 
+                    GetNode<Control>(menu.Value).Show();
+                }
+                else
+                {
+                    GetNode<Control>(menu.Value).Hide(); 
+                }
+                
+
+            }
+        }
 		private void OnOptionsPressed()
 		{
-			PlaySound("accept");
-			GetNode<Control>("OptionsMenu").Visible = true;
+            SwitchMenu(MenuPage.Options);
 			_resolutionButton.GrabFocus();
-			GetNode<Control>("TitleScreen").Visible = false;
 		}
 		private void OnQuitPressed()
 		{
@@ -99,10 +129,8 @@ namespace SonicGodot
 		//Play Menu
 		private void OnOnlinePressed()
 		{
-			PlaySound("accept");
-			GetNode<Control>("PlayMenu").Visible = true;
+            SwitchMenu(MenuPage.Online);
 			GetNode<Button>("PlayMenu/Bar/StartButton").GrabFocus();
-			GetNode<Control>("%ModeMenu").Visible = false;
 		}
 		//Options
 		private int CheckWindowMode(UInt16 res)
@@ -172,18 +200,14 @@ namespace SonicGodot
 		}
 		private void OnApplyPressed()
 		{
-			PlaySound("accept");
-			GetNode<Control>("OptionsMenu").Visible = false;
-			GetNode<Control>("TitleScreen").Visible = true;
-			GetNode<Button>("%PlayButton").GrabFocus();
+            SwitchMenu(MenuPage.Title);
+            GetNode<Button>("%PlayButton").GrabFocus();
 			Root.SaveSetting();
 		}
 		private void OnReturnPressed()
 		{
-			PlaySound("accept");
-			GetNode<Control>("ModeMenu").Visible = false;
-			GetNode<Control>("OptionsMenu").Visible = false;
-			GetNode<Control>("TitleScreen").Visible = true;
+            SwitchMenu(MenuPage.Title);
+            GetNode<Control>("ModeMenu").Visible = false;
 			GetNode<Button>("%PlayButton").GrabFocus();
 		}
 		private void OnFocusExit()

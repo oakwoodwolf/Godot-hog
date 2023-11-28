@@ -24,6 +24,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -52,10 +53,12 @@ namespace SonicGodot
 		// Net server
 		private Godot.MultiplayerApi m_multiplayer_api = null;
 
+		public static List<string> stageList = new List<string>();
+
 		private Net.IServer m_server = null;
 		private Net.NetSync m_netsync = null;
 		public static ConfigFile settingsFile = new ConfigFile();
-		public static Dictionary<int, int> windowModes = new Dictionary<int, int> { { 0, (int)DisplayServer.WindowMode.Windowed }, { 1, (int)DisplayServer.WindowMode.Fullscreen }, { 2, (int)DisplayServer.WindowMode.ExclusiveFullscreen } };
+		public static Godot.Collections.Dictionary<int, int> windowModes = new Godot.Collections.Dictionary<int, int> { { 0, (int)DisplayServer.WindowMode.Windowed }, { 1, (int)DisplayServer.WindowMode.Fullscreen }, { 2, (int)DisplayServer.WindowMode.ExclusiveFullscreen } };
 		// Root singleton
 		public override void _EnterTree()
 		{
@@ -176,9 +179,10 @@ namespace SonicGodot
 				var success = ProjectSettings.LoadResourcePack("res://" + resourcePacks[i] + ".pck");
 				if (success)
 				{
-					GD.Print("Loaded! " + resourcePacks[i]);
 					if (Godot.FileAccess.FileExists("res://" + resourcePacks[i] + "/"))
 				   { Assembly.LoadFile(resourcePacks[i] + ".dll"); }
+					stageList.Add(resourcePacks[i]);
+					GD.Print("Loaded! " + stageList.Last());
 				}
 			}
 			
