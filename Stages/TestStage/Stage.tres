@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="StageData" load_steps=2 format=3 uid="uid://dcb7e7fcy0o0c"]
+[gd_resource type="Resource" script_class="StageData" load_steps=2 format=3 uid="uid://bvs1qb8nvoci6"]
 
-[ext_resource type="Script" path="res://Script/Resource/StageData.gd" id="1_rqbxy"]
+[ext_resource type="Script" path="res://Script/Resource/StageData.cs" id="1_pinur"]
 
 [resource]
-script = ExtResource("1_rqbxy")
-stage_name = "Test Stage"
-scene_path = "res://Stages/TestStage/Stage.tscn"
+script = ExtResource("1_pinur")
+StageName = "TestStage"
+StageScene = "Stage.tscn"

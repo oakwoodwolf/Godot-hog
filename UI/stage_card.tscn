@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsvsanjw5cn14"]
+
+[ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="1_knr3e"]
+[ext_resource type="Script" path="res://StageCard.cs" id="2_4wmq1"]
+[ext_resource type="Texture2D" uid="uid://bkmesxt58mfx1" path="res://icon.svg" id="2_ktyhk"]
+
+[node name="StageCard" type="Button"]
+custom_minimum_size = Vector2(256, 256)
+offset_right = 512.0
+offset_bottom = 512.0
+theme = ExtResource("1_knr3e")
+text = "Text"
+icon = ExtResource("2_ktyhk")
+script = ExtResource("2_4wmq1")
+
+[connection signal="pressed" from="." to="." method="OnPressed"]

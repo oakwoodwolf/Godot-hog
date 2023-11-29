@@ -31,24 +31,26 @@ namespace SonicGodot
 		};
 		[Export]
 		OptionButton _fsrButton;
+		[Export]
+		PackedScene _stageCard;
 		public AudioStreamPlayer SoundPlayer;
 		[Export]
 		Dictionary<string, AudioStream> _menuSounds = new Dictionary<string, AudioStream>();
-        public enum MenuPage
-        {
-            Title,
-            Options,
-            Mode,
-            Stage,
-            Online,
-            Host,
-            Join,
-            Credits,
+		public enum MenuPage
+		{
+			Title,
+			Options,
+			Mode,
+			Stage,
+			Online,
+			Host,
+			Join,
+			Credits,
 
-        }
+		}
 
-        [Export]
-        public Dictionary<MenuPage, NodePath> MenuValuePairs = new Dictionary<MenuPage, NodePath>();
+		[Export]
+		public Dictionary<MenuPage, NodePath> MenuValuePairs = new Dictionary<MenuPage, NodePath>();
    
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -74,7 +76,7 @@ namespace SonicGodot
 			GetNode<Slider>("%MusicSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(1));
 			GetNode<Slider>("%SoundSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(2));
 			GetNode<Slider>("%VoiceSlider").Value = Mathf.DbToLinear(AudioServer.GetBusVolumeDb(3));
-
+			ConfigureStageSelect();
 		}
 
 		private void SetResolutionText()
@@ -95,30 +97,30 @@ namespace SonicGodot
 		// Main Menu
 		private void OnPlayPressed()
 		{
-            SwitchMenu(MenuPage.Mode);
+			SwitchMenu(MenuPage.Mode);
 			GetNode<Button>("ModeMenu/VBoxContainer/SoloButton").GrabFocus();
 		}
-        public void SwitchMenu(MenuPage page)
-        {
-            PlaySound("accept");
-            foreach (var menu in MenuValuePairs)
-            {
-                GD.Print(menu);
-                if (menu.Key == page)
-                { 
-                    GetNode<Control>(menu.Value).Show();
-                }
-                else
-                {
-                    GetNode<Control>(menu.Value).Hide(); 
-                }
-                
+		public void SwitchMenu(MenuPage page)
+		{
+			PlaySound("accept");
+			foreach (var menu in MenuValuePairs)
+			{
+				GD.Print(menu);
+				if (menu.Key == page)
+				{ 
+					GetNode<Control>(menu.Value).Show();
+				}
+				else
+				{
+					GetNode<Control>(menu.Value).Hide(); 
+				}
+				
 
-            }
-        }
+			}
+		}
 		private void OnOptionsPressed()
 		{
-            SwitchMenu(MenuPage.Options);
+			SwitchMenu(MenuPage.Options);
 			_resolutionButton.GrabFocus();
 		}
 		private void OnQuitPressed()
@@ -129,7 +131,7 @@ namespace SonicGodot
 		//Play Menu
 		private void OnOnlinePressed()
 		{
-            SwitchMenu(MenuPage.Online);
+			SwitchMenu(MenuPage.Online);
 			GetNode<Button>("PlayMenu/Bar/StartButton").GrabFocus();
 		}
 		//Options
@@ -200,19 +202,35 @@ namespace SonicGodot
 		}
 		private void OnApplyPressed()
 		{
-            SwitchMenu(MenuPage.Title);
-            GetNode<Button>("%PlayButton").GrabFocus();
+			SwitchMenu(MenuPage.Title);
+			GetNode<Button>("%PlayButton").GrabFocus();
 			Root.SaveSetting();
 		}
 		private void OnReturnPressed()
 		{
-            SwitchMenu(MenuPage.Title);
-            GetNode<Control>("ModeMenu").Visible = false;
+			SwitchMenu(MenuPage.Title);
+			GetNode<Button>("%PlayButton").GrabFocus();
+		}
+		private void OnSoloButtonPressed()
+		{
+			SwitchMenu(MenuPage.Stage);
 			GetNode<Button>("%PlayButton").GrabFocus();
 		}
 		private void OnFocusExit()
 		{
 			PlaySound("choose");
+		}
+		private void ConfigureStageSelect()
+		{
+			foreach (var stage in Root.stageList)
+			{
+				StageData data = (StageData)ResourceLoader.Load("res://Stages/" + stage + "/Stage.tres");
+				var card = (StageCard)_stageCard.Instantiate();
+				GetNode<GridContainer>("%ButtonGrid").AddChild(card);
+				card.StageData = data;
+				card.Name = data.StageName;
+				card.Text = data.StageName;
+			}
 		}
 	}
 }

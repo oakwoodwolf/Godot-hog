@@ -170,9 +170,17 @@ namespace SonicGodot
 		public static void LoadAllStagePcks()
 		{
 			GD.Print("Loading all Stage files into game.");
-			string workingDirectory = ProjectSettings.GlobalizePath("res://");
+            string workingDirectory;
+            if (OS.HasFeature("editor"))
+            {
+                workingDirectory = ProjectSettings.GlobalizePath("res://");
+            } else
+            {
+                workingDirectory = OS.GetExecutablePath().GetBaseDir();
+            }
+            
 			string[] resourcePacks = Directory.GetFiles(workingDirectory, "*.pck");
-			resourcePacks = resourcePacks.Where(pack => !Path.GetFileName(pack).Contains("SonicOnset.pck", StringComparison.OrdinalIgnoreCase)).ToArray();
+			resourcePacks = resourcePacks.Where(pack => !Path.GetFileName(pack).Contains("SonicGodot.pck", StringComparison.OrdinalIgnoreCase)).ToArray();
 			for (int i = 0; i < resourcePacks.Length; i++)
 			{
 				resourcePacks[i] = Path.GetFileNameWithoutExtension(resourcePacks[i]);

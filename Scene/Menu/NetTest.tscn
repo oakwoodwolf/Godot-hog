@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dh1od21n3h5ol"]
+[gd_scene load_steps=12 format=3 uid="uid://dh1od21n3h5ol"]
 
 [ext_resource type="Script" path="res://Scene/Menu/NetTest.cs" id="1_y5sr7"]
 [ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="2_f73dx"]
 [ext_resource type="LabelSettings" uid="uid://criity30xluq4" path="res://UI/Theme/MenuLabel.tres" id="2_yypjk"]
+[ext_resource type="PackedScene" uid="uid://dsvsanjw5cn14" path="res://UI/stage_card.tscn" id="3_gslu3"]
 [ext_resource type="AudioStream" uid="uid://c66hktvlyxxtv" path="res://Sounds/System/menu_select.ogg" id="3_ovrh2"]
 [ext_resource type="Script" path="res://Scene/Menu/Menu.cs" id="4_gw5yb"]
 [ext_resource type="AudioStream" uid="uid://bo00hfbicw3qi" path="res://Sounds/System/menu_choose.ogg" id="4_xovui"]
@@ -28,6 +29,7 @@ theme = ExtResource("2_f73dx")
 script = ExtResource("4_gw5yb")
 _resolutionButton = NodePath("OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton")
 _fsrButton = NodePath("OptionsMenu/TabContainer/Video/VBoxContainer/AmdFSR/FSRButton")
+_stageCard = ExtResource("3_gslu3")
 _menuSounds = {
 "accept": ExtResource("3_ovrh2"),
 "choose": ExtResource("4_xovui")
@@ -389,46 +391,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0.631373, 1, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Main Menu/StageMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="SoloButton" type="Button" parent="UI/Main Menu/StageMenu/VBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 48
-text = "Solo"
-
-[node name="OnlineButton" type="Button" parent="UI/Main Menu/StageMenu/VBoxContainer"]
-layout_mode = 2
-focus_neighbor_top = NodePath("../SoloButton")
-focus_neighbor_bottom = NodePath("../BackButton")
-focus_next = NodePath("../BackButton")
-focus_previous = NodePath("../SoloButton")
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 48
-text = "Online"
-
-[node name="BackButton" type="Button" parent="UI/Main Menu/StageMenu/VBoxContainer"]
-layout_mode = 2
-focus_neighbor_top = NodePath("../OnlineButton")
-focus_next = NodePath("../SoloButton")
-focus_previous = NodePath("../OnlineButton")
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 48
-text = "Back"
-
 [node name="VersionTagTitle" type="Label" parent="UI/Main Menu/StageMenu"]
 layout_mode = 1
 anchors_preset = 3
@@ -448,6 +410,23 @@ theme_override_fonts/font = ExtResource("5_1t25e")
 theme_override_font_sizes/font_size = 32
 text = "Version"
 horizontal_alignment = 2
+
+[node name="ButtonGrid" type="GridContainer" parent="UI/Main Menu/StageMenu"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -768.0
+offset_top = -432.0
+offset_right = 768.0
+offset_bottom = 432.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(768, 432)
+columns = 5
 
 [node name="OptionsMenu" type="Control" parent="UI/Main Menu"]
 visible = false
@@ -696,15 +675,11 @@ bus = &"Sound"
 [connection signal="focus_exited" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/Quit" to="UI/Main Menu" method="OnQuitPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/ModeMenu/VBoxContainer/SoloButton" to="UI/Main Menu" method="OnFocusExit"]
+[connection signal="pressed" from="UI/Main Menu/ModeMenu/VBoxContainer/SoloButton" to="UI/Main Menu" method="OnSoloButtonPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/ModeMenu/VBoxContainer/OnlineButton" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="pressed" from="UI/Main Menu/ModeMenu/VBoxContainer/OnlineButton" to="UI/Main Menu" method="OnOnlinePressed"]
 [connection signal="focus_exited" from="UI/Main Menu/ModeMenu/VBoxContainer/BackButton" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="pressed" from="UI/Main Menu/ModeMenu/VBoxContainer/BackButton" to="UI/Main Menu" method="OnReturnPressed"]
-[connection signal="focus_exited" from="UI/Main Menu/StageMenu/VBoxContainer/SoloButton" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="focus_exited" from="UI/Main Menu/StageMenu/VBoxContainer/OnlineButton" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/StageMenu/VBoxContainer/OnlineButton" to="UI/Main Menu" method="OnOnlinePressed"]
-[connection signal="focus_exited" from="UI/Main Menu/StageMenu/VBoxContainer/BackButton" to="UI/Main Menu" method="OnFocusExit"]
-[connection signal="pressed" from="UI/Main Menu/StageMenu/VBoxContainer/BackButton" to="UI/Main Menu" method="OnReturnPressed"]
 [connection signal="focus_entered" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="item_selected" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="OnResolutionButtonItemSelected"]
 [connection signal="pressed" from="UI/Main Menu/OptionsMenu/TabContainer/Video/VBoxContainer/Resolution/ResolutionButton" to="UI/Main Menu" method="PlaySound" binds= ["accept"]]
