@@ -224,12 +224,11 @@ namespace SonicGodot
 		{
 			foreach (var stage in Root.stageList)
 			{
-				StageData data = (StageData)ResourceLoader.Load("res://Stages/" + stage + "/Stage.tres");
+				var data = (StageData)ResourceLoader.Load("res://Stages/" + stage + "/Stage.tres");
 				var card = (StageCard)_stageCard.Instantiate();
 				GetNode<GridContainer>("%ButtonGrid").AddChild(card);
 				card.StageData = data;
-				card.Name = data.StageName;
-				card.Text = data.StageName;
+                card.SetUp();
 			}
 		}
 	}

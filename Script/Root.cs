@@ -41,10 +41,11 @@ namespace SonicGodot
 		// Scene loader
 		[Godot.Export]
 		private Godot.PackedScene m_load_scene;
-		private UI.LoadUI.LoadUI m_load_scene_node = null;
+		private static UI.LoadUI.LoadUI m_load_scene_node = null;
 
 		private string m_loading_scene = null;
 		private string m_next_scene = null;
+		public StageData StageData = null;
 
 		private Godot.Node m_scene = null;
 
@@ -75,11 +76,7 @@ namespace SonicGodot
 			Godot.Engine.RegisterSingleton("Root", this);
 		}
 
-		public override void _ExitTree()
-		{
-			// Close server
-			DisconnectServer();
-		}
+		public override void _ExitTree() => DisconnectServer();
 
 		internal static Root Singleton()
 		{
@@ -88,10 +85,10 @@ namespace SonicGodot
 		}
 
 		// Load scene
-		private void LoadScene(string scene_path)
+		private void LoadScene(string scene_path, StageData data = null)
 		{
 			// Begin loading new scene
-
+			StageData = data;
 			m_next_scene = scene_path;
 
 		}
@@ -170,15 +167,15 @@ namespace SonicGodot
 		public static void LoadAllStagePcks()
 		{
 			GD.Print("Loading all Stage files into game.");
-            string workingDirectory;
-            if (OS.HasFeature("editor"))
-            {
-                workingDirectory = ProjectSettings.GlobalizePath("res://");
-            } else
-            {
-                workingDirectory = OS.GetExecutablePath().GetBaseDir();
-            }
-            
+			string workingDirectory;
+			if (OS.HasFeature("editor"))
+			{
+				workingDirectory = ProjectSettings.GlobalizePath("res://");
+			} else
+			{
+				workingDirectory = OS.GetExecutablePath().GetBaseDir();
+			}
+			
 			string[] resourcePacks = Directory.GetFiles(workingDirectory, "*.pck");
 			resourcePacks = resourcePacks.Where(pack => !Path.GetFileName(pack).Contains("SonicGodot.pck", StringComparison.OrdinalIgnoreCase)).ToArray();
 			for (int i = 0; i < resourcePacks.Length; i++)
@@ -212,6 +209,10 @@ namespace SonicGodot
 					// Load UI
 					m_load_scene_node = (UI.LoadUI.LoadUI)m_load_scene.Instantiate();
 					AddChild(m_load_scene_node);
+					if (StageData != null)
+					{
+						m_load_scene_node.SetUp(StageData);
+					}
 
 					// Begin loading scene
 					m_loading_scene = m_next_scene;
@@ -239,13 +240,14 @@ namespace SonicGodot
 							if (m_next_scene == null)
 							{
 								// Unload UI
-								m_load_scene_node.Free();
-								m_load_scene_node = null;
+
 
 								// Instantiate scene
 								m_scene = packed_scene.Instantiate();
 								AddChild(m_scene);
-
+								m_load_scene_node.Player.Play("LoadEnd");
+								
+							   
 								// Setup scene
 								SetupScene();
 								return;
@@ -259,6 +261,11 @@ namespace SonicGodot
 					}
 				}
 			}
+		}
+		public static void FreeLoader()
+		{
+			m_load_scene_node.Free();
+			m_load_scene_node = null;
 		}
 		public void LoadSettings()
 		{
@@ -431,10 +438,10 @@ namespace SonicGodot
 		}
 
 		[Godot.Rpc(Godot.MultiplayerApi.RpcMode.Authority)]
-		private void Rpc_SetScene(string scene)
+		private void Rpc_SetScene(string scene, StageData data = null)
 		{
 			// Load scene
-			LoadScene(scene);
+			LoadScene(scene, data);
 		}
 
 		// RPC forwarding

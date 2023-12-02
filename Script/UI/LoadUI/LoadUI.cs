@@ -28,23 +28,58 @@ namespace SonicGodot.UI.LoadUI
 	public partial class LoadUI : Node
 	{
 		// Load UI nodes
-		private Label m_load_label;
+		private Label _load_label;
+		[Export]
+		public StageData Data;
+		[Export]
+		private Label _loadingText;
+		[Export]
+		private TextureRect _loadingBg;
+		[Export]
+		public AnimationPlayer Player;
 
 		// Load UI node
 		public override void _Ready()
 		{
 			// Get nodes
-			m_load_label = GetNode<Label>("UI/LoadUI/LoadRoot/LoadLabel");
+			_load_label = GetNode<Label>("UI/LoadUI/LoadRoot/LoadLabel");
 
 			// Setup base
 			base._Ready();
 		}
-
+		public void SetUp(StageData data)
+		{
+			if (data != null)
+			{
+				Data = data;
+				_loadingText.Text = Data.StageName;
+				GD.Print(Data.StageBackground);
+				_loadingBg.Texture = Data.StageBackground;
+				GD.Print(_loadingBg.Texture);
+				Player.Play("LoadStart");
+			}
+		}
+		private void OnLoadStartFinished(StringName anim_name)
+		{
+			if (anim_name == "LoadStart") {
+				Player.Play("Load");
+			} if (anim_name == "LoadEnd")
+			{
+				Root.FreeLoader();
+				QueueFree();
+			}
+			
+		}
 		// Update progress
 		public void SetProgress(float progress)
 		{
 			// Update progress
-			m_load_label.Text = string.Format("Loading... {0:0}%", progress * 100.0f);
+			_load_label.Text = string.Format("Loading... {0:0}%", progress * 100.0f);
 		}
+
+
 	}
 }
+
+
+

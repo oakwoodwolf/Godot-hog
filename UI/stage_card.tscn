@@ -1,16 +1,65 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsvsanjw5cn14"]
+[gd_scene load_steps=9 format=3 uid="uid://dsvsanjw5cn14"]
 
+[ext_resource type="StyleBox" uid="uid://bmgfewai35gpa" path="res://UI/Theme/stage_card.tres" id="1_85me7"]
 [ext_resource type="Theme" uid="uid://ce1n4i1uednhs" path="res://UI/Theme/Menu.tres" id="1_knr3e"]
 [ext_resource type="Script" path="res://StageCard.cs" id="2_4wmq1"]
-[ext_resource type="Texture2D" uid="uid://bkmesxt58mfx1" path="res://icon.svg" id="2_ktyhk"]
+[ext_resource type="StyleBox" uid="uid://crb000h23ruec" path="res://UI/Theme/stage_card_hover.tres" id="2_6ax2s"]
+[ext_resource type="Texture2D" uid="uid://c2vpklon6csug" path="res://UI/Sprites/NoThumbnail.png" id="2_jjv70"]
+[ext_resource type="FontFile" uid="uid://cx32j5ioih8el" path="res://UI/Fonts/LEMONMILK-Bold.otf" id="5_i0vs5"]
 
-[node name="StageCard" type="Button"]
+[sub_resource type="Theme" id="Theme_6m4a3"]
+Button/styles/focus = ExtResource("2_6ax2s")
+Button/styles/hover = ExtResource("2_6ax2s")
+Button/styles/normal = ExtResource("1_85me7")
+Button/styles/pressed = ExtResource("2_6ax2s")
+
+[sub_resource type="LabelSettings" id="LabelSettings_obbjo"]
+font = ExtResource("5_i0vs5")
+font_size = 22
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 4
+shadow_offset = Vector2(4, 4)
+
+[node name="StageCard" type="Button" node_paths=PackedStringArray("StageName", "StageThumbnail")]
 custom_minimum_size = Vector2(256, 256)
-offset_right = 512.0
-offset_bottom = 512.0
-theme = ExtResource("1_knr3e")
-text = "Text"
-icon = ExtResource("2_ktyhk")
+offset_right = 256.0
+offset_bottom = 256.0
+theme = SubResource("Theme_6m4a3")
 script = ExtResource("2_4wmq1")
+StageName = NodePath("CardContainer/StageLabel")
+StageThumbnail = NodePath("CardContainer/StageThumbnail")
+
+[node name="CardContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -104.0
+offset_right = 104.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StageThumbnail" type="TextureRect" parent="CardContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 2.0
+texture = ExtResource("2_jjv70")
+expand_mode = 5
+
+[node name="StageLabel" type="Label" parent="CardContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme = ExtResource("1_knr3e")
+theme_type_variation = &"HeaderLarge"
+text = "Emerald Coast"
+label_settings = SubResource("LabelSettings_obbjo")
+horizontal_alignment = 1
+vertical_alignment = 2
+text_overrun_behavior = 3
 
 [connection signal="pressed" from="." to="." method="OnPressed"]

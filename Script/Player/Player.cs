@@ -33,28 +33,28 @@ namespace SonicGodot
 	{
 		// Player nodes
 		[Export]
-		private Camera m_camera_node;
-        [Export]
-        public ColorRect SpeedLines;
-        public Tween SpeedTween;
+		internal Camera m_camera_node;
+		[Export]
+		public ColorRect SpeedLines;
+		public Tween SpeedTween;
 
-        private string currentAnim;
-		private CollisionShape3D m_main_colshape_node;
-		private CollisionShape3D m_roll_colshape_node;
+		private string currentAnim;
+		internal CollisionShape3D m_main_colshape_node;
+		internal CollisionShape3D m_roll_colshape_node;
 
-		private PlayerParam m_param_node;
+		internal PlayerParam m_param_node;
 
-		private ObjectTriggerInterest m_radial_trigger;
+		internal ObjectTriggerInterest m_radial_trigger;
 		private ObjectTriggerInterest m_attack_trigger;
 
-        [Signal]
-        public delegate void onPlayerHurtSignalEventHandler();
-        [Signal]
-        public delegate void onPlayerDeathEventHandler();
+		[Signal]
+		public delegate void onPlayerHurtSignalEventHandler();
+		[Signal]
+		public delegate void onPlayerDeathEventHandler();
 
 
-        internal Character.ModelRoot m_modelroot;
-		private Transform3D m_modelroot_offset;
+		internal Character.ModelRoot m_modelroot;
+		internal Transform3D m_modelroot_offset;
 		private float m_hurt_counter, m_flicker_counter, m_dead_counter, m_rings_to_release;
 		private bool m_releasing_rings = false;
 		public Node3D releaseDirection;
@@ -231,19 +231,19 @@ namespace SonicGodot
 			// State interface
 			virtual internal void Ready() { }
 			virtual internal void Stop() { }
-            /// <summary>
-            /// Called every frame the state is active.
-            /// </summary>
+			/// <summary>
+			/// Called every frame the state is active.
+			/// </summary>
 			virtual internal void AbilityProcess() { }
 			virtual internal void Process() { }
 
 			virtual internal void Debug(List<string> debugs) { }
 
 			// State overrides
-            /// <summary>
-            /// Allows Dynamic bones to be usable while in this state.
-            /// </summary>
-            /// <returns></returns>
+			/// <summary>
+			/// Allows Dynamic bones to be usable while in this state.
+			/// </summary>
+			/// <returns></returns>
 			virtual internal bool CanDynamicPose()
 			{
 				return true;
@@ -557,115 +557,124 @@ namespace SonicGodot
 		}
 
 		public override void _PhysicsProcess(double delta)
-		{
-			// Reset if too low
+        {
+            // Reset if too low
 
-			if (m_input_debug_respawn.m_released)
-			{
-				Respawn();
-			}
+            if (m_input_debug_respawn.m_released)
+            {
+                Respawn();
+                /*Godot.PackedScene player_scene = (Godot.PackedScene) Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/Player.tscn");
+                BotPlayer player = (BotPlayer)player_scene.Instantiate();
+                player.leader = (Player)this;
+                GetParent().AddChild(player);*/
+            }
             if (GetAbsSpeedX() > m_param.m_crash_speed)
-            { m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 90, 0.1f); } else
+            { m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 90, 0.1f); }
+            else
             {
                 m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 75, 0.1f);
             }
-            
-			// Update player parameters
-			m_param = m_param_node.m_param;
-			currentAnim = m_modelroot.m_current_anim;
 
-			// Update input state
-			{
-				Vector2 input_stick = Input.Server.GetMoveVector();
-				bool input_jump = Input.Server.GetButton("move_jump");
-				bool input_spin = Input.Server.GetButton("move_spin");
-				bool input_secondary = Input.Server.GetButton("move_secondary");
-				bool input_tertiary = Input.Server.GetButton("move_tertiary");
-				bool input_quaternary = Input.Server.GetButton("move_quaternary");
-				bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
+            // Update player parameters
+            m_param = m_param_node.m_param;
+            currentAnim = m_modelroot.m_current_anim;
 
-				m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
-				m_input_jump.Update(input_jump);
-				m_input_spin.Update(input_spin);
-				m_input_secondary.Update(input_secondary);
-				m_input_tertiary.Update(input_tertiary);
-				m_input_quaternary.Update(input_quaternary);
-				m_input_debug_respawn.Update(input_debug_respawn);
-				if (!m_input_stop.Check())
-				{
-					m_input_stick.m_x = 0.0f;
-					m_input_stick.m_y = 0.0f;
-					m_input_stick.m_turn = 0.0f;
-					m_input_stick.m_length = 0.0f;
-					m_input_stick.m_angle = 0.0f;
-				}
+            ProcessInput();
 
-				if (!m_input_speed.Check())
-				{
-					m_input_stick.m_x = 0.0f;
-					m_input_stick.m_y = 1.0f;
-					m_input_stick.m_turn = 0.0f;
-					m_input_stick.m_length = 1.0f;
-					m_input_stick.m_angle = 0.0f;
-				}
-			}
+            // Process state
+            m_state.AbilityProcess();
+            m_state.Process();
 
-			// Process state
-			m_state.AbilityProcess();
-			m_state.Process();
+            // Update model root
+            m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
 
-			// Update model root
-			m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
+            if (m_state.CanDynamicPose())
+            {
+                m_modelroot.SetTilt(m_state.GetTilt());
+                m_modelroot.SetPointOfInterest(null);
+            }
+            else
+            {
+                m_modelroot.SetTilt(0.0f);
+                m_modelroot.SetPointOfInterest(null);
+            }
 
-			if (m_state.CanDynamicPose())
-			{
-				m_modelroot.SetTilt(m_state.GetTilt());
-				m_modelroot.SetPointOfInterest(null);
-			}
-			else
-			{
-				m_modelroot.SetTilt(0.0f);
-				m_modelroot.SetPointOfInterest(null);
-			}
+            m_modelroot.SetShear(m_state.GetShear());
 
-			m_modelroot.SetShear(m_state.GetShear());
+            // Send RPC update
+            Root.Rpc(this, nameof(HostRpc_Update), GlobalTransform, currentAnim);
+            // Increment time
+            m_time++;
 
-			// Send RPC update
-			Root.Rpc(this, nameof(HostRpc_Update), GlobalTransform, currentAnim);
-			// Increment time
-			m_time++;
-
-			// Update debug context
+            // Update debug context
 #if DEBUG
-			List<string> debugs = new List<string>();
+            List<string> debugs = new List<string>();
 
-			debugs.Add(string.Format("= Physics ="));
+            debugs.Add(string.Format("= Physics ="));
 
-			Vector3 position = GlobalPosition;
-			debugs.Add(string.Format("Position ({0:0.00}, {1:0.00}, {2:0.00})", position.X, position.Y, position.Z));
+            Vector3 position = GlobalPosition;
+            debugs.Add(string.Format("Position ({0:0.00}, {1:0.00}, {2:0.00})", position.X, position.Y, position.Z));
 
-			Vector3 velocity = Velocity / Root.c_tick_rate;
-			debugs.Add(string.Format("Velocity ({0:0.00}, {1:0.00}, {2:0.00})", velocity.X, velocity.Y, velocity.Z));
+            Vector3 velocity = Velocity / Root.c_tick_rate;
+            debugs.Add(string.Format("Velocity ({0:0.00}, {1:0.00}, {2:0.00})", velocity.X, velocity.Y, velocity.Z));
 
-			Vector3 speed = ToSpeed(Velocity);
-			debugs.Add(string.Format("Speed ({0:0.00}, {1:0.00}, {2:0.00})", speed.X, speed.Y, speed.Z));
+            Vector3 speed = ToSpeed(Velocity);
+            debugs.Add(string.Format("Speed ({0:0.00}, {1:0.00}, {2:0.00})", speed.X, speed.Y, speed.Z));
 
-			Vector3 rotation = GlobalRotation * 180.0f / Mathf.Pi;
-			debugs.Add(string.Format("Rotation ({0:0.00}, {1:0.00}, {2:0.00})", rotation.X, rotation.Y, rotation.Z));
+            Vector3 rotation = GlobalRotation * 180.0f / Mathf.Pi;
+            debugs.Add(string.Format("Rotation ({0:0.00}, {1:0.00}, {2:0.00})", rotation.X, rotation.Y, rotation.Z));
 
-			debugs.Add(string.Format("= State {0} =", m_state));
-			m_state.Debug(debugs);
+            debugs.Add(string.Format("= State {0} =", m_state));
+            m_state.Debug(debugs);
 
-			// m_debug_context.SetItems(debugs);
+            // m_debug_context.SetItems(debugs);
 #endif
-			//Handle Damage
-			if (m_status.m_hurt)
-				handleDamage();
-			if (m_status.m_dead)
-				handleDeath();
-		}
+            //Handle Damage
+            if (m_status.m_hurt)
+                handleDamage();
+            if (m_status.m_dead)
+                handleDeath();
+        }
 
-		private void Respawn()
+        internal virtual void ProcessInput()
+        {
+            // Update input state
+
+            Vector2 input_stick = Input.Server.GetMoveVector();
+            bool input_jump = Input.Server.GetButton("move_jump");
+            bool input_spin = Input.Server.GetButton("move_spin");
+            bool input_secondary = Input.Server.GetButton("move_secondary");
+            bool input_tertiary = Input.Server.GetButton("move_tertiary");
+            bool input_quaternary = Input.Server.GetButton("move_quaternary");
+            bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
+
+            m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
+            m_input_jump.Update(input_jump);
+            m_input_spin.Update(input_spin);
+            m_input_secondary.Update(input_secondary);
+            m_input_tertiary.Update(input_tertiary);
+            m_input_quaternary.Update(input_quaternary);
+            m_input_debug_respawn.Update(input_debug_respawn);
+            if (!m_input_stop.Check())
+            {
+                m_input_stick.m_x = 0.0f;
+                m_input_stick.m_y = 0.0f;
+                m_input_stick.m_turn = 0.0f;
+                m_input_stick.m_length = 0.0f;
+                m_input_stick.m_angle = 0.0f;
+            }
+
+            if (!m_input_speed.Check())
+            {
+                m_input_stick.m_x = 0.0f;
+                m_input_stick.m_y = 1.0f;
+                m_input_stick.m_turn = 0.0f;
+                m_input_stick.m_length = 1.0f;
+                m_input_stick.m_angle = 0.0f;
+            }
+        }
+
+        private void Respawn()
 		{
 			GlobalTransform = GetParent<Node3D>().GlobalTransform;
 			Velocity = Vector3.Zero;
