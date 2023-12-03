@@ -53,9 +53,10 @@ namespace SonicGodot.Net
             // Bring peer to current scene
             Net.IHostServer hostServer = Root.GetHostServer();
             GD.Print("HostServer " + _scenePath);
-            //var data = (StageData)ResourceLoader.Load("res://Stages/" + _scenePath + "/Stage.tres");
             StageData data = null;
             //GD.Print(data.StageName + ": Data");
+            //var data = ResourceLoader.Load("res://Stages/" + _scenePath + "/Stage.tres") as StageData;
+            
             hostServer.RpcId(peer, Root.Singleton(), nameof(Root.Rpc_SetScene), "res://Stages/" + _scenePath + "/Stage.tscn", data);
         }
     }

@@ -443,7 +443,7 @@ namespace SonicGodot
             }
         }
 
-        //[Rpc(MultiplayerApi.RpcMode.Authority)]
+        [Rpc(MultiplayerApi.RpcMode.Authority)]
         public void Rpc_SetScene(string scene, StageData data = null) => LoadScene(scene, data);
 
         // RPC forwarding
