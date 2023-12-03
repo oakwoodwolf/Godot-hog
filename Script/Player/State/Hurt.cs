@@ -61,7 +61,7 @@ namespace SonicGodot
             {
 
                 // Fall to gravity
-                m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.c_tick_rate;
+                m_parent.Velocity += m_parent.m_gravity * m_parent.m_param.m_gravity * Root.TickRate;
                 // Physics
                 float y_speed = m_parent.GetSpeedY();
                 m_parent.PhysicsMove();

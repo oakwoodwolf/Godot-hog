@@ -59,9 +59,9 @@ namespace SonicGodot.UI.MainUI
             // Format time as MM:SS:FF
             ulong time = m_player.m_time;
 
-            ulong frames = time % Root.c_tick_rate;
+            ulong frames = time % Root.TickRate;
 
-            ulong centi = frames * 100 / Root.c_tick_rate;
+            ulong centi = frames * 100 / Root.TickRate;
 
             ulong seconds = time / 60;
             ulong minutes = seconds / 60;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -66,6 +66,10 @@ namespace SonicGodot.Net
         {
             // Directly call node
             node.Call(name, args);
+        }
+        public void RpcOthers(Node node, string name, params Variant[] args)
+        {
+            
         }
 
         // Send RPC to a specific peer

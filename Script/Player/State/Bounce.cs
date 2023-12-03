@@ -112,7 +112,7 @@ namespace SonicGodot
                     else
                     {
                         // Bounce off floor
-                        m_parent.Velocity += m_parent.GetUp() * m_bounce_speed * Root.c_tick_rate;
+                        m_parent.Velocity += m_parent.GetUp() * m_bounce_speed * Root.TickRate;
                         m_squash = m_bounce_speed * 0.1f;
 
                         // Play bounce sound
@@ -138,7 +138,7 @@ namespace SonicGodot
             {
                 // Check if we're moving primarily into the wall and upwards
                 Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-                if (speed.Y > 0.0f && (m_parent.Velocity.Dot(wall_normal) / -Root.c_tick_rate) > speed.Y)
+                if (speed.Y > 0.0f && (m_parent.Velocity.Dot(wall_normal) / -Root.TickRate) > speed.Y)
                 {
                     // Preserve our velocity
                     Vector3 pre_velocity = m_parent.Velocity;

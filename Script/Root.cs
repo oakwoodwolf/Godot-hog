@@ -34,42 +34,42 @@ namespace SonicGodot
 	public partial class Root : Godot.Node
 	{
 		// Game constants
-		public const uint c_tick_rate = 60; // Tick rate for physics calculations
+		public const uint TickRate = 60; // Tick rate for physics calculations
 
 		// Global clock
-		private ulong m_clock = 0;
+		private ulong _clock = 0;
 		// Scene loader
 		[Godot.Export]
-		private Godot.PackedScene m_load_scene;
-		private static UI.LoadUI.LoadUI m_load_scene_node = null;
+		private Godot.PackedScene _loadScene;
+		private static UI.LoadUI.LoadUI LoadSceneNode = null;
 
-		private string m_loading_scene = null;
-		private string m_next_scene = null;
+		private string _loadingScene = null;
+		private string _nextScene = null;
 		public StageData StageData = null;
 
-		private Godot.Node m_scene = null;
+		private Godot.Node _scene = null;
 
-		private Godot.Node m_players = null;
+		private Godot.Node _players = null;
 
 		// Net server
-		private Godot.MultiplayerApi m_multiplayer_api = null;
+		private Godot.MultiplayerApi _multiplayerApi = null;
 
-		public static List<string> stageList = new List<string>();
+		public static List<string> stageList = new();
 
-		private Net.IServer m_server = null;
-		private Net.NetSync m_netsync = null;
+		private Net.IServer _server = null;
+		private Net.NetSync _netsync = null;
 		public static ConfigFile settingsFile = new ConfigFile();
 		public static Godot.Collections.Dictionary<int, int> windowModes = new Godot.Collections.Dictionary<int, int> { { 0, (int)DisplayServer.WindowMode.Windowed }, { 1, (int)DisplayServer.WindowMode.Fullscreen }, { 2, (int)DisplayServer.WindowMode.ExclusiveFullscreen } };
 		// Root singleton
 		public override void _EnterTree()
 		{
 			// Create multiplayer API
-			m_multiplayer_api = Godot.MultiplayerApi.CreateDefaultInterface();
-			GetTree().SetMultiplayer(m_multiplayer_api);
+			_multiplayerApi = Godot.MultiplayerApi.CreateDefaultInterface();
+			GetTree().SetMultiplayer(_multiplayerApi);
 
 			// Connect to players joining
-			m_multiplayer_api.Connect("peer_connected", new Godot.Callable(this, "Rpc_PeerConnected"));
-			m_multiplayer_api.Connect("peer_disconnected", new Godot.Callable(this, "Rpc_PeerDisconnected"));
+			_multiplayerApi.Connect("peer_connected", new Godot.Callable(this, "Rpc_PeerConnected"));
+			_multiplayerApi.Connect("peer_disconnected", new Godot.Callable(this, "Rpc_PeerDisconnected"));
 
 			// Register singleton
 			ProcessPriority = (int)Enum.Priority.Root;
@@ -78,30 +78,26 @@ namespace SonicGodot
 
 		public override void _ExitTree() => DisconnectServer();
 
-		internal static Root Singleton()
-		{
-			// Get singleton
-			return (Root)Godot.Engine.GetSingleton("Root");
-		}
+        internal static Root Singleton() => (Root) Godot.Engine.GetSingleton("Root");
 
-		// Load scene
-		private void LoadScene(string scene_path, StageData data = null)
+        // Load scene
+        private void LoadScene(string scene_path, StageData data = null)
 		{
 			// Begin loading new scene
 			StageData = data;
-			m_next_scene = scene_path;
+			_nextScene = scene_path;
 
 		}
 
 		private void SpawnPlayer()
 		{
 			// Instantiate player
-			Godot.PackedScene player_scene = (Godot.PackedScene)Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/Player.tscn");
+			var player_scene = (Godot.PackedScene)Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/Player.tscn");
 			Godot.Node player = player_scene.Instantiate();
-			player.Name = m_server.GetPeerId().ToString();
+			player.Name = _server.GetPeerId().ToString();
 
 			// Add player to scene
-			m_players.AddChild(player);
+			_players.AddChild(player);
 		}
 
 		private void SpawnPeer(int peer_id, string name = "Player")
@@ -113,24 +109,28 @@ namespace SonicGodot
 			Label3D label = player.GetNode<Label3D>("ModelRoot/Nametag");
 			label.Text = peer_id.ToString();
 			// Add player to scene
-			m_players.AddChild(player);
+			_players.AddChild(player);
 		}
 
 		private void SpawnPeers()
 		{
 			// Go through all peers
-			int client_id = m_server.GetPeerId();
-			foreach (int peer_id in m_server.GetPeerIds())
-				if (peer_id != client_id)
-					SpawnPeer(peer_id);
-		}
+			int client_id = _server.GetPeerId();
+			foreach (int peer_id in _server.GetPeerIds())
+            {
+                if (peer_id != client_id)
+                {
+                    SpawnPeer(peer_id);
+                }
+            }
+        }
 
 		private void DespawnPeer(int peer_id)
 		{
-			if (m_players != null)
+			if (_players != null)
 			{
 				// Remove player
-				Godot.Node player = m_players.GetNodeOrNull(peer_id.ToString());
+				Godot.Node player = _players.GetNodeOrNull(peer_id.ToString());
 				if (player != null)
 					player.QueueFree();
 			}
@@ -139,10 +139,10 @@ namespace SonicGodot
 		private void SetupScene()
 		{
 			// Check if scene contains a players node
-			m_players = m_scene.GetNodeOrNull("Players");
+			_players = _scene.GetNodeOrNull("Players");
 
 			// Spawn players
-			if (m_players != null)
+			if (_players != null)
 			{
 				SpawnPlayer();
 				SpawnPeers();
@@ -162,7 +162,7 @@ namespace SonicGodot
 		public override void _PhysicsProcess(double delta)
 		{
 			// Increment clock
-			m_clock++;
+			_clock++;
 		}
 		public static void LoadAllStagePcks()
 		{
@@ -194,58 +194,58 @@ namespace SonicGodot
 		}
 		public override void _Process(double delta)
 		{
-			while (m_next_scene != null || m_loading_scene != null)
+			while (_nextScene != null || _loadingScene != null)
 			{
 				// Check if we should start loading a scene
-				if (m_next_scene != null && m_loading_scene == null)
+				if (_nextScene != null && _loadingScene == null)
 				{
 					// Unload scene
-					if (m_scene != null)
+					if (_scene != null)
 					{
-						m_scene.QueueFree();
-						m_scene = null;
+						_scene.QueueFree();
+						_scene = null;
 					}
 
 					// Load UI
-					m_load_scene_node = (UI.LoadUI.LoadUI)m_load_scene.Instantiate();
-					AddChild(m_load_scene_node);
+					LoadSceneNode = (UI.LoadUI.LoadUI)_loadScene.Instantiate();
+					AddChild(LoadSceneNode);
 					if (StageData != null)
 					{
-						m_load_scene_node.SetUp(StageData);
+						LoadSceneNode.SetUp(StageData);
 					}
 
 					// Begin loading scene
-					m_loading_scene = m_next_scene;
-					m_next_scene = null;
-					Godot.ResourceLoader.LoadThreadedRequest(m_loading_scene);
+					_loadingScene = _nextScene;
+					_nextScene = null;
+					Godot.ResourceLoader.LoadThreadedRequest(_loadingScene);
 				}
 
 				// Check if we are loading a scene
-				if (m_loading_scene != null)
+				if (_loadingScene != null)
 				{
 					// Check if scene is loaded
-					Godot.Collections.Array progress = new Godot.Collections.Array();
-					switch (Godot.ResourceLoader.LoadThreadedGetStatus(m_loading_scene, progress))
+					var progress = new Godot.Collections.Array();
+					switch (Godot.ResourceLoader.LoadThreadedGetStatus(_loadingScene, progress))
 					{
 						case Godot.ResourceLoader.ThreadLoadStatus.InProgress:
 							// Update progress
-							m_load_scene_node.SetProgress((float)progress[0]);
+							LoadSceneNode.SetProgress((float)progress[0]);
 							return;
 						case Godot.ResourceLoader.ThreadLoadStatus.Loaded:
 							// Get scene
-							Godot.PackedScene packed_scene = (Godot.PackedScene)Godot.ResourceLoader.LoadThreadedGet(m_loading_scene);
+							var packedScene = (Godot.PackedScene)Godot.ResourceLoader.LoadThreadedGet(_loadingScene);
 
-							m_loading_scene = null;
+							_loadingScene = null;
 
-							if (m_next_scene == null)
+							if (_nextScene == null)
 							{
 								// Unload UI
 
 
 								// Instantiate scene
-								m_scene = packed_scene.Instantiate();
-								AddChild(m_scene);
-								m_load_scene_node.Player.Play("LoadEnd");
+								_scene = packedScene.Instantiate();
+								AddChild(_scene);
+								LoadSceneNode.Player.Play("LoadEnd");
 								
 							   
 								// Setup scene
@@ -255,8 +255,8 @@ namespace SonicGodot
 							break;
 						default:
 							// Failed to load scene
-							Godot.GD.PushError("Failed to load scene: " + m_loading_scene);
-							m_loading_scene = null;
+							Godot.GD.PushError("Failed to load scene: " + _loadingScene);
+							_loadingScene = null;
 							return;
 					}
 				}
@@ -264,8 +264,7 @@ namespace SonicGodot
 		}
 		public static void FreeLoader()
 		{
-			m_load_scene_node.Free();
-			m_load_scene_node = null;
+			LoadSceneNode = null;
 		}
 		public void LoadSettings()
 		{
@@ -334,13 +333,13 @@ namespace SonicGodot
 		// Get clock
 		public static ulong GetClock()
 		{
-			return Singleton().m_clock;
+			return Singleton()._clock;
 		}
 
 		// Net server classes
 		public static Net.IServer GetServer()
 		{
-			return Singleton().m_server;
+			return Singleton()._server;
 		}
 
 		/// <summary>
@@ -349,12 +348,12 @@ namespace SonicGodot
 		/// <returns>The HostServer Singleton</returns>
 		public static Net.IHostServer GetHostServer()
 		{
-			return Singleton().m_server as Net.IHostServer;
+			return Singleton()._server as Net.IHostServer;
 		}
 
 		public static Net.NetSync GetNetSync()
 		{
-			return Singleton().m_netsync;
+			return Singleton()._netsync;
 		}
 
 		public static void Rpc(Godot.Node node, string name, params Godot.Variant[] args) => GetServer().Rpc(node, name, args);
@@ -364,40 +363,40 @@ namespace SonicGodot
 		{
 			// Start local server
 			DisconnectServer();
-			Singleton().m_server = new Net.LocalServer();
+			Singleton()._server = new Net.LocalServer();
 
 			// Create net sync
-			Singleton().m_netsync = new Net.NetSync();
+			Singleton()._netsync = new Net.NetSync();
 		}
 
 		public static void StartHostServer(int port, int max_clients, bool upnp)
 		{
 			// Start host server
 			DisconnectServer();
-			Singleton().m_server = new Net.HostServer(Singleton().m_multiplayer_api, port, max_clients, upnp);
+			Singleton()._server = new Net.HostServer(Singleton()._multiplayerApi, port, max_clients, upnp);
 
 			// Create net sync
-			Singleton().m_netsync = new Net.NetSync();
+			Singleton()._netsync = new Net.NetSync();
 		}
 
 		public static void JoinServer(string ip, int port)
 		{
 			// Start remote server
 			DisconnectServer();
-			Singleton().m_server = new Net.RemoteServer(Singleton().m_multiplayer_api, ip, port);
+			Singleton()._server = new Net.RemoteServer(Singleton()._multiplayerApi, ip, port);
 		}
 
 		public static void DisconnectServer()
 		{
-			if (Singleton().m_server != null)
+			if (Singleton()._server != null)
 			{
 				// Disconnect server
-				Singleton().m_server.Disconnect();
-				Singleton().m_server = null;
+				Singleton()._server.Disconnect();
+				Singleton()._server = null;
 
 				// Destroy net sync
-				if (Singleton().m_netsync != null)
-					Singleton().m_netsync = null;
+				if (Singleton()._netsync != null)
+					Singleton()._netsync = null;
 
 				// Send us back to the main menu
 				Singleton().LoadScene("res://Scene/Menu/NetTest.tscn");
@@ -419,9 +418,9 @@ namespace SonicGodot
 			}
 
 			// Spawn peer if not client
-			if (m_players != null)
+			if (_players != null)
 			{
-				if (id != m_server.GetPeerId())
+				if (id != _server.GetPeerId())
 					SpawnPeer(id);
 			}
 		}
@@ -430,23 +429,23 @@ namespace SonicGodot
 		{
 			// If this peer is the host, disconnect
 			if (id == 1)
-				DisconnectServer();
+            {
+                DisconnectServer();
+            }
 
-			// Remove peer
-			if (m_players != null)
-				DespawnPeer(id);
-		}
+            // Remove peer
+            if (_players != null)
+            {
+                DespawnPeer(id);
+            }
+        }
 
-		[Godot.Rpc(Godot.MultiplayerApi.RpcMode.Authority)]
-		private void Rpc_SetScene(string scene, StageData data = null)
-		{
-			// Load scene
-			LoadScene(scene, data);
-		}
+        [Godot.Rpc(Godot.MultiplayerApi.RpcMode.Authority)]
+        private void Rpc_SetScene(string scene, StageData data = null) => LoadScene(scene, data);
 
-		// RPC forwarding
-		// We avoid using RPC on nodes directly, as this can cause issues with RPC sync
-		[Godot.Rpc(Godot.MultiplayerApi.RpcMode.AnyPeer)]
+        // RPC forwarding
+        // We avoid using RPC on nodes directly, as this can cause issues with RPC sync
+        [Godot.Rpc(Godot.MultiplayerApi.RpcMode.AnyPeer)]
 		public void Rpc_ServerForward(Godot.NodePath path, string name, Godot.Collections.Array args)
 		{
 			// Call method

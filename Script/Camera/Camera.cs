@@ -110,7 +110,7 @@ namespace SonicGodot
             switch (mode)
             {
                 case CameraMode.Frozen:
-                    this.Transform = Transform.LookingAt(target_node.GlobalPosition);
+                    Transform = Transform.LookingAt(target_node.GlobalPosition);
                     break;
                 default:
                     ProcessCamera(delta);
@@ -136,11 +136,11 @@ namespace SonicGodot
             // Zoom camera
             m_zoom.Step((float)delta);
             // Move behind the target node
-            var temp_transform = target_node.GlobalTransform;
-            temp_transform.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), m_x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), m_y);
-            temp_transform.Origin += temp_transform.Basis.Z * 15.0f * m_zoom.m_pos;
-            temp_transform.Origin.Y += 3.5f * m_zoom.m_pos;
-            Transform = Transform.InterpolateWith(temp_transform, lerp_factor);
+            var transformDestination = target_node.GlobalTransform;
+            transformDestination.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), m_x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), m_y);
+            transformDestination.Origin += transformDestination.Basis.Z * 15.0f * m_zoom.m_pos;
+            transformDestination.Origin.Y += 3.5f * m_zoom.m_pos;
+            Transform = Transform.InterpolateWith(transformDestination, lerp_factor);
         }
     }
 }

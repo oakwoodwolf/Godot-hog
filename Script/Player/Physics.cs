@@ -131,7 +131,7 @@ namespace SonicGodot
             float dotp = GetDotp();
 
             // Get gravity force as initial acceleration
-            Vector3 acc = ToSpeed(m_gravity * Root.c_tick_rate) * m_param.m_gravity;
+            Vector3 acc = ToSpeed(m_gravity * Root.TickRate) * m_param.m_gravity;
             acc.Z *= m_input_stick.m_length;
 
             // Get acceleration drag start according to stick length
@@ -240,7 +240,7 @@ namespace SonicGodot
             Vector3 speed = ToSpeed(Velocity);
 
             // Get gravity force as initial acceleration
-            Vector3 acc = ToSpeed(m_gravity * Root.c_tick_rate) * m_param.m_gravity;
+            Vector3 acc = ToSpeed(m_gravity * Root.TickRate) * m_param.m_gravity;
 
             // Apply air drag
             acc += speed * m_param.m_air_drag;
@@ -281,7 +281,7 @@ namespace SonicGodot
             Vector3 speed = ToSpeed(Velocity);
 
             // Get gravity force as initial acceleration
-            Vector3 acc = ToSpeed(m_gravity * Root.c_tick_rate) * m_param.m_gravity;
+            Vector3 acc = ToSpeed(m_gravity * Root.TickRate) * m_param.m_gravity;
 
             // Apply air drag
             acc += speed * m_param.m_run_drag;
@@ -299,7 +299,7 @@ namespace SonicGodot
             Vector3 speed = ToSpeed(Velocity);
 
             // Get gravity force as initial acceleration
-            Vector3 acc = ToSpeed(m_gravity * Root.c_tick_rate) * m_param.m_gravity;
+            Vector3 acc = ToSpeed(m_gravity * Root.TickRate) * m_param.m_gravity;
 
             // Apply X air drag
             if (GetDotp() < 0.98f)
@@ -366,7 +366,7 @@ namespace SonicGodot
             }
 
             // Move and collide
-            Vector3 delta = Velocity / Root.c_tick_rate;
+            Vector3 delta = Velocity / Root.TickRate;
 
             for (int i = 0; i < MaxSlides; i++)
             {
@@ -466,7 +466,7 @@ namespace SonicGodot
                     // This was an epsilon, but something with collision was preventing us from being detected as moving towards the floor for a few frames
                     // This would cause us to get stuck in an airborne state gliding along the floor sometimes
                     // 0.1f is an arbitrary number but I'd like to find a better solution
-                    else if (Velocity.Dot(hit_normal) <= (0.1f * Root.c_tick_rate))
+                    else if (Velocity.Dot(hit_normal) <= (0.1f * Root.TickRate))
                     {
                         // Attach to floor
                         m_status.m_grounded = true;

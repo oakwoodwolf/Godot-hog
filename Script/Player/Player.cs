@@ -408,13 +408,13 @@ namespace SonicGodot
 		internal Vector3 ToSpeed(Vector3 vector)
 		{
 			Vector3 speed = GlobalTransform.Basis.Inverse() * vector;
-			return new Vector3(-speed.Z, speed.Y, speed.X) / Root.c_tick_rate;
+			return new Vector3(-speed.Z, speed.Y, speed.X) / Root.TickRate;
 		}
 
 		internal Vector3 FromSpeed(Vector3 speed)
 		{
 			Vector3 vector = GlobalTransform.Basis * new Vector3(speed.Z, speed.Y, -speed.X);
-			return vector * Root.c_tick_rate;
+			return vector * Root.TickRate;
 		}
 
 		// Rotation functions
@@ -452,7 +452,7 @@ namespace SonicGodot
 		// Common values
 		internal float GetSpeedX()
 		{
-			return GetLook().Dot(Velocity) / Root.c_tick_rate;
+			return GetLook().Dot(Velocity) / Root.TickRate;
 		}
 		internal float GetAbsSpeedX()
 		{
@@ -461,7 +461,7 @@ namespace SonicGodot
 
 		internal float GetSpeedY()
 		{
-			return GetUp().Dot(Velocity) / Root.c_tick_rate;
+			return GetUp().Dot(Velocity) / Root.TickRate;
 		}
 		internal float GetAbsSpeedY()
 		{
@@ -470,7 +470,7 @@ namespace SonicGodot
 
 		internal float GetSpeedZ()
 		{
-			return GetRight().Dot(Velocity) / Root.c_tick_rate;
+			return GetRight().Dot(Velocity) / Root.TickRate;
 		}
 		internal float GetAbsSpeedZ()
 		{
@@ -615,7 +615,7 @@ namespace SonicGodot
             Vector3 position = GlobalPosition;
             debugs.Add(string.Format("Position ({0:0.00}, {1:0.00}, {2:0.00})", position.X, position.Y, position.Z));
 
-            Vector3 velocity = Velocity / Root.c_tick_rate;
+            Vector3 velocity = Velocity / Root.TickRate;
             debugs.Add(string.Format("Velocity ({0:0.00}, {1:0.00}, {2:0.00})", velocity.X, velocity.Y, velocity.Z));
 
             Vector3 speed = ToSpeed(Velocity);
@@ -631,7 +631,7 @@ namespace SonicGodot
 #endif
             //Handle Damage
             if (m_status.m_hurt)
-                handleDamage();
+                HandleDamage();
             if (m_status.m_dead)
                 handleDeath();
         }
@@ -680,7 +680,7 @@ namespace SonicGodot
 			Velocity = Vector3.Zero;
 		}
 
-		public void handleDamage()
+		public void HandleDamage()
 		{
 			m_hurt_counter++;
 			if (m_hurt_counter < m_param.m_invincibility_timer)
@@ -699,7 +699,7 @@ namespace SonicGodot
 			if (m_releasing_rings)
 			{
 				if (m_rings_to_release > m_param.m_rings_to_release) { m_rings_to_release = m_param.m_rings_to_release; }
-				RingLoss();
+				//RingLoss();
 			}
 		}
 		void SkinFlicker()
@@ -777,7 +777,7 @@ namespace SonicGodot
 		private void HostRpc_Update(Transform3D transform, string anim)
 		{
 			// Forward the RPC to all clients
-			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
+			Root.GetHostServer().RpcOthers(this, "Rpc_Update", transform, anim);
 		}
 	}
 }

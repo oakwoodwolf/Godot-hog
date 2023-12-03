@@ -28,7 +28,7 @@ namespace SonicGodot.Net
     public class HostServer : IHostServer
     {
         // Multiplayer API
-        private MultiplayerApi m_multiplayer_api;
+        private MultiplayerApi _multiplayerApi;
 
         // Remote peer ID override
         private int m_remote_peer_id = 0;
@@ -47,12 +47,12 @@ namespace SonicGodot.Net
             // Setup multiplayer API
             peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 
-            m_multiplayer_api = multiplayer_api;
-            m_multiplayer_api.MultiplayerPeer = peer;
+            _multiplayerApi = multiplayer_api;
+            _multiplayerApi.MultiplayerPeer = peer;
 
-            if (upnp) upnpSetup();
+            if (upnp) UpnpSetup();
         }
-        public void upnpSetup()
+        public void UpnpSetup()
         {
             upnp = new();
             int discoverResult = upnp.Discover();
@@ -75,15 +75,15 @@ namespace SonicGodot.Net
             upnp.DeletePortMapping(port, "TCP");
         }
         // Returns your own peer ID
-        public int GetPeerId() => m_multiplayer_api.GetUniqueId();
+        public int GetPeerId() => _multiplayerApi.GetUniqueId();
 
         // Returns all peer IDs
-        public int[] GetPeerIds() => m_multiplayer_api.GetPeers();
+        public int[] GetPeerIds() => _multiplayerApi.GetPeers();
 
         // Returns the peer ID coming from the server
         public int GetRemotePeerId()
         {
-            return (m_remote_peer_id != 0) ? m_remote_peer_id : m_multiplayer_api.GetRemoteSenderId();
+            return (m_remote_peer_id != 0) ? m_remote_peer_id : _multiplayerApi.GetRemoteSenderId();
         }
 
         // Send RPC to the server
@@ -102,7 +102,26 @@ namespace SonicGodot.Net
             // Send RPC to all peers
             int[] peers = GetPeerIds();
             foreach (int peer in peers)
+            {
                 RpcId(peer, node, name, args);
+            }
+        }
+        // Send RPC to others
+        public void RpcOthers(Node node, string name, params Variant[] args)
+        {
+            // Send RPC to the server
+            RpcId(1, node, name, args);
+
+            // Send RPC to all peers
+            int[] peers = GetPeerIds();
+            int you = GetPeerId();
+            foreach (int peer in peers)
+            {
+                if (peer != you)
+                {
+                    RpcId(peer, node, name, args);
+                }
+            }
         }
 
         // Send RPC to a specific peer
@@ -119,7 +138,7 @@ namespace SonicGodot.Net
             {
                 // Forward RPC to the client root
                 Variant[] forward = { Root.Singleton().GetPathTo(node), name, new Godot.Collections.Array(args) };
-                m_multiplayer_api.Rpc(peer_id, Root.Singleton(), "Rpc_ClientForward", new Godot.Collections.Array(forward));
+                _multiplayerApi.Rpc(peer_id, Root.Singleton(), "Rpc_ClientForward", new Godot.Collections.Array(forward));
             }
         }
 
@@ -127,18 +146,20 @@ namespace SonicGodot.Net
         public void Disconnect()
         {
             // Stop accepting new connections
-            m_multiplayer_api.MultiplayerPeer.RefuseNewConnections = true;
+            _multiplayerApi.MultiplayerPeer.RefuseNewConnections = true;
 
             // Disconnect all peers
             int[] peers = GetPeerIds();
             foreach (int peer in peers)
-                m_multiplayer_api.MultiplayerPeer.DisconnectPeer(peer, true);
+            {
+                _multiplayerApi.MultiplayerPeer.DisconnectPeer(peer, true);
+            }
             // Close server
-            m_multiplayer_api.MultiplayerPeer.Close();
+            _multiplayerApi.MultiplayerPeer.Close();
 
             // Remove multiplayer peer
-            m_multiplayer_api.MultiplayerPeer = null;
-            m_multiplayer_api = null;
+            _multiplayerApi.MultiplayerPeer = null;
+            _multiplayerApi = null;
         }
     }
 }

@@ -214,8 +214,8 @@ namespace SonicGodot
 		private void OnSoloButtonPressed()
 		{
 			SwitchMenu(MenuPage.Stage);
-			GetNode<Button>("%PlayButton").GrabFocus();
-		}
+            ((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0)).GrabFocus();
+        }
 		private void OnFocusExit()
 		{
 			PlaySound("choose");
@@ -229,6 +229,7 @@ namespace SonicGodot
 				GetNode<GridContainer>("%ButtonGrid").AddChild(card);
 				card.StageData = data;
                 card.SetUp();
+                card.Connect("focus_entered", new Callable(this, nameof(OnFocusExit)) );
 			}
 		}
 	}

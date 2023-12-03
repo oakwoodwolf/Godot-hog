@@ -54,8 +54,8 @@ namespace SonicGodot.Input
         private Dictionary<StringName, CachedAction> m_cached_actions = new Dictionary<StringName, CachedAction>();
 
         // Input vectors
-        private Vector2 m_move_vector = new Vector2();
-        private Vector2 m_look_vector = new Vector2();
+        private Vector2 _moveVector = new Vector2();
+        private Vector2 _lookVector = new Vector2();
 
         // Singleton
         public override void _Ready()
@@ -175,8 +175,8 @@ namespace SonicGodot.Input
             }
 
             // Get vectors
-            m_move_vector = GetVectorValue("move_left", "move_right", "move_up", "move_down");
-            m_look_vector = GetVectorValue("look_left", "look_right", "look_up", "look_down");
+            _moveVector = GetVectorValue("move_left", "move_right", "move_up", "move_down");
+            _lookVector = GetVectorValue("look_left", "look_right", "look_up", "look_down");
         }
 
         private float GetEventValue(Godot.InputEvent input_event)
@@ -232,13 +232,13 @@ namespace SonicGodot.Input
         public static Vector2 GetMoveVector()
         {
             // Return move vector
-            return Singleton().m_move_vector;
+            return Singleton()._moveVector;
         }
 
         public static Vector2 GetLookVector()
         {
             // Return look vector
-            return Singleton().m_look_vector;
+            return Singleton()._lookVector;
         }
 
         public static bool GetButton(string name)
