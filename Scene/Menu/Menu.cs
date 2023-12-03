@@ -105,7 +105,6 @@ namespace SonicGodot
 			PlaySound("accept");
 			foreach (var menu in MenuValuePairs)
 			{
-				GD.Print(menu);
 				if (menu.Key == page)
 				{ 
 					GetNode<Control>(menu.Value).Show();
@@ -214,11 +213,16 @@ namespace SonicGodot
 		private void OnSoloButtonPressed()
 		{
 			SwitchMenu(MenuPage.Stage);
-			GetNode<Button>("%PlayButton").GrabFocus();
-		}
-		private void OnFocusExit()
+            ((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0)).GrabFocus();
+            Tween tween = GetTree().CreateTween();
+            tween.TweenProperty((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0), "scale", new Vector2(1.1f, 1), 0.1f).SetTrans(Tween.TransitionType.Sine);
+            tween.TweenProperty((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0), "scale", new Vector2(1, 1), 0.1f).SetTrans(Tween.TransitionType.Bounce);
+
+        }
+        private void OnFocusExit()
 		{
-			PlaySound("choose");
+           
+            PlaySound("choose");
 		}
 		private void ConfigureStageSelect()
 		{
@@ -229,6 +233,7 @@ namespace SonicGodot
 				GetNode<GridContainer>("%ButtonGrid").AddChild(card);
 				card.StageData = data;
                 card.SetUp();
+                card.Connect("focus_entered", new Callable(this, nameof(OnFocusExit)) );
 			}
 		}
 	}

@@ -5,4 +5,4 @@
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_slbhm")
-m_load_scene = ExtResource("2_yckcb")
+_loadScene = ExtResource("2_yckcb")

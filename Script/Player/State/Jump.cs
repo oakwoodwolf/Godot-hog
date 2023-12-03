@@ -45,7 +45,7 @@ namespace SonicGodot
                 m_jump_timer = m_parent.m_param.m_jump_hang;
 
                 // Get jump speed
-                m_jump_speed = m_parent.Velocity.Length() / Root.c_tick_rate;
+                m_jump_speed = m_parent.Velocity.Length() / Root.TickRate;
             }
 
             internal override void AbilityProcess()

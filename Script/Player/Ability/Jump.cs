@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -35,24 +35,25 @@ namespace SonicGodot
                 public Jump(Player player)
                 {
                     // Set parent player
-                    m_parent = player;
+                    _parent = player;
                 }
 
                 internal override bool CheckJump()
                 {
                     // Check jump button
-                    if (m_parent.m_input_jump.m_pressed)
+                    if (_parent.m_input_jump.m_pressed)
                     {
                         // Switch to jump state
-                        m_parent.SetState(new Player.Jump(m_parent));
-                        m_parent.m_status.m_grounded = false;
+                        _parent.SetState(new Player.Jump(_parent));
+                        _parent.m_status.m_grounded = false;
+
 
                         // Play jump sound
-                        m_parent.PlaySound("Jump");
+                        _parent.PlaySound("Jump");
 
                         // Jump off floor
-                        m_parent.Velocity = Util.Vector3.PlaneProject(m_parent.Velocity, m_parent.GetUp());
-                        m_parent.Velocity += m_parent.FromSpeed(Vector3.Up * m_parent.m_param.m_jump_speed);
+                        _parent.Velocity = Util.Vector3.PlaneProject(_parent.Velocity, _parent.GetUp());
+                        _parent.Velocity += _parent.FromSpeed(Vector3.Up * _parent.m_param.m_jump_speed);
                         return true;
                     }
                     return false;

@@ -35,26 +35,26 @@ namespace SonicGodot
                 public HomingAttack(Player player)
                 {
                     // Set parent player
-                    m_parent = player;
+                    _parent = player;
                 }
 
                 internal override bool CheckJumpAbility()
                 {
                     // Check if we're already homing
-                    if (m_parent.m_state is Player.Homing || m_parent.hasHomed)
+                    if (_parent.m_state is Player.Homing || _parent.hasHomed)
                         return false;
 
                     // Check jump button
-                    if (m_parent.m_input_jump.m_pressed)
+                    if (_parent.m_input_jump.m_pressed)
                     {
                         // Switch to homing state
-                        m_parent.hasHomed = true;
-                        m_parent.SetState(new Player.Homing(m_parent));
+                        _parent.hasHomed = true;
+                        _parent.SetState(new Player.Homing(_parent));
 
                         // Give homing speed
-                        Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
+                        Vector3 speed = _parent.ToSpeed(_parent.Velocity);
                         speed.X = Player.Homing.c_speed;
-                        m_parent.Velocity = m_parent.FromSpeed(speed);
+                        _parent.Velocity = _parent.FromSpeed(speed);
                         return true;
                     }
                     return false;
@@ -65,7 +65,7 @@ namespace SonicGodot
                 }
                 internal override bool CheckLandAbility()
                 {
-                    m_parent.hasHomed = false;
+                    _parent.hasHomed = false;
                     return base.CheckLandAbility();
                 }
             }

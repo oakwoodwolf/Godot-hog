@@ -57,7 +57,6 @@ namespace SonicGodot.Scene
 			int port = int.Parse(_portEdit.Text);
 			int max_players = int.Parse(_maxEdit.Text);
 			Root.StartHostServer(port, max_players, _upnp);
-			var success = ProjectSettings.LoadResourcePack("res://Stage.pck");
 			LoadStagePack(_stageEdit.Text);
 		}
 
@@ -65,22 +64,16 @@ namespace SonicGodot.Scene
 		{
 			_loadDrop.Visible = true;
 			int port = int.Parse(_portEdit.Text);
-			var success = ProjectSettings.LoadResourcePack("res://" + _stageEdit.Text + ".pck");
-			if (success)
-			{
-				Root.JoinServer(_ipEdit.Text, port);
-			}
-
-
-
-		}
+            Root.JoinServer(_ipEdit.Text, port);
+        }
         /// <summary>
         /// Loads a Stage.pck file. Its name must match the name of both the pck and the folder packed inside.
         /// </summary>
         /// <param name="name">The name of the stage's pck file, excluding the file extension.</param>
 		private static void LoadStagePack(string name)
 		{
-				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
+            var data = (StageData) ResourceLoader.Load("res://Stages/" + name + "/Stage.tres");
+            Root.GetHostServer().RpcAll(Root.Singleton(), nameof(Root.Rpc_SetScene), "res://Stages/" + name + "/Stage.tscn", data);
 		}
 		private void OnCheckboxToggled(bool button_pressed)
 		{

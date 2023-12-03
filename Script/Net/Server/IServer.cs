@@ -50,6 +50,7 @@ namespace SonicGodot.Net
         /// <param name="name">The name of the function to call</param>
         /// <param name="args">arguments to pass into the named function</param>
         public void RpcAll(Node node, string name, params Variant[] args);
+        public void RpcOthers( Node node, string name, params Variant[] args); // Send RPC to a all peers except yourself
         public void RpcId(int peer_id, Node node, string name, params Variant[] args); // Send RPC to a specific peer
     }
 }

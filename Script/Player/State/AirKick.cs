@@ -76,7 +76,7 @@ namespace SonicGodot
             {
                 // Movement
                 Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-                Vector3 acc = m_parent.ToSpeed(m_parent.m_gravity * Root.c_tick_rate) * m_parent.m_param.m_gravity * 0.525f;
+                Vector3 acc = m_parent.ToSpeed(m_parent.m_gravity * Root.TickRate) * m_parent.m_param.m_gravity * 0.525f;
 
                 acc.X += Mathf.Cos(m_parent.m_input_stick.m_turn) * m_parent.m_param.m_air_accel * 0.6f;
                 acc += speed * (m_parent.m_param.m_air_drag * new Vector3(0.285f, 1.0f, 1.0f));

@@ -33,24 +33,24 @@ namespace SonicGodot
                 public Spindash(Player player)
                 {
                     // Set parent player
-                    m_parent = player;
+                    _parent = player;
                 }
 
                 internal override bool CheckSpinAbility()
                 {
                     // Check spin button
-                    if (m_parent.m_input_spin.m_pressed)
+                    if (_parent.m_input_spin.m_pressed)
                     {
                         // Begin spindash
-                        m_parent.SetState(new Player.Spindash(m_parent));
+                        _parent.SetState(new Player.Spindash(_parent));
                         return true;
                     }
 
                     // Check roll button
-                    if (m_parent.m_input_quaternary.m_pressed && m_parent.GetAbsSpeedX() > m_parent.m_param.m_jog_speed)
+                    if (_parent.m_input_quaternary.m_pressed && _parent.GetAbsSpeedX() > _parent.m_param.m_jog_speed)
                     {
                         // Begin rolling
-                        m_parent.SetState(new Player.Roll(m_parent));
+                        _parent.SetState(new Player.Roll(_parent));
                         return true;
                     }
                     return false;
@@ -59,10 +59,10 @@ namespace SonicGodot
                 internal override bool CheckLandAbility()
                 {
                     // Check roll button
-                    if (m_parent.m_input_quaternary.m_down && m_parent.GetAbsSpeedX() > m_parent.m_param.m_jog_speed)
+                    if (_parent.m_input_quaternary.m_down && _parent.GetAbsSpeedX() > _parent.m_param.m_jog_speed)
                     {
                         // Begin rolling
-                        m_parent.SetState(new Player.Roll(m_parent));
+                        _parent.SetState(new Player.Roll(_parent));
                         return true;
                     }
                     return false;

@@ -93,7 +93,7 @@ namespace SonicGodot
                     }
 
                     // Launch player velocity
-                    player.Velocity = GlobalTransform.Basis.Y * (m_power * Root.c_tick_rate);
+                    player.Velocity = GlobalTransform.Basis.Y * (m_power * Root.TickRate);
 
                     // Set player state
                     if (m_roll)

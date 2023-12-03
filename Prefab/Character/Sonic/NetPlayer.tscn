@@ -15,20 +15,16 @@ albedo_texture = ExtResource("7_daby4")
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i00u8"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
+properties/0/replication_mode = 1
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath("ModelRoot/Model/AnimationPlayer:current_animation")
 properties/2/spawn = true
-properties/2/sync = true
-properties/2/watch = false
+properties/2/replication_mode = 1
 properties/3/path = NodePath("ModelRoot/Nametag:text")
 properties/3/spawn = true
-properties/3/sync = true
-properties/3/watch = false
+properties/3/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xawvq"]
 radius = 2.5
@@ -100,9 +96,9 @@ bones/81/rotation = Quaternion(0.0433896, -0.00447173, -0.10242, 0.993784)
 bones/82/rotation = Quaternion(0.0869316, 0.006246, 0.0713921, 0.993633)
 
 [node name="AnimationPlayer" parent="ModelRoot/Model" index="1" node_paths=PackedStringArray("m_skeleton_node")]
-autoplay = "Idle"
 reset_on_save = false
-playback_process_mode = 2
+callback_mode_process = 2
+autoplay = "Idle"
 script = ExtResource("5_g41i3")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 

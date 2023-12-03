@@ -77,7 +77,7 @@ namespace SonicGodot
                 {
                     // Launch player velocity
                     player.GlobalTransform = new Transform3D(GlobalTransform.Basis, player.GlobalTransform.Origin);
-                    player.Velocity = (GlobalTransform.Basis.Z * -(m_power * Root.c_tick_rate)) + (GlobalTransform.Basis.Y * player.Velocity.Dot(GlobalTransform.Basis.Y));
+                    player.Velocity = (GlobalTransform.Basis.Z * -(m_power * Root.TickRate)) + (GlobalTransform.Basis.Y * player.Velocity.Dot(GlobalTransform.Basis.Y));
                     player.m_input_speed.Set(m_nocon);
                 }
             }
