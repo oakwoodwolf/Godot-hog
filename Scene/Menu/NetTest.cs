@@ -80,7 +80,8 @@ namespace SonicGodot.Scene
         /// <param name="name">The name of the stage's pck file, excluding the file extension.</param>
 		private static void LoadStagePack(string name)
 		{
-				Root.GetHostServer().RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + name + "/Stage.tscn");
+            var data = (StageData) ResourceLoader.Load("res://Stages/" + name + "/Stage.tres");
+            Root.GetHostServer().RpcAll(Root.Singleton(), nameof(Root.Rpc_SetScene), "res://Stages/" + name + "/Stage.tscn", data);
 		}
 		private void OnCheckboxToggled(bool button_pressed)
 		{

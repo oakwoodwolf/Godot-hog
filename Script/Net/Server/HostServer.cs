@@ -138,7 +138,7 @@ namespace SonicGodot.Net
             {
                 // Forward RPC to the client root
                 Variant[] forward = { Root.Singleton().GetPathTo(node), name, new Godot.Collections.Array(args) };
-                _multiplayerApi.Rpc(peer_id, Root.Singleton(), "Rpc_ClientForward", new Godot.Collections.Array(forward));
+                _multiplayerApi.Rpc(peer_id, Root.Singleton(), nameof(Root.Rpc_ClientForward), new Godot.Collections.Array(forward));
             }
         }
 

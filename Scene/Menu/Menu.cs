@@ -105,7 +105,6 @@ namespace SonicGodot
 			PlaySound("accept");
 			foreach (var menu in MenuValuePairs)
 			{
-				GD.Print(menu);
 				if (menu.Key == page)
 				{ 
 					GetNode<Control>(menu.Value).Show();
