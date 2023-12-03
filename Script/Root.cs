@@ -410,12 +410,12 @@ namespace SonicGodot
 			GD.Print("Peer Connection called: " + id);
 
 			// Check if we're the host
-			Net.IHostServer host_server = GetHostServer();
-			if (host_server != null)
+			Net.IHostServer hostServer = GetHostServer();
+			if (hostServer != null)
 			{
 				// Sync peer
-				Net.NetSync net_sync = GetNetSync();
-				net_sync.SyncPeer(id);
+				Net.NetSync netSync = GetNetSync();
+				netSync.SyncPeer(id);
 			}
 
 			// Spawn peer if not client
@@ -443,7 +443,7 @@ namespace SonicGodot
             }
         }
 
-        [Rpc(MultiplayerApi.RpcMode.Authority)]
+        //[Rpc(MultiplayerApi.RpcMode.Authority)]
         public void Rpc_SetScene(string scene, StageData data = null) => LoadScene(scene, data);
 
         // RPC forwarding

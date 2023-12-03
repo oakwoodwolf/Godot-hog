@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -28,20 +28,21 @@ namespace SonicGodot.Net
     public class NetSync
     {
         // Net sync state
-        private string m_scene_path = "TestStage";
+        private string _scenePath = "TestStage";
 
         // Net sync functions
         public void SetScene(string scene)
         {
             // Set scene path
-            m_scene_path = scene;
+            _scenePath = scene;
 
             // Load scene globally
             Net.IHostServer host_server = Root.GetHostServer();
-            var success = ProjectSettings.LoadResourcePack("res://" + m_scene_path + ".pck");
+            var success = ProjectSettings.LoadResourcePack("res://" + _scenePath + ".pck");
             if (success)
             {
-                host_server.RpcAll(Root.Singleton(), "Rpc_SetScene", "res://Stages/" + m_scene_path + "/Stage.tscn");
+                var data = (StageData) ResourceLoader.Load("res://Stages/" + _scenePath + "/Stage.tres");
+                host_server.RpcAll(Root.Singleton(), nameof(Root.Rpc_SetScene), "res://Stages/" + _scenePath + "/Stage.tscn", data);
             }
         }
 
@@ -50,13 +51,13 @@ namespace SonicGodot.Net
         {
 
             // Bring peer to current scene
-            Net.IHostServer host_server = Root.GetHostServer();
-            GD.Print("HostServer " + m_scene_path);
-            var success = ProjectSettings.LoadResourcePack("res://" + m_scene_path + ".pck");
-            if (success)
-            {
-                host_server.RpcId(peer, Root.Singleton(), "Rpc_SetScene", "res://Stages/" + m_scene_path + "/Stage.tscn");
-            }
+            Net.IHostServer hostServer = Root.GetHostServer();
+            GD.Print("HostServer " + _scenePath);
+            //var data = (StageData)ResourceLoader.Load("res://Stages/" + _scenePath + "/Stage.tres");
+            StageData data = null;
+            //GD.Print(data.StageName + ": Data");
+            hostServer.RpcId(peer, Root.Singleton(), nameof(Root.Rpc_SetScene), "res://Stages/" + _scenePath + "/Stage.tscn", data);
         }
     }
 }
+
