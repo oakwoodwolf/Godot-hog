@@ -33,20 +33,20 @@ namespace SonicGodot
                 public Bounce(Player player)
                 {
                     // Set parent player
-                    m_parent = player;
+                    _parent = player;
                 }
 
                 internal override bool CheckJumpAbility()
                 {
                     // Check if we're already bouncing
-                    if (m_parent.m_state is Player.Bounce)
+                    if (_parent.m_state is Player.Bounce)
                         return false;
 
                     // Check spin button
-                    if (m_parent.m_input_spin.m_pressed)
+                    if (_parent.m_input_spin.m_pressed)
                     {
                         // Begin bounce attack
-                        m_parent.SetState(new Player.Bounce(m_parent));
+                        _parent.SetState(new Player.Bounce(_parent));
                         return true;
                     }
                     return false;

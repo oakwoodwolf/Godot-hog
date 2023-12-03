@@ -32,7 +32,7 @@ namespace SonicGodot.Character.Sonic
 			internal AbilityList(Player player)
 			{
 				// Set parent player
-				m_parent = player;
+				_parent = player;
 
 				// Create abilities
 				m_abilities.Add(new Jump(player));

@@ -214,10 +214,15 @@ namespace SonicGodot
 		{
 			SwitchMenu(MenuPage.Stage);
             ((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0)).GrabFocus();
+            Tween tween = GetTree().CreateTween();
+            tween.TweenProperty((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0), "scale", new Vector2(1.1f, 1), 0.1f).SetTrans(Tween.TransitionType.Sine);
+            tween.TweenProperty((Control) GetNode<GridContainer>("%ButtonGrid").GetChild(0), "scale", new Vector2(1, 1), 0.1f).SetTrans(Tween.TransitionType.Bounce);
+
         }
-		private void OnFocusExit()
+        private void OnFocusExit()
 		{
-			PlaySound("choose");
+           
+            PlaySound("choose");
 		}
 		private void ConfigureStageSelect()
 		{

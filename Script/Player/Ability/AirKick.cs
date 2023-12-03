@@ -36,7 +36,7 @@ namespace SonicGodot
                 public AirKick(Player player)
                 {
                     // Set parent player
-                    m_parent = player;
+                    _parent = player;
                 }
 
                 internal override bool CheckJumpAbility()
@@ -46,11 +46,11 @@ namespace SonicGodot
                         return false;
 
                     // Check kick button
-                    if (m_parent.m_input_tertiary.m_pressed)
+                    if (_parent.m_input_tertiary.m_pressed)
                     {
                         // Begin air kick
                         m_bounce_flag = false;
-                        m_parent.SetState(new Player.AirKick(m_parent, m_parent.m_input_stick.m_length != 0.0f));
+                        _parent.SetState(new Player.AirKick(_parent, _parent.m_input_stick.m_length != 0.0f));
                         return true;
                     }
                     return false;

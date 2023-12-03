@@ -75,10 +75,10 @@ namespace SonicGodot
 
                 /*
 				// Cancel if roll is pressed
-				if (m_parent.m_input_quaternary.m_pressed)
+				if (_parent.m_input_quaternary.m_pressed)
 				{
 					// Switch to jump state
-					m_parent.SetState(new Jump(m_parent));
+					_parent.SetState(new Jump(_parent));
 					return;
 				}
 				*/

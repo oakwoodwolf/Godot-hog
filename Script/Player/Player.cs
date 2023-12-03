@@ -119,7 +119,7 @@ namespace SonicGodot
 		public partial class Ability
 		{
 			// Parent player
-			internal Player m_parent;
+			internal Player _parent;
 
 			// Ability interface
 			virtual internal bool CheckJump() { return false; }
@@ -726,10 +726,10 @@ namespace SonicGodot
 			{
 				Vector3 pos = GlobalPosition;
 				pos.Y++;
-				DroppedRing movingRing = ResourceLoader.Load<PackedScene>("res://Prefab/Objects/Ring/ringdropped.res").Instantiate() as DroppedRing;
-				this.GetParent().GetParent().AddChild(this);
-				movingRing.ApplyForce(this.Transform.Basis.Z, pos);
-				releaseDirection.Rotate(this.GlobalPosition, 30f);
+				var movingRing = ResourceLoader.Load<PackedScene>("res://Prefab/Objects/Ring/ringdropped.res").Instantiate() as DroppedRing;
+				GetParent().GetParent().AddChild(this);
+				movingRing.ApplyForce(Transform.Basis.Z, pos);
+				releaseDirection.Rotate(GlobalPosition, 30f);
 				m_rings_to_release--;
 			}
 			else
@@ -753,24 +753,6 @@ namespace SonicGodot
 				m_rings = 0;
 				m_status.m_invincible = false;
 				m_status.m_dead = false;
-			}
-		}
-		public void Touch(Node3D other)
-		{
-			CollisionObject3D obj = other as CollisionObject3D;
-
-
-			if (obj.CollisionLayer == 10)
-			{
-				GD.Print(obj.CollisionLayer);
-				Respawn();
-				/*if (!m_status.m_dead)
-				{
-				
-
-				}*/
-
-
 			}
 		}
 		// RPC methods

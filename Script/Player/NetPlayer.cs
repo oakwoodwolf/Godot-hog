@@ -40,7 +40,7 @@ namespace SonicGodot
 		private void HostRpc_Update(Transform3D transform, string anim)
 		{
 			// Forward the RPC to all clients
-			Root.GetHostServer().RpcAll(this, "Rpc_Update", transform, anim);
+			Root.GetHostServer().RpcAll(this, nameof(Rpc_Update), transform, anim);
 		}
 		private void Rpc_Update(Transform3D transform, string anim)
 		{

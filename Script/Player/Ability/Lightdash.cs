@@ -35,12 +35,12 @@ namespace SonicGodot
                 public Lightdash(Player player)
                 {
                     // Set parent player
-                    m_parent = player;
+                    _parent = player;
                 }
                 private bool GetRingTarget()
                 {
                     // Query in radial area
-                    Godot.Collections.Array<Node3D> radial_nodes = m_parent.m_attack_trigger.QueryIntersections();
+                    Godot.Collections.Array<Node3D> radial_nodes = _parent.m_attack_trigger.QueryIntersections();
 
                     // Check for nodes
                     float target_distance = float.PositiveInfinity;
@@ -53,16 +53,16 @@ namespace SonicGodot
                             continue;
 
                         // Get offset from our global transform
-                        Vector3 offset = node.GlobalTransform.Origin - m_parent.GlobalTransform.Origin;
+                        Vector3 offset = node.GlobalTransform.Origin - _parent.GlobalTransform.Origin;
 
                         // Check if too far above
-                        float y_offset = offset.Dot(m_parent.GetUp());
+                        float y_offset = offset.Dot(_parent.GetUp());
                         if (y_offset > 20.0f)
                             continue;
 
                         // Get distance and dot value
                         float distance = offset.Length();
-                        float dot = offset.Normalized().Dot(m_parent.GetLook());
+                        float dot = offset.Normalized().Dot(_parent.GetLook());
                         if (dot < 0.3825f)
                             continue;
 
@@ -79,17 +79,17 @@ namespace SonicGodot
                 internal override bool CheckJumpAbility()
                 {
                     // Check if we're already dashing
-                    if (m_parent.m_state is Player.Lightdash)
+                    if (_parent.m_state is Player.Lightdash)
                         return false;
 
                     // Check jump button
-                    if (m_parent.m_input_tertiary.m_pressed)
+                    if (_parent.m_input_tertiary.m_pressed)
                     {
                         bool i = GetRingTarget();
                         // Switch to ringdash state
                         if (i == true)
                         {
-                            m_parent.SetState(new Player.Lightdash(m_parent));
+                            _parent.SetState(new Player.Lightdash(_parent));
                             return true;
                         }
 
@@ -99,17 +99,17 @@ namespace SonicGodot
                 internal override bool CheckSpinAbility()
                 {
                     // Check if we're already dashing
-                    if (m_parent.m_state is Player.Lightdash)
+                    if (_parent.m_state is Player.Lightdash)
                         return false;
 
                     // Check jump button
-                    if (m_parent.m_input_tertiary.m_pressed)
+                    if (_parent.m_input_tertiary.m_pressed)
                     {
                         bool i = GetRingTarget();
                         // Switch to ringdash state
                         if (i == true)
                         {
-                            m_parent.SetState(new Player.Lightdash(m_parent));
+                            _parent.SetState(new Player.Lightdash(_parent));
                             return true;
                         }
                     }
