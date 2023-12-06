@@ -73,7 +73,7 @@ namespace SonicGodot
                 m_panel_sound.Play();
 
                 // Launch player
-                if (player.m_state.HitObject(this))
+                if (player._state.HitObject(this))
                 {
                     // Launch player velocity
                     player.GlobalTransform = new Transform3D(GlobalTransform.Basis, player.GlobalTransform.Origin);

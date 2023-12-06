@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -25,25 +25,25 @@ namespace SonicGodot.Util
 {
     public class Spring
     {
-        public float m_freq = 0.0f;
-        public float m_goal = 0.0f;
-        public float m_pos = 0.0f;
-        public float m_vel = 0.0f;
+        public float Freq = 0.0f;
+        public float Goal = 0.0f;
+        public float Pos = 0.0f;
+        public float Vel = 0.0f;
 
         public Spring(float freq, float pos = 0.0f)
         {
-            m_freq = freq;
-            m_goal = pos;
-            m_pos = pos;
-            m_vel = 0.0f;
+            Freq = freq;
+            Goal = pos;
+            Pos = pos;
+            Vel = 0.0f;
         }
 
         public float Step(float dt)
         {
-            float f = m_freq * 2.0f * Godot.Mathf.Pi;
-            float g = m_goal;
-            float p0 = m_pos;
-            float v0 = m_vel;
+            float f = Freq * 2.0f * Godot.Mathf.Pi;
+            float g = Goal;
+            float p0 = Pos;
+            float v0 = Vel;
 
             float offset = p0 - g;
             float decay = Godot.Mathf.Exp(-f * dt);
@@ -51,8 +51,8 @@ namespace SonicGodot.Util
             float p1 = (offset * (1.0f + f * dt) + v0 * dt) * decay + g;
             float v1 = (v0 * (1.0f - f * dt) - offset * (f * f * dt)) * decay;
 
-            m_pos = p1;
-            m_vel = v1;
+            Pos = p1;
+            Vel = v1;
 
             return p1;
         }
@@ -60,59 +60,59 @@ namespace SonicGodot.Util
 
     public class Spring3D
     {
-        private Spring m_x;
-        private Spring m_y;
-        private Spring m_z;
+        private Spring _x;
+        private Spring _y;
+        private Spring _z;
 
-        public float m_freq
+        public float Freq
         {
-            get { return m_x.m_freq; }
+            get { return _x.Freq; }
             set
             {
-                m_x.m_freq = value;
-                m_y.m_freq = value;
-                m_z.m_freq = value;
+                _x.Freq = value;
+                _y.Freq = value;
+                _z.Freq = value;
             }
         }
 
-        public Godot.Vector3 m_goal
+        public Godot.Vector3 Goal
         {
-            get { return new Godot.Vector3(m_x.m_goal, m_y.m_goal, m_z.m_goal); }
+            get { return new Godot.Vector3(_x.Goal, _y.Goal, _z.Goal); }
             set
             {
-                m_x.m_goal = value.X;
-                m_y.m_goal = value.Y;
-                m_z.m_goal = value.Z;
+                _x.Goal = value.X;
+                _y.Goal = value.Y;
+                _z.Goal = value.Z;
             }
         }
 
-        public Godot.Vector3 m_pos
+        public Godot.Vector3 Pos
         {
-            get { return new Godot.Vector3(m_x.m_pos, m_y.m_pos, m_z.m_pos); }
+            get { return new Godot.Vector3(_x.Pos, _y.Pos, _z.Pos); }
             set
             {
-                m_x.m_pos = value.X;
-                m_y.m_pos = value.Y;
-                m_z.m_pos = value.Z;
+                _x.Pos = value.X;
+                _y.Pos = value.Y;
+                _z.Pos = value.Z;
             }
         }
 
-        public Godot.Vector3 m_vel
+        public Godot.Vector3 Vel
         {
-            get { return new Godot.Vector3(m_x.m_vel, m_y.m_vel, m_z.m_vel); }
+            get { return new Godot.Vector3(_x.Vel, _y.Vel, _z.Vel); }
             set
             {
-                m_x.m_vel = value.X;
-                m_y.m_vel = value.Y;
-                m_z.m_vel = value.Z;
+                _x.Vel = value.X;
+                _y.Vel = value.Y;
+                _z.Vel = value.Z;
             }
         }
 
         public Spring3D(float freq, Godot.Vector3 pos = new Godot.Vector3())
         {
-            m_x = new Spring(freq, pos.X);
-            m_y = new Spring(freq, pos.Y);
-            m_z = new Spring(freq, pos.Z);
+            _x = new Spring(freq, pos.X);
+            _y = new Spring(freq, pos.Y);
+            _z = new Spring(freq, pos.Z);
         }
     }
 }

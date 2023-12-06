@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dcvstutt5atd8"
 path.s3tc="res://.godot/imported/son_body.png-8a895c9996800d42a7494d1e6ddc3efa.s3tc.ctex"
+path.etc2="res://.godot/imported/son_body.png-8a895c9996800d42a7494d1e6ddc3efa.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Prefab/Character/Sonic/son_body.png"
-dest_files=["res://.godot/imported/son_body.png-8a895c9996800d42a7494d1e6ddc3efa.s3tc.ctex"]
+dest_files=["res://.godot/imported/son_body.png-8a895c9996800d42a7494d1e6ddc3efa.s3tc.ctex", "res://.godot/imported/son_body.png-8a895c9996800d42a7494d1e6ddc3efa.etc2.ctex"]
 
 [params]
 

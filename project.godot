@@ -127,6 +127,10 @@ debug_respawn={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [layer_names]
 
 3d_physics/layer_10="DeathPlane"
@@ -138,6 +142,7 @@ debug_respawn={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
+textures/vram_compression/import_etc2_astc=true
 scaling_3d/mode=1
 anti_aliasing/quality/msaa_3d=1
 occlusion_culling/use_occlusion_culling=true

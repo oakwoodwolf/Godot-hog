@@ -35,33 +35,37 @@ namespace SonicGodot
         }
         // Target node
         [Export]
-        public Node3D target_node;
+        public Node3D TargetNode;
         [Export]
-        public float lerp_factor = 0.1f;
+        public float LerpFactor = 0.1f;
         [Export]
-        public CameraMode mode = CameraMode.Normal;
-        private float m_x = 0.0f;
-        private float m_y = -0.2f;
+        public CameraMode Mode = CameraMode.Normal;
+        private float _x = 0.0f;
+        private float _y = -0.2f;
 
-        private bool m_locked = false;
-        private bool m_right_down = false;
+        private bool _locked = false;
+        private bool _rightDown = false;
 
-        private Util.Spring m_zoom = new Util.Spring(2.0f, 1.0f);
+        private Util.Spring _zoom = new(2.0f, 1.0f);
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
             // Capture our mouse
             SetLocked(true, false);
+            if (OS.GetName() == "Android")
+            {
+                SetLocked(true,true);
+            }
         }
 
         // Input
         private void SetLocked(bool locked, bool right_down)
         {
-            m_locked = locked;
-            m_right_down = right_down;
+            _locked = locked;
+            _rightDown = right_down;
 
-            if (m_locked || m_right_down)
+            if (_locked || _rightDown)
                 Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Captured;
             else
                 Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
@@ -72,10 +76,10 @@ namespace SonicGodot
             InputEventMouseMotion motion = motionUnknown as InputEventMouseMotion;
             if (motion != null)
             {
-                if (m_locked || m_right_down)
+                if (_locked || _rightDown)
                 {
-                    m_x += motion.Relative.X * -0.008f;
-                    m_y += motion.Relative.Y * -0.005f;
+                    _x += motion.Relative.X * -0.008f;
+                    _y += motion.Relative.Y * -0.005f;
                 }
             }
 
@@ -85,32 +89,32 @@ namespace SonicGodot
                 if (button.IsPressed())
                 {
                     if (button.ButtonIndex == MouseButton.WheelUp)
-                        m_zoom.m_goal -= 0.1f;
+                        _zoom.Goal -= 0.1f;
                     if (button.ButtonIndex == MouseButton.WheelDown)
-                        m_zoom.m_goal += 0.1f;
+                        _zoom.Goal += 0.1f;
 
                     if (button.ButtonIndex == MouseButton.Middle)
-                        SetLocked(!m_locked, m_right_down);
+                        SetLocked(!_locked, _rightDown);
                     if (button.ButtonIndex == MouseButton.Right)
-                        SetLocked(m_locked, true);
+                        SetLocked(_locked, true);
                 }
                 else
                 {
                     if (button.ButtonIndex == MouseButton.Right)
-                        SetLocked(m_locked, false);
+                        SetLocked(_locked, false);
                 }
 
-                m_zoom.m_goal = Mathf.Clamp(m_zoom.m_goal, 0.4f, 1.2f);
+                _zoom.Goal = Mathf.Clamp(_zoom.Goal, 0.4f, 1.2f);
             }
         }
 
         // Update
         public override void _Process(double delta)
         {
-            switch (mode)
+            switch (Mode)
             {
                 case CameraMode.Frozen:
-                    Transform = Transform.LookingAt(target_node.GlobalPosition);
+                    Transform = Transform.LookingAt(TargetNode.GlobalPosition);
                     break;
                 default:
                     ProcessCamera(delta);
@@ -122,25 +126,25 @@ namespace SonicGodot
 
             // Move camera by rotate vector
             Vector2 rotate_vector = Input.Server.GetLookVector();
-            m_x += rotate_vector.X * -4.0f * (float)delta;
-            m_y += rotate_vector.Y * 3.0f * (float)delta;
+            _x += rotate_vector.X * -4.0f * (float)delta;
+            _y += rotate_vector.Y * 3.0f * (float)delta;
 
             // Limit camera
-            m_x %= Mathf.Pi * 2.0f;
-            m_y = Mathf.Clamp(m_y, Mathf.Pi * -0.499f, Mathf.Pi * 0.499f);
+            _x %= Mathf.Pi * 2.0f;
+            _y = Mathf.Clamp(_y, Mathf.Pi * -0.499f, Mathf.Pi * 0.499f);
 
         }
 
         private void ProcessCamera(double delta)
         {
             // Zoom camera
-            m_zoom.Step((float)delta);
+            _zoom.Step((float)delta);
             // Move behind the target node
-            var transformDestination = target_node.GlobalTransform;
-            transformDestination.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), m_x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), m_y);
-            transformDestination.Origin += transformDestination.Basis.Z * 15.0f * m_zoom.m_pos;
-            transformDestination.Origin.Y += 3.5f * m_zoom.m_pos;
-            Transform = Transform.InterpolateWith(transformDestination, lerp_factor);
+            var transformDestination = TargetNode.GlobalTransform;
+            transformDestination.Basis = new Basis(new Vector3(0.0f, 1.0f, 0.0f), _x) * new Basis(new Vector3(1.0f, 0.0f, 0.0f), _y);
+            transformDestination.Origin += transformDestination.Basis.Z * 15.0f * _zoom.Pos;
+            transformDestination.Origin.Y += 3.5f * _zoom.Pos;
+            Transform = Transform.InterpolateWith(transformDestination, LerpFactor);
         }
     }
 }

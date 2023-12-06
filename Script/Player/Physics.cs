@@ -354,7 +354,7 @@ namespace SonicGodot
             // Set active collision shape
             // TODO: This is a bit of a hack, but it works for now
             // I'd like this to be dynamic
-            if (m_state is Roll)
+            if (_state is Roll)
             {
                 m_main_colshape_node.Disabled = true;
                 m_roll_colshape_node.Disabled = false;
@@ -399,7 +399,7 @@ namespace SonicGodot
                             if (hit_normal.Dot(GetUp()) < Mathf.Cos(FloorMaxAngle))
                             {
                                 // Clip our velocity and clip our remainder to the projected wall normal
-                                m_state.HitWall(wall_normal);
+                                _state.HitWall(wall_normal);
                                 delta = Util.Vector3.NormalProject(delta, wall_normal);
                             }
                             else
@@ -415,7 +415,7 @@ namespace SonicGodot
                             GlobalTranslate(adjust);
 
                             // Clip our velocity and clip our remainder to the projected wall normal
-                            m_state.HitWall(wall_normal);
+                            _state.HitWall(wall_normal);
                             if (hit_normal.Dot(GetUp()) < -Mathf.Epsilon)
                                 delta = Util.Vector3.NormalProject(delta, wall_normal);
                             else

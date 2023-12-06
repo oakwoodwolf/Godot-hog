@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://rngey04kv713"
 path.s3tc="res://.godot/imported/Row.png-fd84e5765a4da61e7fc3394d15c77a13.s3tc.ctex"
+path.etc2="res://.godot/imported/Row.png-fd84e5765a4da61e7fc3394d15c77a13.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Prefab/Objects/DashPad/Row.png"
-dest_files=["res://.godot/imported/Row.png-fd84e5765a4da61e7fc3394d15c77a13.s3tc.ctex"]
+dest_files=["res://.godot/imported/Row.png-fd84e5765a4da61e7fc3394d15c77a13.s3tc.ctex", "res://.godot/imported/Row.png-fd84e5765a4da61e7fc3394d15c77a13.etc2.ctex"]
 
 [params]
 

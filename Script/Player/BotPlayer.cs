@@ -6,53 +6,61 @@ namespace SonicGodot
 {
 	public partial class BotPlayer : Player
 	{
-		[Export]
-		public Player leader { get; set; }
-		public override void _Ready()
-		{
-			GD.Print(leader.Name);
-		}
-		public override void _PhysicsProcess(double delta)
-		{
-		  
+        public Node3D Leader { get; set; }
+        public partial class AbilityList : Ability.AbilityList
+        {
+            // Ability list
+            internal AbilityList(Player player)
+            {
+                // Set parent player
+                _parent = player;
 
-			// Update player parameters
-			m_param = leader.m_param_node.m_param;
+                // Create abilities
+                m_abilities.Add(new Jump(player));
+                m_abilities.Add(new Spindash(player));
+            }
+        }
 
-			// Update input state
-			ProcessInput();
+        // Player node
+        public override void _Ready()
+        {
+            // Set ability
+            m_ability = new AbilityList(this);
+            // Ready base
+            base._Ready();
+        }
+        internal override void ProcessInput()
+        {
+            // Update input state
 
-			// Process state
-			m_state.AbilityProcess();
-			m_state.Process();
-
-			// Update model root
-			m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
-
-			if (m_state.CanDynamicPose())
-			{
-				m_modelroot.SetTilt(m_state.GetTilt());
-				m_modelroot.SetPointOfInterest(null);
-			}
-			else
-			{
-				m_modelroot.SetTilt(0.0f);
-				m_modelroot.SetPointOfInterest(null);
-			}
+            Vector2 input_stick = Vector2.One;
+            bool input_jump = Input.Server.GetButton("move_jump");
+            bool input_spin = Input.Server.GetButton("move_spin");
 
 
-			
-		}
+            m_input_stick.Update(input_stick, GlobalTransform, Leader.GlobalTransform, -m_gravity);
+            GD.Print(input_stick);
+            m_input_jump.Update(input_jump);
+            m_input_spin.Update(input_spin);
 
-		internal override void ProcessInput()
-		{
-			m_input_stick.Update(new Vector2(1, 0.1f), GlobalTransform, GlobalTransform, -m_gravity);
-		}
+            if (!m_input_stop.Check())
+            {
+                m_input_stick.m_x = 0.0f;
+                m_input_stick.m_y = 0.0f;
+                m_input_stick.m_turn = 0.0f;
+                m_input_stick.m_length = 0.0f;
+                m_input_stick.m_angle = 0.0f;
+            }
 
-		// Called every frame. 'delta' is the elapsed time since the previous frame.
-		public override void _Process(double delta)
-		{
-		}
-	}
+            if (!m_input_speed.Check())
+            {
+                m_input_stick.m_x = 0.0f;
+                m_input_stick.m_y = 1.0f;
+                m_input_stick.m_turn = 0.0f;
+                m_input_stick.m_length = 1.0f;
+                m_input_stick.m_angle = 0.0f;
+            }
+        }
+    }
 }
 

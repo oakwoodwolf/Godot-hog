@@ -49,7 +49,7 @@ namespace SonicGodot
 			Player player = other as Player;
 			if (player != null)
 			{
-				if (player.m_state.HitObject(this))
+				if (player._state.HitObject(this))
 				{
 					// Add ring to player
 					player.AddRings(1);

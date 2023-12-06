@@ -89,7 +89,7 @@ namespace SonicGodot
 
 		}
 
-		private void SpawnPlayer()
+		private Player SpawnPlayer()
 		{
 			// Instantiate player
 			var player_scene = (PackedScene)ResourceLoader.Load("res://Prefab/Character/Sonic/Player.tscn");
@@ -98,9 +98,20 @@ namespace SonicGodot
 
 			// Add player to scene
 			_players.AddChild(player);
+            return (Player)player;
 		}
+        private void SpawnBot(Node3D lead)
+        {
+            // Instantiate player
+            var player_scene = (PackedScene) ResourceLoader.Load("res://Prefab/Character/Sonic/BotPlayer.tscn");
+            var player = (BotPlayer)player_scene.Instantiate();
+            player.Name = "Bot";
+            player.Leader = lead;
+            // Add player to scene
+            _players.AddChild(player);
+        }
 
-		private void SpawnPeer(int peer_id, string name = "Player")
+        private void SpawnPeer(int peer_id, string name = "Player")
 		{
 			// Instantiate player
 			var player_scene = (PackedScene)ResourceLoader.Load("res://Prefab/Character/Sonic/NetPlayer.tscn");
@@ -144,7 +155,8 @@ namespace SonicGodot
 			// Spawn players
 			if (_players != null)
 			{
-				SpawnPlayer();
+				var leader = (Node3D)SpawnPlayer();
+                //SpawnBot(leader);
 				SpawnPeers();
 			}
 		}
@@ -152,11 +164,9 @@ namespace SonicGodot
 		// Root node
 		public override void _Ready()
 		{
-			LoadSettings();
-			// Load scene
-			LoadAllStagePcks();
-
-			LoadScene("res://Scene/Menu/NetTest.tscn");
+            LoadSettings();
+            LoadAllStagePcks();
+            LoadScene("res://Scene/Menu/NetTest.tscn");
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -173,22 +183,35 @@ namespace SonicGodot
 				workingDirectory = ProjectSettings.GlobalizePath("res://");
 			} else
 			{
+                OS.RequestPermissions();
 				workingDirectory = OS.GetExecutablePath().GetBaseDir();
+                
 			}
+            
+
+            if (OS.GetName() != "Android")
+            {
+                string[] resourcePacks = Directory.GetFiles(workingDirectory, "*.pck");
+
+                resourcePacks = resourcePacks.Where(pack => !Path.GetFileName(pack).Contains("SonicGodot.pck", StringComparison.OrdinalIgnoreCase)).ToArray();
+                if (resourcePacks.IsEmpty())
+                    return;
+                for (int i = 0; i < resourcePacks.Length; i++)
+                {
+                    resourcePacks[i] = Path.GetFileNameWithoutExtension(resourcePacks[i]);
+                    var success = ProjectSettings.LoadResourcePack("res://" + resourcePacks[i] + ".pck");
+                    if (success)
+                    {
+                        if (Godot.FileAccess.FileExists("res://" + resourcePacks[i] + "/"))
+                        { Assembly.LoadFile(resourcePacks[i] + ".dll"); }
+                        stageList.Add(resourcePacks[i]);
+                    }
+                }
+            } else
+            { stageList.Add("TestStage"); 
+            }
 			
-			string[] resourcePacks = Directory.GetFiles(workingDirectory, "*.pck");
-			resourcePacks = resourcePacks.Where(pack => !Path.GetFileName(pack).Contains("SonicGodot.pck", StringComparison.OrdinalIgnoreCase)).ToArray();
-			for (int i = 0; i < resourcePacks.Length; i++)
-			{
-				resourcePacks[i] = Path.GetFileNameWithoutExtension(resourcePacks[i]);
-				var success = ProjectSettings.LoadResourcePack("res://" + resourcePacks[i] + ".pck");
-				if (success)
-				{
-					if (Godot.FileAccess.FileExists("res://" + resourcePacks[i] + "/"))
-				   { Assembly.LoadFile(resourcePacks[i] + ".dll"); }
-					stageList.Add(resourcePacks[i]);
-				}
-			}
+            
 			
 		}
 		public override void _Process(double delta)

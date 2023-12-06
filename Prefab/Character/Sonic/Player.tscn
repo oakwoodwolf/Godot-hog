@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=117 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -92,6 +92,7 @@
 [ext_resource type="Animation" uid="uid://betgabrx5t5w2" path="res://Prefab/Character/Sonic/anims/Victory_loop.res" id="50_il0if"]
 [ext_resource type="Animation" uid="uid://dka5b3p0hpora" path="res://Prefab/Character/Sonic/anims/Wait.res" id="51_ycce1"]
 [ext_resource type="Animation" uid="uid://nctameeswv4b" path="res://Prefab/Character/Sonic/anims/Walk.res" id="52_61y26"]
+[ext_resource type="Texture2D" uid="uid://cv71movgxhagk" path="res://Particles/ef_ch_sns_yh1_smoke2.png" id="93_kvvxc"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_c82xd"]
 auto_exposure_enabled = true
@@ -6271,6 +6272,63 @@ shadow_size = 20
 shadow_color = Color(0.164706, 0, 0.180392, 1)
 shadow_offset = Vector2(1, 3)
 
+[sub_resource type="Curve" id="Curve_1q1sf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.692607, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 1.4, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bhwql"]
+curve = SubResource("Curve_1q1sf")
+
+[sub_resource type="Curve" id="Curve_ew6ff"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, -360), 0.0, 0.0, 0, 0, Vector2(1, 360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4vyjh"]
+curve = SubResource("Curve_ew6ff")
+
+[sub_resource type="Curve" id="Curve_32m6d"]
+max_value = 3.0
+_data = [Vector2(0.0155642, 0.661264), 0.0, 0.0, 0, 0, Vector2(0.984436, 3), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rjaa8"]
+curve = SubResource("Curve_32m6d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hyica"]
+emission_shape_offset = Vector3(0, 0, 1)
+emission_shape_scale = Vector3(2, 2, 2)
+angle_max = 30.0
+inherit_velocity_ratio = 0.141
+direction = Vector3(0, 1, 10)
+spread = 30.0
+initial_velocity_min = 5.0
+initial_velocity_max = 6.0
+angular_velocity_min = 0.1
+angular_velocity_max = 0.2
+angular_velocity_curve = SubResource("CurveTexture_4vyjh")
+gravity = Vector3(0, 1, 0)
+linear_accel_min = 1.0
+linear_accel_max = 2.0
+scale_over_velocity_min = 1.0
+scale_over_velocity_max = 3.0
+scale_over_velocity_curve = SubResource("CurveTexture_rjaa8")
+alpha_curve = SubResource("CurveTexture_bhwql")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v4gse"]
+transparency = 1
+blend_mode = 1
+albedo_texture = ExtResource("93_kvvxc")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_0ixcc"]
+material = SubResource("StandardMaterial3D_v4gse")
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("m_camera_node", "SpeedLines")]
 top_level = true
 collision_layer = 0
@@ -6283,14 +6341,14 @@ script = ExtResource("1_4cy5j")
 m_camera_node = NodePath("Camera3D")
 SpeedLines = NodePath("UI/SpeedEffect")
 
-[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("TargetNode")]
 top_level = true
 attributes = SubResource("CameraAttributesPractical_c82xd")
 doppler_tracking = 1
 current = true
 script = ExtResource("2_name6")
-target_node = NodePath("../ModelRoot")
-lerp_factor = 0.5
+TargetNode = NodePath("../ModelRoot")
+LerpFactor = 0.5
 
 [node name="AudioListener3D" type="AudioListener3D" parent="Camera3D"]
 current = true
@@ -6393,7 +6451,7 @@ script = ExtResource("5_3kayp")
 m_skeleton_node = NodePath("../Armature/Skeleton3D")
 
 [node name="JumpballRoot" type="BoneAttachment3D" parent="ModelRoot"]
-transform = Transform3D(9.59337e-05, -2.97955e-08, -1, 1, 2.71865e-07, 9.59933e-05, 2.71862e-07, -1, 2.98216e-08, 17.4121, 12.057, -8.14904e-06)
+transform = Transform3D(-1.52076e-05, 2.86594e-08, 0.158522, 0.158522, 4.30966e-08, 1.5217e-05, -4.30938e-08, 0.158522, -2.86636e-08, -2.7602, 1.89999, 1.70858e-06)
 top_level = true
 bone_name = "spinball"
 bone_idx = 102
@@ -6631,8 +6689,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_left = 64.0
 offset_top = 64.0
-offset_right = 104.0
-offset_bottom = 104.0
+offset_right = 576.0
+offset_bottom = 320.0
 script = ExtResource("32_rrae7")
 m_player = NodePath("../..")
 
@@ -6666,6 +6724,15 @@ label_settings = SubResource("LabelSettings_gtix8")
 [node name="DeathTimer" type="Timer" parent="Timers"]
 wait_time = 2.0
 one_shot = true
+
+[node name="Particles" type="Node3D" parent="."]
+
+[node name="SpindashParticles" type="GPUParticles3D" parent="Particles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+emitting = false
+visibility_aabb = AABB(-4, -2, -6, 8, 4, 14)
+process_material = SubResource("ParticleProcessMaterial_hyica")
+draw_pass_1 = SubResource("QuadMesh_0ixcc")
 
 [editable path="ModelRoot/Model"]
 [editable path="ModelRoot/JumpballRoot/Jumpball"]

@@ -4,7 +4,7 @@
 resource_name = "Gold"
 cull_mode = 2
 vertex_color_use_as_albedo = true
-albedo_color = Color(0.713332, 0.441844, 0, 1)
+albedo_color = Color(0.882353, 0.741176, 0, 1)
 metallic = 1.0
 metallic_specular = 1.0
 roughness = 0.2

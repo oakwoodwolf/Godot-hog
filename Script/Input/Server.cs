@@ -32,26 +32,26 @@ namespace SonicGodot.Input
     public partial class Server : Godot.Node
     {
         // Input state
-        private Dictionary<Key, bool> m_key = new Dictionary<Key, bool>();
-        private Dictionary<MouseButton, bool> m_mouse_button = new Dictionary<MouseButton, bool>();
+        private Dictionary<Key, bool> _key = new Dictionary<Key, bool>();
+        private Dictionary<MouseButton, bool> _mouseButton = new Dictionary<MouseButton, bool>();
 
-        private float[] m_joy_axis = new float[(int)JoyAxis.Max];
-        private bool[] m_joy_button = new bool[(int)JoyButton.Max];
+        private float[] _joyAxis = new float[(int)JoyAxis.Max];
+        private bool[] _joyButton = new bool[(int)JoyButton.Max];
 
         // Cached mapped input state
         private struct CachedAction
         {
             // Action information
-            public Godot.Collections.Array<InputEvent> m_events;
-            public float m_deadzone;
+            public Godot.Collections.Array<InputEvent> Events;
+            public float Deadzone;
 
             // Action state
-            public float m_value;
+            public float Value;
 
-            public float m_raw_value;
-            public float m_joy_value;
+            public float RawValue;
+            public float JoyValue;
         }
-        private Dictionary<StringName, CachedAction> m_cached_actions = new Dictionary<StringName, CachedAction>();
+        private Dictionary<StringName, CachedAction> _cachedActions = new();
 
         // Input vectors
         private Vector2 _moveVector = new Vector2();
@@ -79,19 +79,27 @@ namespace SonicGodot.Input
         {
             // Process keys
             if (input_event is InputEventKey key)
-                m_key[key.PhysicalKeycode] = key.Pressed;
+            {
+                _key[key.PhysicalKeycode] = key.Pressed;
+            }
 
             // Process mouse buttons
-            if (input_event is InputEventMouseButton mouse_button)
-                m_mouse_button[mouse_button.ButtonIndex] = mouse_button.Pressed;
+            if (input_event is InputEventMouseButton mouseButton)
+            {
+                _mouseButton[mouseButton.ButtonIndex] = mouseButton.Pressed;
+            }
 
             // Process joypad axes
-            if (input_event is InputEventJoypadMotion joypad_motion)
-                m_joy_axis[(int)joypad_motion.Axis] = joypad_motion.AxisValue;
+            if (input_event is InputEventJoypadMotion joypadMotion)
+            {
+                _joyAxis[(int)joypadMotion.Axis] = joypadMotion.AxisValue;
+            }
 
             // Process joypad buttons
-            if (input_event is InputEventJoypadButton joypad_button)
-                m_joy_button[(int)joypad_button.ButtonIndex] = joypad_button.Pressed;
+            if (input_event is InputEventJoypadButton joypadButton)
+            {
+                _joyButton[(int)joypadButton.ButtonIndex] = joypadButton.Pressed;
+            }
         }
 
         // Input processing
@@ -108,7 +116,7 @@ namespace SonicGodot.Input
             Godot.Collections.Array<StringName> actions = InputMap.GetActions();
 
             // Reset cached actions
-            m_cached_actions.Clear();
+            _cachedActions.Clear();
 
             // Setup new actions
             foreach (var action_name in actions)
@@ -116,12 +124,12 @@ namespace SonicGodot.Input
                 // Setup cached
                 CachedAction cached = new CachedAction();
 
-                cached.m_events = InputMap.ActionGetEvents(action_name);
-                cached.m_deadzone = InputMap.ActionGetDeadzone(action_name);
+                cached.Events = InputMap.ActionGetEvents(action_name);
+                cached.Deadzone = InputMap.ActionGetDeadzone(action_name);
 
-                cached.m_value = 0.0f;
+                cached.Value = 0.0f;
 
-                m_cached_actions[action_name] = cached;
+                _cachedActions[action_name] = cached;
             }
 
             // Process actions so that they are updated
@@ -131,10 +139,10 @@ namespace SonicGodot.Input
         private void ProcessActions()
         {
             // Process cached actions
-            foreach (var key in m_cached_actions.Keys.ToList())
+            foreach (var key in _cachedActions.Keys.ToList())
             {
                 // Get cached action
-                CachedAction cached = m_cached_actions[key];
+                CachedAction cached = _cachedActions[key];
 
                 // Process events
                 float final_value = 0.0f;
@@ -142,36 +150,42 @@ namespace SonicGodot.Input
                 float raw_value = 0.0f;
                 float joy_value = 0.0f;
 
-                float deadzone = cached.m_deadzone;
+                float deadzone = cached.Deadzone;
 
-                foreach (var input_event in cached.m_events)
+                foreach (var input_event in cached.Events)
                 {
                     // Get value
                     float value = input_event switch
                     {
-                        InputEventJoypadMotion joypad_motion => m_joy_axis[(int)joypad_motion.Axis] * joypad_motion.AxisValue,
+                        InputEventJoypadMotion joypad_motion => _joyAxis[(int)joypad_motion.Axis] * joypad_motion.AxisValue,
                         _ => GetEventValue(input_event)
                     };
                     {
                         if (input_event is InputEventJoypadMotion joypad_motion)
-                            joy_value += m_joy_axis[(int)joypad_motion.Axis] * joypad_motion.AxisValue;
+                        {
+                            joy_value += _joyAxis[(int)joypad_motion.Axis] * joypad_motion.AxisValue;
+                        }
                         else
+                        {
                             raw_value += GetEventValue(input_event);
+                        }
                     }
 
                     // Apply deadzone and add
                     if (value > deadzone)
+                    {
                         final_value += (value - deadzone) / (1.0f - deadzone);
+                    }
                 }
 
                 // Set value
-                cached.m_value = Mathf.Min(final_value, 1.0f);
+                cached.Value = Mathf.Min(final_value, 1.0f);
 
-                cached.m_raw_value = raw_value;
-                cached.m_joy_value = joy_value;
+                cached.RawValue = raw_value;
+                cached.JoyValue = joy_value;
 
                 // Set cached action
-                m_cached_actions[key] = cached;
+                _cachedActions[key] = cached;
             }
 
             // Get vectors
@@ -182,13 +196,13 @@ namespace SonicGodot.Input
         private float GetEventValue(Godot.InputEvent input_event)
         {
             if (input_event is InputEventKey key)
-                return m_key.GetValueOrDefault(key.PhysicalKeycode) ? 1.0f : 0.0f;
+                return _key.GetValueOrDefault(key.PhysicalKeycode) ? 1.0f : 0.0f;
             if (input_event is InputEventMouseButton mouse_button)
-                return m_mouse_button.GetValueOrDefault(mouse_button.ButtonIndex) ? 1.0f : 0.0f;
+                return _mouseButton.GetValueOrDefault(mouse_button.ButtonIndex) ? 1.0f : 0.0f;
             if (input_event is InputEventJoypadMotion joypad_motion)
-                return m_joy_axis[(int)joypad_motion.Axis];
+                return _joyAxis[(int)joypad_motion.Axis];
             if (input_event is InputEventJoypadButton joypad_button)
-                return m_joy_button[(int)joypad_button.ButtonIndex] ? 1.0f : 0.0f;
+                return _joyButton[(int)joypad_button.ButtonIndex] ? 1.0f : 0.0f;
             return 0.0f;
         }
 
@@ -196,35 +210,40 @@ namespace SonicGodot.Input
         {
             float length = vector.Length();
             if (length < deadzone)
+            {
                 return Vector2.Zero;
-            else if (length < 1.0f)
-                return vector * ((length - deadzone) / (1.0f - deadzone));
+            }
             else
-                return vector.Normalized();
+            {
+                return length < 1.0f ? vector * ((length - deadzone) / (1.0f - deadzone)) : vector.Normalized();
+            }
         }
 
         private Vector2 GetVectorValue(string left_name, string right_name, string up_name, string down_name)
         {
             // Get raw and joy vectors
-            CachedAction cached_left = m_cached_actions[left_name];
-            CachedAction cached_right = m_cached_actions[right_name];
-            CachedAction cached_up = m_cached_actions[up_name];
-            CachedAction cached_down = m_cached_actions[down_name];
-            float deadzone = cached_left.m_deadzone;
+            CachedAction cached_left = _cachedActions[left_name];
+            CachedAction cached_right = _cachedActions[right_name];
+            CachedAction cached_up = _cachedActions[up_name];
+            CachedAction cached_down = _cachedActions[down_name];
+            float deadzone = cached_left.Deadzone;
 
             Vector2 raw_vector = DeadzoneVector(new Vector2(
-                cached_right.m_raw_value - cached_left.m_raw_value,
-                cached_up.m_raw_value - cached_down.m_raw_value
+                cached_right.RawValue - cached_left.RawValue,
+                cached_up.RawValue - cached_down.RawValue
             ), deadzone);
             Vector2 joy_vector = DeadzoneVector(new Vector2(
-                cached_right.m_joy_value - cached_left.m_joy_value,
-                cached_up.m_joy_value - cached_down.m_joy_value
+                cached_right.JoyValue - cached_left.JoyValue,
+                cached_up.JoyValue - cached_down.JoyValue
             ), deadzone);
 
             // Get final vector
             Vector2 vector = raw_vector + joy_vector;
             if (vector.LengthSquared() > 1.0f)
+            {
                 vector = vector.Normalized();
+            }
+
             return vector;
         }
 
@@ -233,6 +252,11 @@ namespace SonicGodot.Input
         {
             // Return move vector
             return Singleton()._moveVector;
+        }
+        public static void SetMoveVector(Vector2 vector)
+        {
+            // Return move vector
+            Singleton()._moveVector = vector;
         }
 
         public static Vector2 GetLookVector()
@@ -244,7 +268,7 @@ namespace SonicGodot.Input
         public static bool GetButton(string name)
         {
             // Return mapped button
-            return Singleton().m_cached_actions[name].m_value > 0.0f;
+            return Singleton()._cachedActions[name].Value > 0.0f;
         }
     }
 }

@@ -50,6 +50,7 @@ namespace SonicGodot
 
             internal override void Stop()
             {
+                m_parent.GetNode<GpuParticles3D>("Particles/SpindashParticles").Emitting = false;
                 // Stop spindash charge sound
                 m_parent.StopSound("SpindashCharge");
             }
@@ -98,20 +99,27 @@ namespace SonicGodot
             {
                 // Charge speed
                 if (m_speed < 7.0f)
+                {
+                    m_parent.GetNode<GpuParticles3D>("Particles/SpindashParticles").SpeedScale = m_speed / 2;
                     m_speed += 0.15f;
+                }
                 else
+                {
                     m_init_speed *= 0.95f;
+                }
 
                 // Movement
                 m_parent.ControlTurnY(m_parent.m_input_stick.m_turn);
                 if (m_parent.m_status.m_grounded)
                 {
                     // Brake to a stop
+                    m_parent.GetNode<GpuParticles3D>("Particles/SpindashParticles").Emitting = true;
                     m_parent.BrakeMovement();
                 }
                 else
                 {
                     // Limited air movement
+                    m_parent.GetNode<GpuParticles3D>("Particles/SpindashParticles").Emitting = false;
                     m_parent.AlwaysRotateToGravity();
                     m_parent.RollMovement();
                 }

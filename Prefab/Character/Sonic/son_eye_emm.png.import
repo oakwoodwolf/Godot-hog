@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ck08kope48hhc"
 path.s3tc="res://.godot/imported/son_eye_emm.png-5f09094ed78cf5bcdccec63e2b546c1a.s3tc.ctex"
+path.etc2="res://.godot/imported/son_eye_emm.png-5f09094ed78cf5bcdccec63e2b546c1a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Prefab/Character/Sonic/son_eye_emm.png"
-dest_files=["res://.godot/imported/son_eye_emm.png-5f09094ed78cf5bcdccec63e2b546c1a.s3tc.ctex"]
+dest_files=["res://.godot/imported/son_eye_emm.png-5f09094ed78cf5bcdccec63e2b546c1a.s3tc.ctex", "res://.godot/imported/son_eye_emm.png-5f09094ed78cf5bcdccec63e2b546c1a.etc2.ctex"]
 
 [params]
 

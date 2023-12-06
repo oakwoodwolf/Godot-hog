@@ -79,7 +79,7 @@ namespace SonicGodot
                 internal override bool CheckJumpAbility()
                 {
                     // Check if we're already dashing
-                    if (_parent.m_state is Player.Lightdash)
+                    if (_parent._state is Player.Lightdash)
                         return false;
 
                     // Check jump button
@@ -99,7 +99,7 @@ namespace SonicGodot
                 internal override bool CheckSpinAbility()
                 {
                     // Check if we're already dashing
-                    if (_parent.m_state is Player.Lightdash)
+                    if (_parent._state is Player.Lightdash)
                         return false;
 
                     // Check jump button

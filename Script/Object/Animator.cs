@@ -214,7 +214,7 @@ namespace SonicGodot
             // Check if any animations are playing
             if (m_state_head < 0)
             {
-                // m_rest_pose.Apply(m_skeleton_node);
+                // _restPose.Apply(_skeletonNode);
                 return;
             }
 

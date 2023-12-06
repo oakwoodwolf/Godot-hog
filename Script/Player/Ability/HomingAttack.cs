@@ -41,7 +41,7 @@ namespace SonicGodot
                 internal override bool CheckJumpAbility()
                 {
                     // Check if we're already homing
-                    if (_parent.m_state is Player.Homing || _parent.hasHomed)
+                    if (_parent._state is Player.Homing || _parent.hasHomed)
                         return false;
 
                     // Check jump button

@@ -306,20 +306,20 @@ namespace SonicGodot
 			virtual public bool HitObject(Node3D node) { return true; }
 		}
 
-		public State m_state { get; internal set; }
+		public State _state { get; internal set; }
 
 		public void SetState(State state)
 		{
 			// Stop the current state
-			if (m_state != null)
+			if (_state != null)
 			{
-				m_state.Stop();
-				m_state = null;
+				_state.Stop();
+				_state = null;
 			}
 
 			// Start the new state
-			m_state = state;
-			m_state.Ready();
+			_state = state;
+			_state.Ready();
 		}
 
 		// Common states
@@ -327,10 +327,12 @@ namespace SonicGodot
 		{
 			// Check for land ability
 			if (m_ability.CheckLandAbility())
-				return;
+            {
+                return;
+            }
 
-			// Play landing sound
-			float audio_db = Util.Audio.MultiplierToDb(Mathf.Clamp(0.2f + -y_speed * 0.17f, 0.0f, 1.0f));
+            // Play landing sound
+            float audio_db = Util.Audio.MultiplierToDb(Mathf.Clamp(0.2f + -y_speed * 0.17f, 0.0f, 1.0f));
 			if (!m_status.m_hurt)
 			{
 				PlaySound("Land", audio_db);
@@ -361,7 +363,7 @@ namespace SonicGodot
 					SetState(new Player.Hurt(this));
 					m_releasing_rings = true;
 					m_rings_to_release = m_rings;
-					Vector3 speed = this.ToSpeed(this.Velocity);
+					Vector3 speed = ToSpeed(Velocity);
 					if (m_param.m_reset_speed_on_hit)
 					{
 						speed.X = -1;
@@ -375,37 +377,28 @@ namespace SonicGodot
 					{
 						speed.Y = 1.25f;
 					}
-					this.Velocity = this.FromSpeed(speed);
+					Velocity = FromSpeed(speed);
 				}
 
 			}
 			return;
 		}
 
-		private void SetStateDead()
+		internal void SetStateDead()
 		{
 			m_status.m_dead = true;
 			m_status.m_invincible = true;
 			SetState(new Player.Hurt(this));
 		}
 
-		// Coordinate systems
-		internal Vector3 GetLook()
-		{
-			return -GlobalTransform.Basis.Z;
-		}
+        // Coordinate systems
+        internal Vector3 GetLook() => -GlobalTransform.Basis.Z;
 
-		internal Vector3 GetUp()
-		{
-			return GlobalTransform.Basis.Y;
-		}
+        internal Vector3 GetUp() => GlobalTransform.Basis.Y;
 
-		internal Vector3 GetRight()
-		{
-			return GlobalTransform.Basis.X;
-		}
+        internal Vector3 GetRight() => GlobalTransform.Basis.X;
 
-		internal Vector3 ToSpeed(Vector3 vector)
+        internal Vector3 ToSpeed(Vector3 vector)
 		{
 			Vector3 speed = GlobalTransform.Basis.Inverse() * vector;
 			return new Vector3(-speed.Z, speed.Y, speed.X) / Root.TickRate;
@@ -449,41 +442,20 @@ namespace SonicGodot
 			return GlobalTransform.Translated(Vector3.Up * m_param.m_center_height);
 		}
 
-		// Common values
-		internal float GetSpeedX()
-		{
-			return GetLook().Dot(Velocity) / Root.TickRate;
-		}
-		internal float GetAbsSpeedX()
-		{
-			return Mathf.Abs(GetSpeedX());
-		}
+        // Common values
+        internal float GetSpeedX() => GetLook().Dot(Velocity) / Root.TickRate;
+        internal float GetAbsSpeedX() => Mathf.Abs(GetSpeedX());
 
-		internal float GetSpeedY()
-		{
-			return GetUp().Dot(Velocity) / Root.TickRate;
-		}
-		internal float GetAbsSpeedY()
-		{
-			return Mathf.Abs(GetSpeedY());
-		}
+        internal float GetSpeedY() => GetUp().Dot(Velocity) / Root.TickRate;
+        internal float GetAbsSpeedY() => Mathf.Abs(GetSpeedY());
 
-		internal float GetSpeedZ()
-		{
-			return GetRight().Dot(Velocity) / Root.TickRate;
-		}
-		internal float GetAbsSpeedZ()
-		{
-			return Mathf.Abs(GetSpeedZ());
-		}
+        internal float GetSpeedZ() => GetRight().Dot(Velocity) / Root.TickRate;
+        internal float GetAbsSpeedZ() => Mathf.Abs(GetSpeedZ());
 
-		internal float GetDotp()
-		{
-			return -GetUp().Dot(m_gravity);
-		}
+        internal float GetDotp() => -GetUp().Dot(m_gravity);
 
-		// Sound functions
-		internal Util.IAudioStreamPlayer GetSound(string name)
+        // Sound functions
+        internal Util.IAudioStreamPlayer GetSound(string name)
 		{
 			// Get sound node
 			return Util.IAudioStreamPlayer.FromNode(GetNode("Sound/" + name));
@@ -577,20 +549,20 @@ namespace SonicGodot
 
             // Update player parameters
             m_param = m_param_node.m_param;
-            currentAnim = m_modelroot.m_current_anim;
+            currentAnim = m_modelroot.CurrentAnim;
 
             ProcessInput();
 
             // Process state
-            m_state.AbilityProcess();
-            m_state.Process();
+            _state.AbilityProcess();
+            _state.Process();
 
             // Update model root
             m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
 
-            if (m_state.CanDynamicPose())
+            if (_state.CanDynamicPose())
             {
-                m_modelroot.SetTilt(m_state.GetTilt());
+                m_modelroot.SetTilt(_state.GetTilt());
                 m_modelroot.SetPointOfInterest(null);
             }
             else
@@ -599,41 +571,22 @@ namespace SonicGodot
                 m_modelroot.SetPointOfInterest(null);
             }
 
-            m_modelroot.SetShear(m_state.GetShear());
+            m_modelroot.SetShear(_state.GetShear());
 
             // Send RPC update
             Root.Rpc(this, nameof(HostRpc_Update), GlobalTransform, currentAnim);
             // Increment time
             m_time++;
-
-            // Update debug context
-#if DEBUG
-            List<string> debugs = new List<string>();
-
-            debugs.Add(string.Format("= Physics ="));
-
-            Vector3 position = GlobalPosition;
-            debugs.Add(string.Format("Position ({0:0.00}, {1:0.00}, {2:0.00})", position.X, position.Y, position.Z));
-
-            Vector3 velocity = Velocity / Root.TickRate;
-            debugs.Add(string.Format("Velocity ({0:0.00}, {1:0.00}, {2:0.00})", velocity.X, velocity.Y, velocity.Z));
-
-            Vector3 speed = ToSpeed(Velocity);
-            debugs.Add(string.Format("Speed ({0:0.00}, {1:0.00}, {2:0.00})", speed.X, speed.Y, speed.Z));
-
-            Vector3 rotation = GlobalRotation * 180.0f / Mathf.Pi;
-            debugs.Add(string.Format("Rotation ({0:0.00}, {1:0.00}, {2:0.00})", rotation.X, rotation.Y, rotation.Z));
-
-            debugs.Add(string.Format("= State {0} =", m_state));
-            m_state.Debug(debugs);
-
-            // m_debug_context.SetItems(debugs);
-#endif
             //Handle Damage
             if (m_status.m_hurt)
+            {
                 HandleDamage();
+            }
+
             if (m_status.m_dead)
-                handleDeath();
+            {
+                HandleDeath();
+            }
         }
 
         internal virtual void ProcessInput()
@@ -738,9 +691,9 @@ namespace SonicGodot
 			}
 
 		}
-		public void handleDeath()
+		public void HandleDeath()
 		{
-			m_camera_node.mode = Camera.CameraMode.Frozen;
+			m_camera_node.Mode = Camera.CameraMode.Frozen;
 
 			m_input_stop.Set((ulong)Mathf.Abs(m_param.m_dead_timer));
 			m_dead_counter++;
@@ -749,7 +702,7 @@ namespace SonicGodot
 				m_input_stop.Set((ulong)Mathf.Abs(0));
 				m_dead_counter = 0;
 				Respawn();
-				m_camera_node.mode = Camera.CameraMode.Normal;
+				m_camera_node.Mode = Camera.CameraMode.Normal;
 				m_rings = 0;
 				m_status.m_invincible = false;
 				m_status.m_dead = false;

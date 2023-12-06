@@ -32,19 +32,19 @@ namespace SonicGodot.Character.Sonic
         private MeshInstance3D m_jumpball_node;
 
         // Tilt state
-        private TiltBone m_tiltbone_head;
-        private TiltBone m_tiltbone_upper_torso;
-        private TiltBone m_tiltbone_lower_torso;
+        private TiltBone _tiltboneHead;
+        private TiltBone _tiltboneUpperTorso;
+        private TiltBone _tiltboneLowerTorso;
 
-        private RootBone m_rootbone;
+        private RootBone _rootbone;
 
-        private Util.FixedSlerp m_head_point_of_interest = new Util.FixedSlerp(Quaternion.Identity);
-        private Util.FixedSlerp m_upper_torso_point_of_interest = new Util.FixedSlerp(Quaternion.Identity);
+        private Util.FixedSlerp _headPointOfInterest = new Util.FixedSlerp(Quaternion.Identity);
+        private Util.FixedSlerp _upperTorsoPointOfInterest = new Util.FixedSlerp(Quaternion.Identity);
 
         // Tilt quaternions
-        private Quaternion m_head_tilt = Quaternion.Identity;
-        private Quaternion m_upper_torso_tilt = Quaternion.Identity;
-        private Quaternion m_lower_torso_tilt = Quaternion.Identity;
+        private Quaternion _headTilt = Quaternion.Identity;
+        private Quaternion _upperTorsoTilt = Quaternion.Identity;
+        private Quaternion _lowerTorsoTilt = Quaternion.Identity;
 
         // Animation functions
         public override void PlayAnimation(string name, double speed = 1.0f)
@@ -55,7 +55,9 @@ namespace SonicGodot.Character.Sonic
             // Get spinning opacity
             float opacity = 0.0f;
             if (name == "Spin" || name == "RollFloor")
+            {
                 opacity = Mathf.Clamp(Mathf.Abs((float)speed) * 0.3f - 0.8f, 0.0f, 1.0f);
+            }
 
             // Flicker spindash every frame, but in 16 frame intervals
             // if (aclass == "Spindash" && (Root.GetClock() & 0x11) == 0)
@@ -69,31 +71,33 @@ namespace SonicGodot.Character.Sonic
         public override void _Ready()
         {
             // Get nodes
-            m_animation_player = GetNode<Animator>("Model/AnimationPlayer");
-            m_skeleton_node = GetNode<Skeleton3D>("Model/Armature/Skeleton3D");
+            _animationPlayer = GetNode<Animator>("Model/AnimationPlayer");
+            _skeletonNode = GetNode<Skeleton3D>("Model/Armature/Skeleton3D");
 
             m_jumpball_node = GetNode<MeshInstance3D>("JumpballRoot/Jumpball/Jumpball");
 
             // Setup tilt bones
-            m_tiltbone_head = new TiltBone(m_skeleton_node, "Head");
-            m_tiltbone_upper_torso = new TiltBone(m_skeleton_node, "Spine1");
-            m_tiltbone_lower_torso = new TiltBone(m_skeleton_node, "Hips");
+            _tiltboneHead = new TiltBone(_skeletonNode, "Head");
+            _tiltboneUpperTorso = new TiltBone(_skeletonNode, "Spine1");
+            _tiltboneLowerTorso = new TiltBone(_skeletonNode, "Hips");
 
-            m_rootbone = new RootBone(m_skeleton_node, "ROOT");
+            _rootbone = new RootBone(_skeletonNode, "ROOT");
 
             // Get animation tracks
-            m_rest_pose = new Util.Animation.SkeletonPose(m_skeleton_node);
-            foreach (string animation in m_animation_player.GetAnimationList())
-                m_animation_tracks[animation] = new Util.Animation.AnimationTrack(m_skeleton_node, m_animation_player.GetAnimation(animation));
+            _restPose = new Util.Animation.SkeletonPose(_skeletonNode);
+            foreach (string animation in _animationPlayer.GetAnimationList())
+            {
+                _animationTracks[animation] = new Util.Animation.AnimationTrack(_skeletonNode, _animationPlayer.GetAnimation(animation));
+            }
 
             // Add animations
-            m_animation_player.m_specs["Idle"] = new Animator.AnimationSpec(0.08, false, false, null,
+            _animationPlayer.m_specs["Idle"] = new Animator.AnimationSpec(0.08, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Idle") },
                 new Dictionary<string, double>() { { "Run", 0.3 } }
             );
 
 
-            m_animation_player.m_specs["Run"] = new Animator.AnimationSpec(0.08, false, false, null, new Animator.AnimationSpec.TrackSpec[]
+            _animationPlayer.m_specs["Run"] = new Animator.AnimationSpec(0.08, false, false, null, new Animator.AnimationSpec.TrackSpec[]
                 {
                     new Animator.AnimationSpec.TrackSpec("Walk", 0.0, 0.0, 0.2, 0.5),
                     new Animator.AnimationSpec.TrackSpec("Jog", 2.3, 1.0, 0.2, 0.3),
@@ -104,50 +108,50 @@ namespace SonicGodot.Character.Sonic
                 new Dictionary<string, double>() { { "Idle", 0.2 } }
             );
 
-            m_animation_player.m_specs["Brake"] = new Animator.AnimationSpec(0.08, false, false, null,
+            _animationPlayer.m_specs["Brake"] = new Animator.AnimationSpec(0.08, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Brake") }
             );
-            m_animation_player.m_specs["Up"] = new Animator.AnimationSpec(0.08, false, false, null,
+            _animationPlayer.m_specs["Up"] = new Animator.AnimationSpec(0.08, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Up") },
                 new Dictionary<string, double>() { { "Fall", 0.5 } }
             );
 
-            m_animation_player.m_specs["Spin"] = new Animator.AnimationSpec(0.05, false, false, null,
+            _animationPlayer.m_specs["Spin"] = new Animator.AnimationSpec(0.05, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Spin") }
             );
-            m_animation_player.m_specs["Spin_charge"] = new Animator.AnimationSpec(0.05, false, false, null,
+            _animationPlayer.m_specs["Spin_charge"] = new Animator.AnimationSpec(0.05, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Spin_charge") }
             );
 
-            m_animation_player.m_specs["Hurt"] = new Animator.AnimationSpec(0.13, false, false, null,
+            _animationPlayer.m_specs["Hurt"] = new Animator.AnimationSpec(0.13, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Hurt") }
             );
-            m_animation_player.m_specs["Dead"] = new Animator.AnimationSpec(0.25, false, false, null,
+            _animationPlayer.m_specs["Dead"] = new Animator.AnimationSpec(0.25, false, false, null,
                new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Dead") }
            );
-            m_animation_player.m_specs["Fall"] = new Animator.AnimationSpec(0.13, false, false, null,
+            _animationPlayer.m_specs["Fall"] = new Animator.AnimationSpec(0.13, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Fall") }
             );
-            m_animation_player.m_specs["FallFast"] = new Animator.AnimationSpec(0.13, false, false, null,
+            _animationPlayer.m_specs["FallFast"] = new Animator.AnimationSpec(0.13, false, false, null,
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("FallFast") }
             );
-            m_animation_player.m_specs["Forward"] = new Animator.AnimationSpec(0.13, false, false, null,
+            _animationPlayer.m_specs["Forward"] = new Animator.AnimationSpec(0.13, false, false, null,
     new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Forward") }
 );
-            m_animation_player.m_specs["Land"] = new Animator.AnimationSpec(0.08, false, false, "Idle",
+            _animationPlayer.m_specs["Land"] = new Animator.AnimationSpec(0.08, false, false, "Idle",
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Land") }
             );
 
-            m_animation_player.m_specs["Jump"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
+            _animationPlayer.m_specs["Jump"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("Jump") }
             );
-            m_animation_player.m_specs["KickAir"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
+            _animationPlayer.m_specs["KickAir"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("KickAir") }
             );
-            m_animation_player.m_specs["HomingTrick"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
+            _animationPlayer.m_specs["HomingTrick"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("HomingTrick") }
             );
-            m_animation_player.m_specs["HomingTrick - Japan"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
+            _animationPlayer.m_specs["HomingTrick - Japan"] = new Animator.AnimationSpec(0.08, false, false, "Fall",
                 new Animator.AnimationSpec.TrackSpec[] { new Animator.AnimationSpec.TrackSpec("HomingTrick - Japan") }
             );
             // Setup base
@@ -163,31 +167,31 @@ namespace SonicGodot.Character.Sonic
             float point_of_interest_angle_y = 0.0f;
             float point_of_interest_angle_x = 0.0f;
 
-            if (m_point_of_interest.HasValue)
+            if (_pointOfInterest.HasValue)
             {
                 // Get point of interest relative to neck
-                Vector3 point_of_interest = m_point_of_interest.Value;
-                Transform3D neck_transform = GlobalTransform * m_skeleton_node.GetBoneGlobalRest(m_tiltbone_head.m_bone_idx);
-                Vector3 point_of_interest_from_neck = neck_transform.Inverse() * point_of_interest;
+                Vector3 pointOfInterest = _pointOfInterest.Value;
+                Transform3D neckTransform = GlobalTransform * _skeletonNode.GetBoneGlobalRest(_tiltboneHead._boneIdx);
+                Vector3 pointOfInterestFromNeck = neckTransform.Inverse() * pointOfInterest;
 
                 // Get point of interest angles
-                point_of_interest_angle_y = Mathf.Atan2(-point_of_interest_from_neck.X, -point_of_interest_from_neck.Z);
-                point_of_interest_angle_x = Mathf.Atan2(-point_of_interest_from_neck.Y * 2.0f, Mathf.Sqrt(point_of_interest_from_neck.X * point_of_interest_from_neck.X + point_of_interest_from_neck.Z * point_of_interest_from_neck.Z));
+                point_of_interest_angle_y = Mathf.Atan2(-pointOfInterestFromNeck.X, -pointOfInterestFromNeck.Z);
+                point_of_interest_angle_x = Mathf.Atan2(-pointOfInterestFromNeck.Y * 2.0f, Mathf.Sqrt(pointOfInterestFromNeck.X * pointOfInterestFromNeck.X + pointOfInterestFromNeck.Z * pointOfInterestFromNeck.Z));
 
                 point_of_interest_angle_y = Mathf.Clamp(point_of_interest_angle_y, Mathf.Pi * -0.5f, Mathf.Pi * 0.5f);
                 point_of_interest_angle_x = Mathf.Clamp(point_of_interest_angle_x, Mathf.Pi * -0.2f, Mathf.Pi * 0.1f);
             }
 
             // Get point of interest quaternions
-            Quaternion upper_torso_point_of_interest = new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), point_of_interest_angle_y * 0.3f);
-            upper_torso_point_of_interest *= new Quaternion(new Vector3(1.0f, 0.0f, 0.0f), point_of_interest_angle_x * 0.4f);
+            Quaternion upperTorsoPointOfInterest = new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), point_of_interest_angle_y * 0.3f);
+            upperTorsoPointOfInterest *= new Quaternion(new Vector3(1.0f, 0.0f, 0.0f), point_of_interest_angle_x * 0.4f);
 
-            Quaternion head_point_of_interest = new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), point_of_interest_angle_y * 0.4f);
-            head_point_of_interest *= new Quaternion(new Vector3(1.0f, 0.0f, 0.0f), point_of_interest_angle_x * 0.5f);
+            Quaternion headPointOfInterest = new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), point_of_interest_angle_y * 0.4f);
+            headPointOfInterest *= new Quaternion(new Vector3(1.0f, 0.0f, 0.0f), point_of_interest_angle_x * 0.5f);
 
             // Interpolate quaternions
-            m_head_point_of_interest.Step(head_point_of_interest, 0.2f);
-            m_upper_torso_point_of_interest.Step(upper_torso_point_of_interest, 0.2f);
+            _headPointOfInterest.Step(headPointOfInterest, 0.2f);
+            _upperTorsoPointOfInterest.Step(upperTorsoPointOfInterest, 0.2f);
         }
 
         public override void _Process(double delta)
@@ -198,26 +202,26 @@ namespace SonicGodot.Character.Sonic
             float fraction = (float)Engine.GetPhysicsInterpolationFraction();
 
             // Shear root bone
-            m_rootbone.Shear(m_shear);
+            _rootbone.Shear(_shear);
 
             // Tilt bones
-            m_head_tilt = new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), m_tilt.m_pos * 0.15f);
-            m_head_tilt *= new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_tilt.m_pos * 0.1f);
-            m_head_tilt *= new Quaternion(new Vector3(1.0f, 0.0f, 0.0f), -Mathf.Abs(m_tilt.m_pos * 0.3f));
+            _headTilt = new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), _tilt.Pos * 0.15f);
+            _headTilt *= new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), _tilt.Pos * 0.1f);
+            _headTilt *= new Quaternion(new Vector3(1.0f, 0.0f, 0.0f), -Mathf.Abs(_tilt.Pos * 0.3f));
 
-            m_upper_torso_tilt = new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_tilt.m_pos * -0.3f);
-            m_upper_torso_tilt *= new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), m_tilt.m_pos * 0.3f);
+            _upperTorsoTilt = new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), _tilt.Pos * -0.3f);
+            _upperTorsoTilt *= new Quaternion(new Vector3(0.0f, 1.0f, 0.0f), _tilt.Pos * 0.3f);
 
-            m_lower_torso_tilt = new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), m_tilt.m_pos * -0.25f);
+            _lowerTorsoTilt = new Quaternion(new Vector3(0.0f, 0.0f, 1.0f), _tilt.Pos * -0.25f);
 
             // Apply point of interest quaternions
-            m_head_tilt *= m_head_point_of_interest.Get(fraction);
-            m_upper_torso_tilt *= m_upper_torso_point_of_interest.Get(fraction);
+            _headTilt *= _headPointOfInterest.Get(fraction);
+            _upperTorsoTilt *= _upperTorsoPointOfInterest.Get(fraction);
 
             // Tilt bones
-            m_tiltbone_head.Tilt(m_head_tilt);
-            m_tiltbone_upper_torso.Tilt(m_upper_torso_tilt);
-            m_tiltbone_lower_torso.Tilt(m_lower_torso_tilt);
+            _tiltboneHead.Tilt(_headTilt);
+            _tiltboneUpperTorso.Tilt(_upperTorsoTilt);
+            _tiltboneLowerTorso.Tilt(_lowerTorsoTilt);
         }
 
     }

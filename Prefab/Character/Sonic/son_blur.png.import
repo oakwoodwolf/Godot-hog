@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b8c1fayuks07h"
 path.s3tc="res://.godot/imported/son_blur.png-c69610e50d7336733bfda77bd8e6bd05.s3tc.ctex"
+path.etc2="res://.godot/imported/son_blur.png-c69610e50d7336733bfda77bd8e6bd05.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Prefab/Character/Sonic/son_blur.png"
-dest_files=["res://.godot/imported/son_blur.png-c69610e50d7336733bfda77bd8e6bd05.s3tc.ctex"]
+dest_files=["res://.godot/imported/son_blur.png-c69610e50d7336733bfda77bd8e6bd05.s3tc.ctex", "res://.godot/imported/son_blur.png-c69610e50d7336733bfda77bd8e6bd05.etc2.ctex"]
 
 [params]
 

@@ -96,6 +96,11 @@ namespace SonicGodot
                     // Idle
                     m_parent.PlayAnimation("Idle", 0.5);
                 }
+                 
+        }
+            internal override bool CanDynamicPose()
+            {
+                return true;
             }
         }
     }

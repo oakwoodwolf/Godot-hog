@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://wq7nrtonwy6c"
 path.s3tc="res://.godot/imported/0.refrim_rough_2.png-dbaced28dd990709d8c4f7b0a7ed6dfd.s3tc.ctex"
+path.etc2="res://.godot/imported/0.refrim_rough_2.png-dbaced28dd990709d8c4f7b0a7ed6dfd.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Prefab/Character/Sonic/0.refrim_rough_2.png"
-dest_files=["res://.godot/imported/0.refrim_rough_2.png-dbaced28dd990709d8c4f7b0a7ed6dfd.s3tc.ctex"]
+dest_files=["res://.godot/imported/0.refrim_rough_2.png-dbaced28dd990709d8c4f7b0a7ed6dfd.s3tc.ctex", "res://.godot/imported/0.refrim_rough_2.png-dbaced28dd990709d8c4f7b0a7ed6dfd.etc2.ctex"]
 
 [params]
 

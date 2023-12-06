@@ -75,7 +75,7 @@ namespace SonicGodot
                 m_bounce_sound.Play();
 
                 // Launch player
-                if (player.m_state.HitObject(this))
+                if (player._state.HitObject(this))
                 {
                     // Align player to spring
                     if (Mathf.Abs(GlobalTransform.Basis.Y.Dot(player.m_gravity)) < 0.95f)

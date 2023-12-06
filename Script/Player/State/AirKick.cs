@@ -44,7 +44,7 @@ namespace SonicGodot
                 // Align to gravity
                 m_parent.AlignToGravity();
 
-                // Set humming top mode
+                // Set humming top Mode
                 m_humming_top = humming_top;
 
                 if (m_humming_top)

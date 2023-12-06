@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -39,7 +39,7 @@ namespace SonicGodot
                 internal override bool CheckJumpAbility()
                 {
                     // Check if we're already bouncing
-                    if (_parent.m_state is Player.Bounce)
+                    if (_parent._state is Player.Bounce)
                         return false;
 
                     // Check spin button
