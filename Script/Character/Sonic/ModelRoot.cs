@@ -29,7 +29,7 @@ namespace SonicGodot.Character.Sonic
     public partial class ModelRoot : Character.ModelRoot
     {
         // Model nodes
-        private MeshInstance3D m_jumpball_node;
+        private MeshInstance3D _jumpball_node;
 
         // Tilt state
         private TiltBone _tiltboneHead;
@@ -64,7 +64,7 @@ namespace SonicGodot.Character.Sonic
             // 	opacity = 0.0f;
 
             // Set jumpball opacity
-            m_jumpball_node.Transparency = 1.0f - opacity;
+            _jumpball_node.Transparency = 1.0f - opacity;
         }
 
         // Model root node
@@ -74,7 +74,7 @@ namespace SonicGodot.Character.Sonic
             _animationPlayer = GetNode<Animator>("Model/AnimationPlayer");
             _skeletonNode = GetNode<Skeleton3D>("Model/Armature/Skeleton3D");
 
-            m_jumpball_node = GetNode<MeshInstance3D>("JumpballRoot/Jumpball/Jumpball");
+            _jumpball_node = GetNode<MeshInstance3D>("JumpballRoot/Jumpball/Jumpball");
 
             // Setup tilt bones
             _tiltboneHead = new TiltBone(_skeletonNode, "Head");

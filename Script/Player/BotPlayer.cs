@@ -16,8 +16,8 @@ namespace SonicGodot
                 _parent = player;
 
                 // Create abilities
-                m_abilities.Add(new Jump(player));
-                m_abilities.Add(new Spindash(player));
+                _abilities.Add(new Jump(player));
+                _abilities.Add(new Spindash(player));
             }
         }
 

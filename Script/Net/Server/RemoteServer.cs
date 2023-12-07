@@ -35,13 +35,19 @@ namespace SonicGodot.Net
         {
             // Connect multiplayer peer
             var peer = new ENetMultiplayerPeer();
-            peer.CreateClient(ip, port);
-
-            // Setup multiplayer API
-            peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
-            _multiplayerApi = multiplayerApi;
-            _multiplayerApi.MultiplayerPeer = peer;
-            GD.Print("Joining Remote Server: " + ip + ":" + port);
+            var client = peer.CreateClient(ip, port);
+            if (client == Error.Ok)
+            {
+                // Setup multiplayer API
+                peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
+                _multiplayerApi = multiplayerApi;
+                _multiplayerApi.MultiplayerPeer = peer;
+                GD.Print("Joining Remote Server: " + ip + ":" + port);
+            } else
+            {
+                GD.Print(client);
+            }
+            
         }
 
         // Returns your own peer ID

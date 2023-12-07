@@ -137,12 +137,12 @@ namespace SonicGodot
 			public partial class AbilityList : Ability
 			{
 				// Abilities
-				internal System.Collections.Generic.List<Ability> m_abilities = new System.Collections.Generic.List<Ability>();
+				internal System.Collections.Generic.List<Ability> _abilities = new System.Collections.Generic.List<Ability>();
 
 				// Ability list interface
 				internal override bool CheckJump()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 					{
 						if (ability.CheckJump())
 						{
@@ -155,7 +155,7 @@ namespace SonicGodot
 
 				internal override bool CheckJumpAbility()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 					{
 						if (ability.CheckJumpAbility())
 						{
@@ -168,7 +168,7 @@ namespace SonicGodot
 
 				internal override bool CheckFallAbility()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 					{
 						if (ability.CheckFallAbility())
 						{
@@ -181,7 +181,7 @@ namespace SonicGodot
 
 				internal override bool CheckSpinAbility()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 					{
 						if (ability.CheckSpinAbility())
 						{
@@ -194,7 +194,7 @@ namespace SonicGodot
 
 				internal override bool CheckLandAbility()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 					{
 						if (ability.CheckLandAbility())
 						{
@@ -207,14 +207,14 @@ namespace SonicGodot
 
 				internal override void FlagHitBounce()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 
 						ability.FlagHitBounce();
 				}
 
 				internal override void ClearHitBounce()
 				{
-					foreach (Ability ability in m_abilities)
+					foreach (Ability ability in _abilities)
 						ability.ClearHitBounce();
 				}
 			}

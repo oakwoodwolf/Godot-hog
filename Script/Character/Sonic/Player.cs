@@ -35,12 +35,12 @@ namespace SonicGodot.Character.Sonic
 				_parent = player;
 
 				// Create abilities
-				m_abilities.Add(new Jump(player));
-				m_abilities.Add(new Lightdash(player));
-				m_abilities.Add(new Spindash(player));
-				m_abilities.Add(new HomingAttack(player));
-				m_abilities.Add(new Bounce(player));
-				m_abilities.Add(new AirKick(player));
+				_abilities.Add(new Jump(player));
+				_abilities.Add(new Lightdash(player));
+				_abilities.Add(new Spindash(player));
+				_abilities.Add(new HomingAttack(player));
+				_abilities.Add(new Bounce(player));
+				_abilities.Add(new AirKick(player));
 			}
 		}
 
