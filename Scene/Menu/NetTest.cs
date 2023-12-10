@@ -1,6 +1,8 @@
 // SonicOnset.Scene.NetTest.NetTest
 using Godot;
+using Godot.Collections;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace SonicGodot.Scene
 {
@@ -53,18 +55,30 @@ namespace SonicGodot.Scene
 
 		private void OnHostButtonPressed()
 		{
-			_loadDrop.Visible = true;
+            _loadDrop.Visible = true;
 			int port = int.Parse(_portEdit.Text);
 			int max_players = int.Parse(_maxEdit.Text);
 			Root.StartHostServer(port, max_players, _upnp);
-			LoadStagePack(_stageEdit.Text);
+            var playerInfo = new Dictionary<string, string>()
+            {
+                { "PlayerName", GetNode<TextEdit>("%NameEntry").Text },
+            };
+            Root.Players[1] = playerInfo;
+            Root.PlayerInfo = playerInfo;
+            EmitSignal(Root.SignalName.OnPlayerConnected, 1, playerInfo);
+            LoadStagePack(_stageEdit.Text);
 		}
 
-		private void OnJoinButtonPressed()
+
+        private void OnJoinButtonPressed()
 		{
-			_loadDrop.Visible = true;
+            
+            _loadDrop.Visible = true;
 			int port = int.Parse(_portEdit.Text);
+            Root.PlayerInfo["PlayerName"] = GetNode<TextEdit>("%NameEntry").Text;
             Root.JoinServer(_ipEdit.Text, port);
+            
+
         }
         /// <summary>
         /// Loads a Stage.pck file. Its name must match the name of both the pck and the folder packed inside.
@@ -83,6 +97,3 @@ namespace SonicGodot.Scene
 
 	}
 }
-
-
-
