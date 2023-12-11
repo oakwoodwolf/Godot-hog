@@ -53,7 +53,9 @@ namespace SonicGodot.UI.LoadUI
 			{
 				Data = data;
 				_loadingText.Text = Data.StageName;
+				GD.Print(Data.StageBackground);
 				_loadingBg.Texture = Data.StageBackground;
+				GD.Print(_loadingBg.Texture);
 				Player.Play("LoadStart");
 			}
 		}

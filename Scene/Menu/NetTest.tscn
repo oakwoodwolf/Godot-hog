@@ -43,6 +43,7 @@ MenuValuePairs = {
 }
 
 [node name="PlayMenu" type="Control" parent="UI/Main Menu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -164,22 +165,6 @@ theme_override_font_sizes/font_size = 24
 text = "Upnp"
 flat = true
 
-[node name="NameEntry" type="TextEdit" parent="UI/Main Menu/PlayMenu"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -199.0
-offset_right = 252.0
-offset_bottom = -135.0
-grow_horizontal = 2
-grow_vertical = 0
-placeholder_text = "Name"
-
 [node name="Loading" type="Control" parent="UI/Main Menu/PlayMenu"]
 visible = false
 layout_mode = 1
@@ -230,7 +215,6 @@ text = "Loading..."
 label_settings = ExtResource("2_yypjk")
 
 [node name="TitleScreen" type="Control" parent="UI/Main Menu"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -682,7 +666,6 @@ bus = &"Sound"
 
 [connection signal="focus_entered" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="toggled" from="UI/Main Menu/PlayMenu/Bar/CheckBox" to="UI/Main Menu/PlayMenu" method="OnCheckboxToggled"]
-[connection signal="text_set" from="UI/Main Menu/PlayMenu/NameEntry" to="UI/Main Menu/PlayMenu" method="OnNameSet"]
 [connection signal="focus_exited" from="UI/Main Menu/TitleScreen/VBoxContainer/PlayButton" to="UI/Main Menu" method="OnFocusExit"]
 [connection signal="pressed" from="UI/Main Menu/TitleScreen/VBoxContainer/PlayButton" to="UI/Main Menu" method="OnPlayPressed"]
 [connection signal="focus_exited" from="UI/Main Menu/TitleScreen/VBoxContainer/Options" to="UI/Main Menu" method="OnFocusExit"]

@@ -33,18 +33,8 @@ namespace SonicGodot
 {
 	public partial class Root : Node
 	{
-        [Signal]
-        public delegate void OnPlayerConnectedEventHandler(int peer_id, PlayerInfo info);
-
-        // Game constants
-        public const uint TickRate = 60; // Tick rate for physics calculations
-
-
-        public static Godot.Collections.Dictionary<string, string> PlayerInfo = new()
-        {
-            { "PlayerName", "Sonic" },
-        };
-
+		// Game constants
+		public const uint TickRate = 60; // Tick rate for physics calculations
 
 		// Global clock
 		private ulong _clock = 0;
@@ -60,8 +50,6 @@ namespace SonicGodot
 		private Node _scene = null;
 
 		private Node _players = null;
-        
-        public static Godot.Collections.Dictionary<int, Godot.Collections.Dictionary<string, string>> Players = new();
 
 		// Net server
 		private MultiplayerApi _multiplayerApi = null;
@@ -78,9 +66,10 @@ namespace SonicGodot
 			// Create multiplayer API
 			_multiplayerApi = Godot.MultiplayerApi.CreateDefaultInterface();
 			GetTree().SetMultiplayer(_multiplayerApi);
-			_multiplayerApi.Connect("connected_to_server", new Callable(this, "Rpc_ConnectedToServer"));
-            _multiplayerApi.Connect("peer_connected", new Callable(this, "Rpc_PeerConnected"));
-            _multiplayerApi.Connect("peer_disconnected", new Callable(this, "Rpc_PeerDisconnected"));
+
+			// Connect to players joining
+			_multiplayerApi.Connect("peer_connected", new Callable(this, "Rpc_PeerConnected"));
+			_multiplayerApi.Connect("peer_disconnected", new Callable(this, "Rpc_PeerDisconnected"));
 
 			// Register singleton
 			ProcessPriority = (int)Enum.Priority.Root;
@@ -122,21 +111,16 @@ namespace SonicGodot
             _players.AddChild(player);
         }
 
-        private void SpawnPeer(int id)
+        private void SpawnPeer(int peer_id, string name = "Player")
 		{
-            // Instantiate player
-            GD.Print("Peer Spawning: " + Players);
-            
-            
+			// Instantiate player
 			var player_scene = (PackedScene)ResourceLoader.Load("res://Prefab/Character/Sonic/NetPlayer.tscn");
 			var player = (NetPlayer)player_scene.Instantiate();
-			player.Name = id.ToString();
-            // Add player to scene
-            _players.AddChild(player);
-            Label3D label = player.GetNode<Label3D>("ModelRoot/Nametag");
-            var info = Players[id];
-            label.Text = info["PlayerName"];
-			
+			player.Name = peer_id.ToString();
+			Label3D label = player.GetNode<Label3D>("ModelRoot/Nametag");
+			label.Text = peer_id.ToString();
+			// Add player to scene
+			_players.AddChild(player);
 		}
 
 		private void SpawnPeers()
@@ -443,40 +427,22 @@ namespace SonicGodot
 			}
 		}
 
-        // RPC methods
-
-        /// <summary>
-        /// Emitted when this MultiplayerAPI's multiplayer_peer successfully connected to a server. Only emitted on clients.
-        /// </summary>
-        private void Rpc_ConnectedToServer()
-        {
-            var peerId = _server.GetPeerId();
-            Players[peerId] = PlayerInfo;
-            GD.Print("Connected to Server: " + Players[peerId].ToString());
-            EmitSignal(SignalName.OnPlayerConnected, 1, PlayerInfo);
-        }
-        /// <summary>
-        /// Emitted when this MultiplayerAPI's multiplayer_peer connects with a new peer.
-        /// ID is the peer ID of the new peer. Clients get notified when other clients connect to the same server.
-        /// Upon connecting to a server, a client also receives this signal for the server (with ID being 1).
-        /// </summary>
-        /// <param name="id">The id of the peer</param>
-        private void Rpc_PeerConnected(int id)
+		// RPC methods
+		private void Rpc_PeerConnected(int id)
 		{
 			GD.Print("Peer Connection called: " + id);
-            
+
 			// Check if we're the host
 			Net.IHostServer hostServer = GetHostServer();
 			if (hostServer != null)
 			{
-                // Sync peer
-                Net.NetSync netSync = GetNetSync();
+				// Sync peer
+				Net.NetSync netSync = GetNetSync();
 				netSync.SyncPeer(id);
 			}
-            // pass on the host's playerinfo
-            hostServer.RpcId(id, this, nameof(Rpc_RegisterPlayer), PlayerInfo);
-            // Spawn peer if not client
-            if (_players != null)
+
+			// Spawn peer if not client
+			if (_players != null)
 			{
 				if (id != _server.GetPeerId())
                 {
@@ -484,17 +450,7 @@ namespace SonicGodot
                 }
             }
 		}
-        private void Rpc_RegisterPlayer(Godot.Collections.Dictionary<string, string> info)
-        {
-            var new_player_id = _server.GetRemotePeerId();
-            Players[new_player_id] = info;
-            GD.Print("Registered: " + Players[new_player_id].ToString());
-        }
-        /// <summary>
-        /// Emitted when this MultiplayerAPI's multiplayer_peer disconnects from a peer.
-        /// Clients get notified when other clients disconnect from the same server.
-        /// </summary>
-        /// <param name="id"></param>
+
 		private void Rpc_PeerDisconnected(int id)
 		{
 			// If this peer is the host, disconnect
@@ -526,13 +482,14 @@ namespace SonicGodot
             }
         }
 
-        [Rpc(MultiplayerApi.RpcMode.Authority)]
+		[Rpc(MultiplayerApi.RpcMode.Authority)]
 		public void Rpc_ClientForward(NodePath path, string name, Godot.Collections.Array args)
 		{
 			// Call method
 			Node node = GetNodeOrNull(path);
 			if (node != null && node.HasMethod(name))
             {
+                GD.Print(node.HasMethod(name) + " " + name);
                 node.Callv(name, args);
             } 
         }
