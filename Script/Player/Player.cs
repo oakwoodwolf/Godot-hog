@@ -116,7 +116,7 @@ namespace SonicGodot
 		public Debounce m_input_speed = new Debounce();
 
 		// Player ability
-		public partial class Ability
+		public partial class Ability : Node
 		{
 			// Parent player
 			internal Player _parent;

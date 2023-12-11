@@ -13,8 +13,10 @@ bottom_radius = 5.0
 height = 50.0
 
 [node name="Shadow" type="Node3D"]
+process_priority = 9000
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, -2.6, 0)
 
 [node name="Shadow" type="MeshInstance3D" parent="."]
+process_priority = 9000
 custom_aabb = AABB(-128, -128, -128, 256, 256, 256)
 mesh = SubResource("CylinderMesh_s315d")
