@@ -58,7 +58,7 @@ namespace SonicGodot
 			public float m_center_height = 5.4f;
 
 			public float m_floor_clip = 2.0f;
-			public int m_rings_to_release = 30;
+			public uint m_rings_to_release = 30;
 			public float m_invincibility_timer = 120f;
 			public float m_flicker_timer = 2f;
 			public bool m_reset_speed_on_hit = true;
@@ -121,7 +121,7 @@ namespace SonicGodot
 		[ExportGroup("Ability")]
 		[ExportSubgroup("Hurt")]
 		[Export]
-		public int m_rings_to_release { get { return m_param.m_rings_to_release; } set { m_param.m_rings_to_release = value; } }
+		public uint m_rings_to_release { get { return m_param.m_rings_to_release; } set { m_param.m_rings_to_release = value; } }
 		[Export]
 		public float m_invincibility_timer { get { return m_param.m_invincibility_timer; } set { m_param.m_invincibility_timer = value; } }
 		[Export]

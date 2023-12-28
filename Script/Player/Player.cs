@@ -55,7 +55,8 @@ namespace SonicGodot
 
 		internal Character.ModelRoot m_modelroot;
 		internal Transform3D m_modelroot_offset;
-		private float m_hurt_counter, m_flicker_counter, m_dead_counter, m_rings_to_release;
+		private float m_hurt_counter, m_flicker_counter, m_dead_counter;
+		private uint m_rings_to_release;
 		private bool m_releasing_rings = false;
 		public Node3D releaseDirection;
 
@@ -327,12 +328,12 @@ namespace SonicGodot
 		{
 			// Check for land ability
 			if (m_ability.CheckLandAbility())
-            {
-                return;
-            }
+			{
+				return;
+			}
 
-            // Play landing sound
-            float audio_db = Util.Audio.MultiplierToDb(Mathf.Clamp(0.2f + -y_speed * 0.17f, 0.0f, 1.0f));
+			// Play landing sound
+			float audio_db = Util.Audio.MultiplierToDb(Mathf.Clamp(0.2f + -y_speed * 0.17f, 0.0f, 1.0f));
 			if (!m_status.m_hurt)
 			{
 				PlaySound("Land", audio_db);
@@ -391,14 +392,14 @@ namespace SonicGodot
 			SetState(new Player.Hurt(this));
 		}
 
-        // Coordinate systems
-        internal Vector3 GetLook() => -GlobalTransform.Basis.Z;
+		// Coordinate systems
+		internal Vector3 GetLook() => -GlobalTransform.Basis.Z;
 
-        internal Vector3 GetUp() => GlobalTransform.Basis.Y;
+		internal Vector3 GetUp() => GlobalTransform.Basis.Y;
 
-        internal Vector3 GetRight() => GlobalTransform.Basis.X;
+		internal Vector3 GetRight() => GlobalTransform.Basis.X;
 
-        internal Vector3 ToSpeed(Vector3 vector)
+		internal Vector3 ToSpeed(Vector3 vector)
 		{
 			Vector3 speed = GlobalTransform.Basis.Inverse() * vector;
 			return new Vector3(-speed.Z, speed.Y, speed.X) / Root.TickRate;
@@ -442,20 +443,20 @@ namespace SonicGodot
 			return GlobalTransform.Translated(Vector3.Up * m_param.m_center_height);
 		}
 
-        // Common values
-        internal float GetSpeedX() => GetLook().Dot(Velocity) / Root.TickRate;
-        internal float GetAbsSpeedX() => Mathf.Abs(GetSpeedX());
+		// Common values
+		internal float GetSpeedX() => GetLook().Dot(Velocity) / Root.TickRate;
+		internal float GetAbsSpeedX() => Mathf.Abs(GetSpeedX());
 
-        internal float GetSpeedY() => GetUp().Dot(Velocity) / Root.TickRate;
-        internal float GetAbsSpeedY() => Mathf.Abs(GetSpeedY());
+		internal float GetSpeedY() => GetUp().Dot(Velocity) / Root.TickRate;
+		internal float GetAbsSpeedY() => Mathf.Abs(GetSpeedY());
 
-        internal float GetSpeedZ() => GetRight().Dot(Velocity) / Root.TickRate;
-        internal float GetAbsSpeedZ() => Mathf.Abs(GetSpeedZ());
+		internal float GetSpeedZ() => GetRight().Dot(Velocity) / Root.TickRate;
+		internal float GetAbsSpeedZ() => Mathf.Abs(GetSpeedZ());
 
-        internal float GetDotp() => -GetUp().Dot(m_gravity);
+		internal float GetDotp() => -GetUp().Dot(m_gravity);
 
-        // Sound functions
-        internal Util.IAudioStreamPlayer GetSound(string name)
+		// Sound functions
+		internal Util.IAudioStreamPlayer GetSound(string name)
 		{
 			// Get sound node
 			return Util.IAudioStreamPlayer.FromNode(GetNode("Sound/" + name));
@@ -529,105 +530,105 @@ namespace SonicGodot
 		}
 
 		public override void _PhysicsProcess(double delta)
-        {
-            // Reset if too low
+		{
+			// Reset if too low
 
-            if (m_input_debug_respawn.m_released)
-            {
-                Respawn();
-                /*Godot.PackedScene player_scene = (Godot.PackedScene) Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/Player.tscn");
-                BotPlayer player = (BotPlayer)player_scene.Instantiate();
-                player.leader = (Player)this;
-                GetParent().AddChild(player);*/
-            }
-            if (GetAbsSpeedX() > m_param.m_crash_speed)
-            { m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 90, 0.1f); }
-            else
-            {
-                m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 75, 0.1f);
-            }
+			if (m_input_debug_respawn.m_released)
+			{
+				Respawn();
+				/*Godot.PackedScene player_scene = (Godot.PackedScene) Godot.ResourceLoader.Load("res://Prefab/Character/Sonic/Player.tscn");
+				BotPlayer player = (BotPlayer)player_scene.Instantiate();
+				player.leader = (Player)this;
+				GetParent().AddChild(player);*/
+			}
+			if (GetAbsSpeedX() > m_param.m_crash_speed)
+			{ m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 90, 0.1f); }
+			else
+			{
+				m_camera_node.Fov = Mathf.Lerp(m_camera_node.Fov, 75, 0.1f);
+			}
 
-            // Update player parameters
-            m_param = m_param_node.m_param;
-            currentAnim = m_modelroot.CurrentAnim;
+			// Update player parameters
+			m_param = m_param_node.m_param;
+			currentAnim = m_modelroot.CurrentAnim;
 
-            ProcessInput();
+			ProcessInput();
 
-            // Process state
-            _state.AbilityProcess();
-            _state.Process();
+			// Process state
+			_state.AbilityProcess();
+			_state.Process();
 
-            // Update model root
-            m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
+			// Update model root
+			m_modelroot.SetTransform(GlobalTransform * m_modelroot_offset);
 
-            if (_state.CanDynamicPose())
-            {
-                m_modelroot.SetTilt(_state.GetTilt());
-                m_modelroot.SetPointOfInterest(null);
-            }
-            else
-            {
-                m_modelroot.SetTilt(0.0f);
-                m_modelroot.SetPointOfInterest(null);
-            }
+			if (_state.CanDynamicPose())
+			{
+				m_modelroot.SetTilt(_state.GetTilt());
+				m_modelroot.SetPointOfInterest(null);
+			}
+			else
+			{
+				m_modelroot.SetTilt(0.0f);
+				m_modelroot.SetPointOfInterest(null);
+			}
 
-            m_modelroot.SetShear(_state.GetShear());
+			m_modelroot.SetShear(_state.GetShear());
 
-            // Send RPC update
-            Root.Rpc(this, nameof(HostRpc_Update), GlobalTransform, currentAnim);
-            // Increment time
-            m_time++;
-            //Handle Damage
-            if (m_status.m_hurt)
-            {
-                HandleDamage();
-            }
+			// Send RPC update
+			Root.Rpc(this, nameof(HostRpc_Update), GlobalTransform, currentAnim);
+			// Increment time
+			m_time++;
+			//Handle Damage
+			if (m_status.m_hurt)
+			{
+				HandleDamage();
+			}
 
-            if (m_status.m_dead)
-            {
-                HandleDeath();
-            }
-        }
+			if (m_status.m_dead)
+			{
+				HandleDeath();
+			}
+		}
 
-        internal virtual void ProcessInput()
-        {
-            // Update input state
+		internal virtual void ProcessInput()
+		{
+			// Update input state
 
-            Vector2 input_stick = Input.Server.GetMoveVector();
-            bool input_jump = Input.Server.GetButton("move_jump");
-            bool input_spin = Input.Server.GetButton("move_spin");
-            bool input_secondary = Input.Server.GetButton("move_secondary");
-            bool input_tertiary = Input.Server.GetButton("move_tertiary");
-            bool input_quaternary = Input.Server.GetButton("move_quaternary");
-            bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
+			Vector2 input_stick = Input.Server.GetMoveVector();
+			bool input_jump = Input.Server.GetButton("move_jump");
+			bool input_spin = Input.Server.GetButton("move_spin");
+			bool input_secondary = Input.Server.GetButton("move_secondary");
+			bool input_tertiary = Input.Server.GetButton("move_tertiary");
+			bool input_quaternary = Input.Server.GetButton("move_quaternary");
+			bool input_debug_respawn = Input.Server.GetButton("debug_respawn");
 
-            m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
-            m_input_jump.Update(input_jump);
-            m_input_spin.Update(input_spin);
-            m_input_secondary.Update(input_secondary);
-            m_input_tertiary.Update(input_tertiary);
-            m_input_quaternary.Update(input_quaternary);
-            m_input_debug_respawn.Update(input_debug_respawn);
-            if (!m_input_stop.Check())
-            {
-                m_input_stick.m_x = 0.0f;
-                m_input_stick.m_y = 0.0f;
-                m_input_stick.m_turn = 0.0f;
-                m_input_stick.m_length = 0.0f;
-                m_input_stick.m_angle = 0.0f;
-            }
+			m_input_stick.Update(input_stick, GlobalTransform, m_camera_node.GlobalTransform, -m_gravity);
+			m_input_jump.Update(input_jump);
+			m_input_spin.Update(input_spin);
+			m_input_secondary.Update(input_secondary);
+			m_input_tertiary.Update(input_tertiary);
+			m_input_quaternary.Update(input_quaternary);
+			m_input_debug_respawn.Update(input_debug_respawn);
+			if (!m_input_stop.Check())
+			{
+				m_input_stick.m_x = 0.0f;
+				m_input_stick.m_y = 0.0f;
+				m_input_stick.m_turn = 0.0f;
+				m_input_stick.m_length = 0.0f;
+				m_input_stick.m_angle = 0.0f;
+			}
 
-            if (!m_input_speed.Check())
-            {
-                m_input_stick.m_x = 0.0f;
-                m_input_stick.m_y = 1.0f;
-                m_input_stick.m_turn = 0.0f;
-                m_input_stick.m_length = 1.0f;
-                m_input_stick.m_angle = 0.0f;
-            }
-        }
+			if (!m_input_speed.Check())
+			{
+				m_input_stick.m_x = 0.0f;
+				m_input_stick.m_y = 1.0f;
+				m_input_stick.m_turn = 0.0f;
+				m_input_stick.m_length = 1.0f;
+				m_input_stick.m_angle = 0.0f;
+			}
+		}
 
-        private void Respawn()
+		private void Respawn()
 		{
 			GlobalTransform = GetParent<Node3D>().GlobalTransform;
 			Velocity = Vector3.Zero;
@@ -652,7 +653,8 @@ namespace SonicGodot
 			if (m_releasing_rings)
 			{
 				if (m_rings_to_release > m_param.m_rings_to_release) { m_rings_to_release = m_param.m_rings_to_release; }
-				//RingLoss();
+				RingLoss();
+				m_releasing_rings = false;
 			}
 		}
 		void SkinFlicker()
@@ -674,22 +676,20 @@ namespace SonicGodot
 		}
 		void RingLoss()
 		{
-			m_rings = 0;
-			if (m_rings_to_release > 0)
+			PlaySound("RingLoss");
+			float Step = 360f / m_rings_to_release;
+			m_releasing_rings = false;
+			for (int i = 0; i < m_rings_to_release; i++)
 			{
-				Vector3 pos = GlobalPosition;
-				pos.Y++;
+				Quaternion _rotation = new Quaternion( GetUp(), Step * i).Normalized();
+				Vector3 Direction = _rotation * GetLook();
+				Vector3 pos = GlobalPosition + Direction * 10f;
 				var movingRing = ResourceLoader.Load<PackedScene>("res://Prefab/Objects/Ring/ringdropped.res").Instantiate() as DroppedRing;
-				GetParent().GetParent().AddChild(this);
-				movingRing.ApplyForce(Transform.Basis.Z, pos);
-				releaseDirection.Rotate(GlobalPosition, 30f);
-				m_rings_to_release--;
+				movingRing.GlobalPosition = pos;
+				
+				GetParent().GetParent().AddChild(movingRing);
 			}
-			else
-			{
-				m_releasing_rings = false;
-			}
-
+			m_rings = 0;
 		}
 		public void HandleDeath()
 		{

@@ -30,6 +30,8 @@ namespace SonicGodot
 		// Node setup
 		[Export]
 		public PackedScene m_ring_particle;
+        [Export]
+        public bool LightDashable = true;
 
 
 		public override void _Ready()
@@ -70,7 +72,7 @@ namespace SonicGodot
 			// Delete self
 			QueueFree();
 		}
-		public bool CanLightDash() { return true; }
+		public bool CanLightDash() { return LightDashable; }
 
 	}
 }

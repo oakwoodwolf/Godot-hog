@@ -32,6 +32,7 @@ namespace SonicGodot
 		public override void _Ready()
 		{
 			m_modelroot = GetNode<Node3D>("Ring");
+			GetNode<Ring>("Ring").LightDashable = false;
 			base._Ready();
 		}
 		public override void _Process(double delta)
@@ -40,7 +41,7 @@ namespace SonicGodot
 		}
 		void SkinFlicker()
 		{
-			flickerCounter += 1;
+			flickerCounter += 2;
 			if (flickerCounter > 0)
 			{
 				m_modelroot.Visible = true;
@@ -56,11 +57,6 @@ namespace SonicGodot
 
 		}
 		public bool CanLightDash() { return false; }
-
-		private void _on_body_entered(Node body)
-		{
-
-		}
 		private void _on_timer_timeout()
 		{
 			QueueFree();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=3 uid="uid://otr54bl2rcvd"]
+[gd_scene load_steps=119 format=3 uid="uid://otr54bl2rcvd"]
 
 [ext_resource type="Script" path="res://Script/Character/Sonic/Player.cs" id="1_4cy5j"]
 [ext_resource type="PackedScene" uid="uid://df56h24xpf6ao" path="res://Prefab/Character/Sonic/sw_sonic.gltf" id="1_n6j7w"]
@@ -92,6 +92,7 @@
 [ext_resource type="Animation" uid="uid://betgabrx5t5w2" path="res://Prefab/Character/Sonic/anims/Victory_loop.res" id="50_il0if"]
 [ext_resource type="Animation" uid="uid://dka5b3p0hpora" path="res://Prefab/Character/Sonic/anims/Wait.res" id="51_ycce1"]
 [ext_resource type="Animation" uid="uid://nctameeswv4b" path="res://Prefab/Character/Sonic/anims/Walk.res" id="52_61y26"]
+[ext_resource type="AudioStream" uid="uid://1aenv4uq7hls" path="res://Sounds/Player/RingLoss.ogg" id="88_c30rp"]
 [ext_resource type="Texture2D" uid="uid://cv71movgxhagk" path="res://Particles/ef_ch_sns_yh1_smoke2.png" id="93_kvvxc"]
 [ext_resource type="Script" path="res://Script/Player/Ability/Jump.cs" id="94_0sl8f"]
 
@@ -6674,6 +6675,10 @@ bus = &"Voice"
 
 [node name="Ring" type="AudioStreamPlayer3D" parent="Sound"]
 stream = ExtResource("39_ibs8m")
+bus = &"Sound"
+
+[node name="RingLoss" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("88_c30rp")
 bus = &"Sound"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

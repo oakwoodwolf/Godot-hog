@@ -49,8 +49,8 @@ namespace SonicGodot.Character.Sonic
 		{
 			// Set ability
 			m_ability = new AbilityList(this);
-            // Ready base
-            base._Ready();
+			// Ready base
+			base._Ready();
 		}
 	}
 }
