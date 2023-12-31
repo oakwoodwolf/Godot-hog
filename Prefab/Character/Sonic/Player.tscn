@@ -6344,7 +6344,7 @@ collision_layer = 0
 wall_min_slide_angle = 0.0
 floor_stop_on_slope = false
 floor_block_on_wall = false
-floor_max_angle = 1.0472
+floor_max_angle = 1.309
 floor_snap_length = 2.0
 script = ExtResource("1_4cy5j")
 m_camera_node = NodePath("Camera3D")
@@ -6734,7 +6734,7 @@ label_settings = SubResource("LabelSettings_gtix8")
 
 [node name="Timers" type="Node" parent="."]
 
-[node name="DeathTimer" type="Timer" parent="Timers"]
+[node name="CoyoteTimer" type="Timer" parent="Timers"]
 wait_time = 2.0
 one_shot = true
 

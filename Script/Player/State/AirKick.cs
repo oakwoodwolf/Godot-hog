@@ -51,7 +51,7 @@ namespace SonicGodot
                 {
                     // Launch us forward
                     Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-                    m_parent.Velocity = m_parent.FromSpeed(new Vector3(speed.X * 0.75f + 6.5f, 0.3f, 0.0f));
+                    m_parent.Velocity = m_parent.FromSpeed(new Vector3(speed.X * 0.75f + 4.5f, 0.3f, 0.0f));
 
                     // Set kick timer
                     m_kick_timer = 130;
@@ -61,7 +61,7 @@ namespace SonicGodot
                 {
                     // Launch up upwards
                     Vector3 speed = m_parent.ToSpeed(m_parent.Velocity);
-                    m_parent.Velocity = m_parent.FromSpeed(new Vector3(speed.X * 0.9f + 1.0f, speed.Y * 0.25f + 3.85f, 0.0f));
+                    m_parent.Velocity = m_parent.FromSpeed(new Vector3(speed.X * 0.5f + 1.0f, speed.Y * 0.25f + 3.85f, 0.0f));
 
                     // Set kick timer
                     m_kick_timer = 60;

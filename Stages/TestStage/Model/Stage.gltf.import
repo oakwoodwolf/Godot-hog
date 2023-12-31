@@ -30,6 +30,12 @@ animation/trimming=false
 animation/remove_immutable_tracks=false
 import_script/path=""
 _subresources={
+"materials": {
+"10 - Default": {
+"use_external/enabled": true,
+"use_external/path": "res://Stages/TestStage/Model/10 - Default.tres"
+}
+},
 "meshes": {
 "Stage_Mesh1": {
 "generate/lightmap_uv": 1,

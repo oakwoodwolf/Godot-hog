@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -53,7 +53,7 @@ namespace SonicGodot
 
                         // Give homing speed
                         Vector3 speed = _parent.ToSpeed(_parent.Velocity);
-                        speed.X = Player.Homing.c_speed;
+                        speed.X += Player.Homing.c_speed;
                         _parent.Velocity = _parent.FromSpeed(speed);
                         return true;
                     }

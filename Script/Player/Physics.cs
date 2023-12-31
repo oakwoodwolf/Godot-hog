@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [ Sonic Onset Adventure]
  * Copyright (c) 2023 Regan "CKDEV" Green
  * 
@@ -333,7 +333,7 @@ namespace SonicGodot
             if (m_status.m_grounded)
             {
                 Vector3 speed = ToSpeed(Velocity);
-                if (GetDotp() < 0.4f && speed.Length() < 1.16f)
+                if (GetDotp() < 0.4f && speed.Length() < 1f)
                     m_status.m_grounded = false;
             }
         }

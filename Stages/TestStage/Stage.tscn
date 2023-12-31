@@ -94,6 +94,11 @@ bus = &"Music"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, 0)
 m_nocon = 10
 
+[node name="pad2" parent="." instance=ExtResource("6_r8min")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 70, 0, -67.9541)
+m_power = 5.0
+m_nocon = 20
+
 [node name="Ring" parent="." instance=ExtResource("3_1abtb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 1, 53)
 

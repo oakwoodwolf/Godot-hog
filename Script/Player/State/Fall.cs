@@ -21,21 +21,36 @@
  * SOFTWARE.
 */
 
+using Godot;
+
 namespace SonicGodot
 {
     public partial class Player
     {
         public partial class Fall : State
         {
+            int _fallTimer;
             // Fall state
             internal Fall(Player parent)
             {
                 // Set parent
+                _fallTimer = 15;
                 m_parent = parent;
             }
 
             internal override void AbilityProcess()
             {
+                _fallTimer--;
+                if (_fallTimer > 0 )
+                {
+                    if (m_parent.m_ability.CheckJump())
+                    {
+                        GD.Print(_fallTimer);
+                        return;
+                    }
+                       
+                }
+                
                 // Check fall abilities
                 if (m_parent.m_ability.CheckFallAbility())
                     return;

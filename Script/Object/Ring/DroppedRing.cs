@@ -37,7 +37,10 @@ namespace SonicGodot
 		}
 		public override void _Process(double delta)
 		{
-			SkinFlicker();
+            if (m_modelroot != null)
+            {
+                SkinFlicker();
+            }
 		}
 		void SkinFlicker()
 		{

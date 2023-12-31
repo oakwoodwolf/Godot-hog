@@ -30,7 +30,7 @@ namespace SonicGodot
         public partial class Homing : State
         {
             // Homing attack speed
-            internal const float c_speed = 5.0f;
+            internal const float c_speed = 4.0f;
 
             // Homing timer
             private uint m_homing_timer = 0;
